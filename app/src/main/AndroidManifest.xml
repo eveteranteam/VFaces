@@ -28,6 +28,7 @@
         <!-- Other Activities -->
         <activity
             android:name=".presentation.ui.auth.AuthActivity"
+            android:theme="@style/AppThemeNoActionBar"
             android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.ui.questionnaire.create.CreateQuestionnaireActivity"

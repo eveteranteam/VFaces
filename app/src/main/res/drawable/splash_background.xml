@@ -2,10 +2,11 @@
 
     <item android:drawable="@color/colorPrimaryDark" />
 
-    <item>
+    <item
+        android:gravity="center">
+
         <bitmap
-            android:gravity="center"
-            android:src="@drawable/ic_logo" />
+            android:src="@drawable/ic_jetpack_logo" />
     </item>
 
 </layer-list>
