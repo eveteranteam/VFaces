@@ -1,11 +1,18 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="layout_margin_4dp">4dp</dimen>
-    <dimen name="layout_margin_8dp">8dp</dimen>
-    <dimen name="layout_margin_16dp">16dp</dimen>
+    <dimen name="layout_margin_small">4dp</dimen>
+    <dimen name="layout_margin_medium">8dp</dimen>
+    <dimen name="layout_margin_large">16dp</dimen>
 
-    <dimen name="layout_padding_4dp">4dp</dimen>
-    <dimen name="layout_padding_8dp">8dp</dimen>
-    <dimen name="layout_padding_16dp">16dp</dimen>
+    <dimen name="layout_padding_small">4dp</dimen>
+    <dimen name="layout_padding_medium">8dp</dimen>
+    <dimen name="layout_padding_large">16dp</dimen>
+
+    <!-- Bottom Logo -->
+    <dimen name="minvet_logo_bottom_margin">48dp</dimen>
+
+    <!-- Auth screen -->
+    <dimen name="auth_logo_width">142dp</dimen>
+    <dimen name="auth_logo_height">96dp</dimen>
 
 </resources>

@@ -1,12 +1,13 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:drawable="@color/colorPrimaryDark" />
+    <item android:drawable="@color/colorPrimary" />
 
     <item
-        android:gravity="center">
+        android:bottom="@dimen/minvet_logo_bottom_margin"
+        android:gravity="center_horizontal|bottom">
 
         <bitmap
-            android:src="@drawable/ic_jetpack_logo" />
+            android:src="@drawable/ic_scaled_minvet_white_logo" />
     </item>
 
 </layer-list>
