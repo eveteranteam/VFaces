@@ -1,11 +1,21 @@
 <resources>
     <string name="app_name">VFaces</string>
 
+    <!-- Veteran logo -->
+    <string name="veteran_profile_logo_text">ПСИХОФІЗІОЛОГІЧНИЙ ПРОФІЛЬ\nУКРАЇНСЬКОГО ВЕТЕРАНА</string>
+
     <!-- Auth screen -->
     <string name="email_text">Email</string>
     <string name="password_text">Пароль</string>
-    <string name="sign_up_text">Зареєструватися</string>
     <string name="sign_in_text">Увійти</string>
     <string name="forget_password_text">Забули пароль?</string>
+    <string name="sign_up_prompt">Немає профілю соціального працівника?</string>
+    <string name="sign_up_text">Зареєструватися</string>
+    <!-- Forgot password -->
+    <string name="reset_password_prompt">Щоб його відновити нам потрібна Email\nадреса Вашого профілю.\n
+        \nНа неї ми надішлемо Вам інструкцію\nз відновлення паролю.
+    </string>
+    <string name="reset_password_text">Відновити пароль</string>
+    <string name="back_text">Назад</string>
 
 </resources>

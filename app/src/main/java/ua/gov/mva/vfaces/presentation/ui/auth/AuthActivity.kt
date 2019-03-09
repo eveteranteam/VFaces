@@ -14,7 +14,8 @@ class AuthActivity : AppCompatActivity() {
     }
 
     companion object {
-        @JvmStatic fun start(context: Context) {
+        @JvmStatic
+        fun start(context: Context) {
             context.startActivity(Intent(context, AuthActivity::class.java))
         }
     }
