@@ -4,11 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import ua.gov.mva.vfaces.R
 import ua.gov.mva.vfaces.presentation.ui.BaseFragment
 
-class RegisterFragment : BaseFragment() {
+class RegisterFragment : BaseFragment<RegisterViewModel>() {
+
+    private lateinit var viewModel: RegisterViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_register, container, false)
@@ -24,6 +27,8 @@ class RegisterFragment : BaseFragment() {
         }
     }
 
-    private fun register() {
+    override fun initViewModel(): RegisterViewModel {
+        viewModel = ViewModelProviders.of(this).get(RegisterViewModel::class.java)
+        return viewModel
     }
 }

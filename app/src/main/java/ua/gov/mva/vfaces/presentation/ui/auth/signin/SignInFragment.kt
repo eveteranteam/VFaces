@@ -4,11 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import ua.gov.mva.vfaces.R
 import ua.gov.mva.vfaces.presentation.ui.BaseFragment
 
-class SignInFragment : BaseFragment() {
+class SignInFragment : BaseFragment<SignInViewModel>() {
+
+    private lateinit var viewModel: SignInViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.fragment_sign_in, container, false)
@@ -22,5 +25,10 @@ class SignInFragment : BaseFragment() {
         view.findViewById<View>(R.id.text_view_register).setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.registerFragment)
         }
+    }
+
+    override fun initViewModel(): SignInViewModel {
+        viewModel = ViewModelProviders.of(this).get(SignInViewModel::class.java)
+        return viewModel
     }
 }
