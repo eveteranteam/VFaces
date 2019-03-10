@@ -8,12 +8,8 @@
     <include layout="@layout/email_password_layout" />
 
     <com.google.android.material.button.MaterialButton
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="@dimen/layout_margin_large"
-        android:text="@string/sign_in_text"
-        android:textStyle="bold" />
+        style="@style/MaterialButtonStyle"
+        android:text="@string/sign_in_text" />
 
     <ua.gov.mva.vfaces.view.UnderlineableTextView
         android:id="@+id/text_view_forget_password"

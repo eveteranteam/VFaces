@@ -11,11 +11,15 @@
     <string name="forget_password_text">Забули пароль?</string>
     <string name="sign_up_prompt">Немає профілю соціального працівника?</string>
     <string name="sign_up_text">Зареєструватися</string>
+
     <!-- Forgot password -->
     <string name="reset_password_prompt">Щоб його відновити нам потрібна Email\nадреса Вашого профілю.\n
         \nНа неї ми надішлемо Вам інструкцію\nз відновлення паролю.
     </string>
     <string name="reset_password_text">Відновити пароль</string>
     <string name="back_text">Назад</string>
+
+    <!-- Register -->
+    <string name="register_title">Реєстрація</string>
 
 </resources>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:fillViewport="true"
+    tools:context=".presentation.ui.auth.register.RegisterFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="@style/ToolbarStyle"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="@string/register_title"
+            app:titleTextColor="@android:color/white" />
+
+        <LinearLayout
+            android:id="@+id/logo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:gravity="center"
+            android:layout_margin="@dimen/layout_margin_large"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="@dimen/veteran_profile_logo_line_width"
+                android:layout_height="2dp"
+                android:layout_marginTop="@dimen/layout_margin_large"
+                android:background="@android:color/white" />
+
+            <ImageView
+                android:layout_width="@dimen/auth_logo_vfaces_width"
+                android:layout_height="@dimen/auth_logo_vfaces_height"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_logo_vfaces"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-8dp"
+                android:layout_marginBottom="@dimen/layout_margin_large"
+                android:gravity="center"
+                android:text="@string/veteran_profile_logo_text"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="@dimen/veteran_profile_logo_line_width"
+                android:layout_height="2dp"
+                android:layout_marginBottom="@dimen/layout_margin_large"
+                android:background="@android:color/white" />
+
+        </LinearLayout>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_view_register"
+            style="@style/MaterialCardViewStyle"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/logo">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include layout="@layout/email_password_layout" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_register"
+                    style="@style/MaterialButtonStyle"
+                    android:text="@string/sign_up_text" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <ua.gov.mva.vfaces.view.UnderlineableTextView
+            android:id="@+id/text_view_register_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/layout_padding_large"
+            android:text="@string/back_text"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/colorYellow"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/image_view_minvet_logo"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/card_view_register" />
+
+        <ImageView
+            android:id="@+id/image_view_minvet_logo"
+            android:layout_width="@dimen/auth_logo_minvet_width"
+            android:layout_height="@dimen/auth_logo_minvet_height"
+            android:src="@drawable/ic_logo_minvet_white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

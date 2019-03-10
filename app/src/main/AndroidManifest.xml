@@ -34,7 +34,7 @@
         </activity>
         <!-- Other Activities -->
         <activity
-            android:name=".presentation.ui.auth.AuthActivity"
+            android:name=".presentation.ui.auth.AuthHostActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden" />

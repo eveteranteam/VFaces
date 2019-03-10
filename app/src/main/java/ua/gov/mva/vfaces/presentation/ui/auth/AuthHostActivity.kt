@@ -6,7 +6,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import ua.gov.mva.vfaces.R
 
-class AuthActivity : AppCompatActivity() {
+class AuthHostActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,7 +16,7 @@ class AuthActivity : AppCompatActivity() {
     companion object {
         @JvmStatic
         fun start(context: Context) {
-            context.startActivity(Intent(context, AuthActivity::class.java))
+            context.startActivity(Intent(context, AuthHostActivity::class.java))
         }
     }
 }

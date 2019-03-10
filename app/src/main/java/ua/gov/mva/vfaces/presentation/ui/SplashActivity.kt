@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import ua.gov.mva.vfaces.VFacesApp.Companion.PREFS_FIRST_LAUNCH_KEY
-import ua.gov.mva.vfaces.presentation.ui.auth.AuthActivity
+import ua.gov.mva.vfaces.presentation.ui.auth.AuthHostActivity
 import ua.gov.mva.vfaces.utils.Preferences
 
 class SplashActivity : AppCompatActivity() {
@@ -24,7 +24,7 @@ class SplashActivity : AppCompatActivity() {
 
     private fun navigateNext() {
         // TODO check if logged in
-        AuthActivity.start(this)
+        AuthHostActivity.start(this)
     }
 
     private fun getSplashDuration(): Long {

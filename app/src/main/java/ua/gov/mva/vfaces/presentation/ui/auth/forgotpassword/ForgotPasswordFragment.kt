@@ -1,14 +1,14 @@
-package ua.gov.mva.vfaces.presentation.ui.auth
+package ua.gov.mva.vfaces.presentation.ui.auth.forgotpassword
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import ua.gov.mva.vfaces.R
+import ua.gov.mva.vfaces.presentation.ui.BaseFragment
 
-class ForgotPasswordFragment : Fragment() {
+class ForgotPasswordFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.fragment_forgot_password, container, false)

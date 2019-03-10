@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    tools:context=".presentation.ui.auth.AuthActivity"
+    tools:context=".presentation.ui.auth.AuthHostActivity"
     tools:ignore="ContentDescription">
 
     <ImageView
@@ -38,9 +38,7 @@
             android:orientation="vertical">
 
             <com.google.android.material.button.MaterialButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
+                style="@style/MaterialButtonStyle"
                 android:layout_marginTop="@dimen/layout_margin_medium"
                 android:text="@string/sign_in_text" />
 
