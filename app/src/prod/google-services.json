@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "589665390263",
+    "firebase_url": "https://vfaces-dbbe6.firebaseio.com",
+    "project_id": "vfaces-dbbe6",
+    "storage_bucket": "vfaces-dbbe6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:589665390263:android:c44f7ed16375c169",
+        "android_client_info": {
+          "package_name": "ua.gov.mva.vfaces"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "589665390263-e0316t110d9ka96gvjj4qheqtc96hoop.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwlQBfqFiTm6dvHJBkUlVK0CRWy1VTyLE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

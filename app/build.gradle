@@ -31,6 +31,17 @@ android {
             minifyEnabled false
         }
     }
+
+    /* Product flavors to support different environments */
+    flavorDimensions "version"
+    productFlavors {
+        dev {
+            dimension "version"
+        }
+        prod {
+            dimension "version"
+        }
+    }
 }
 
 dependencies {
@@ -47,8 +58,12 @@ dependencies {
     // Design
     implementation 'com.google.android.material:material:1.0.0'
 
+    // Firebase
+    implementation 'com.google.firebase:firebase-core:16.0.7'
+
     // Testing
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 }
+apply plugin: 'com.google.gms.google-services'
