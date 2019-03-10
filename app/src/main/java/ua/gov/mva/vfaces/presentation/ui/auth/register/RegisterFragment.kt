@@ -17,7 +17,7 @@ class RegisterFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         view.findViewById<View>(R.id.button_register).setOnClickListener {
-            register()
+            Navigation.findNavController(it).navigate(R.id.profileFragment)
         }
         view.findViewById<View>(R.id.text_view_register_back).setOnClickListener {
             Navigation.findNavController(it).popBackStack()
@@ -25,6 +25,5 @@ class RegisterFragment : BaseFragment() {
     }
 
     private fun register() {
-
     }
 }

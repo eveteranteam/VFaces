@@ -1,8 +1,8 @@
-package ua.gov.mva.vfaces.presentation.ui.auth.register.finish
+package ua.gov.mva.vfaces.presentation.ui.auth.register.profile
 
 import ua.gov.mva.vfaces.presentation.ui.BaseViewModel
 
-class FinishRegistrationViewModel : BaseViewModel() {
+class ProfileViewModel : BaseViewModel() {
 
 
 

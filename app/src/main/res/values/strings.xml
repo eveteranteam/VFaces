@@ -22,4 +22,12 @@
     <!-- Register -->
     <string name="register_title">Реєстрація</string>
 
+    <!-- Profile -->
+    <string name="profile_title">Ваш профіль соціального працівника</string>
+    <string name="profile_name">ПІБ</string>
+    <string name="profile_settlement">Населений пункт</string>
+    <string name="profile_work">Місце роботи</string>
+    <string name="profile_phone_number">Моб. телефон</string>
+    <string name="profile_finish_registration">Завершити реєстрацію</string>
+
 </resources>

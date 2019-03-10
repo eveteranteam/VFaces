@@ -22,4 +22,10 @@
         android:name="ua.gov.mva.vfaces.presentation.ui.auth.register.RegisterFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" />
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="ua.gov.mva.vfaces.presentation.ui.auth.register.profile.ProfileFragment"
+        android:label="fragment_finish_registration"
+        tools:layout="@layout/fragment_profile" />
 </navigation>
