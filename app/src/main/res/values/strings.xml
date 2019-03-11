@@ -4,6 +4,12 @@
     <!-- Veteran logo -->
     <string name="veteran_profile_logo_text">ПСИХОФІЗІОЛОГІЧНИЙ ПРОФІЛЬ\nУКРАЇНСЬКОГО ВЕТЕРАНА</string>
 
+    <!-- Validation -->
+    <string name="wrong_email">Некоректний Email</string>
+    <string name="wrong_password">Неправильний пароль</string>
+    <string name="email_not_confirmed">Ви не підтвердили Email</string>
+    <string name="wrong_credentials">Неправильний Email або пароль</string>
+
     <!-- Auth screen -->
     <string name="email_text">Email</string>
     <string name="password_text">Пароль</string>
@@ -11,6 +17,7 @@
     <string name="forget_password_text">Забули пароль?</string>
     <string name="sign_up_prompt">Немає профілю соціального працівника?</string>
     <string name="sign_up_text">Зареєструватися</string>
+    <string name="sign_up_successfully">%s успішно зареєстровано</string>
 
     <!-- Forgot password -->
     <string name="reset_password_prompt">Щоб його відновити нам потрібна Email\nадреса Вашого профілю.\n

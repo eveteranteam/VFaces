@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import ua.gov.mva.vfaces.R
-import ua.gov.mva.vfaces.presentation.ui.BaseFragment
+import ua.gov.mva.vfaces.presentation.ui.base.BaseFragment
 import ua.gov.mva.vfaces.presentation.ui.questionnaire.list.QuestionnaireListActivity
 
 class ProfileFragment : BaseFragment<ProfileViewModel>() {

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import ua.gov.mva.vfaces.R
-import ua.gov.mva.vfaces.presentation.ui.BaseFragment
+import ua.gov.mva.vfaces.presentation.ui.base.BaseFragment
 
 class SignInFragment : BaseFragment<SignInViewModel>() {
 

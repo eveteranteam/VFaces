@@ -18,8 +18,8 @@ object InputValidationUtils {
         return pattern.matcher(email).matches()
     }
 
-    fun isPasswordValid(password: String?): Boolean {
-        return password != null && password.length >= PASSWORD_MINIMUM_LENGTH && password.length <= PASSWORD_MAXIMUM_LENGTH
+    fun isPasswordValid(password: String): Boolean {
+        return password.length in PASSWORD_MINIMUM_LENGTH..PASSWORD_MAXIMUM_LENGTH
     }
 
     fun isNameValid(name: String): Boolean {

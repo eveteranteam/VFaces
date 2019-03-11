@@ -1,19 +1,22 @@
 package ua.gov.mva.vfaces.presentation.ui.auth.register
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
-import ua.gov.mva.vfaces.presentation.ui.BaseViewModel
+import ua.gov.mva.vfaces.presentation.ui.base.BaseViewModel
 
 class RegisterViewModel : BaseViewModel() {
 
     private val auth : FirebaseAuth = FirebaseAuth.getInstance()
+    private val registerLiveData = MutableLiveData<Boolean>()
+
+    fun registerLiveData() : LiveData<Boolean> = registerLiveData
 
     fun register(email: String, password: String) {
-        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
-            if (it.isSuccessful) {
-
-            } else {
-
-            }
+        showProgress()
+        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+            hideProgress()
+            registerLiveData.value = task.isSuccessful
         }
     }
 

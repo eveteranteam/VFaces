@@ -7,6 +7,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import ua.gov.mva.vfaces.R
+import ua.gov.mva.vfaces.presentation.ui.auth.AuthHostActivity
 
 class QuestionnaireListActivity : AppCompatActivity() {
 
@@ -15,6 +16,8 @@ class QuestionnaireListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_questionnaire_list)
         findViewById<View>(R.id.text_view_logout).setOnClickListener {
             FirebaseAuth.getInstance().signOut()
+            AuthHostActivity.start(this)
+            finish()
         }
     }
 

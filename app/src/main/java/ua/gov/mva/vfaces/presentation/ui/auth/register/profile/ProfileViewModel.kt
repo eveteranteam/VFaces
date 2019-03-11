@@ -1,6 +1,6 @@
 package ua.gov.mva.vfaces.presentation.ui.auth.register.profile
 
-import ua.gov.mva.vfaces.presentation.ui.BaseViewModel
+import ua.gov.mva.vfaces.presentation.ui.base.BaseViewModel
 
 class ProfileViewModel : BaseViewModel() {
 
