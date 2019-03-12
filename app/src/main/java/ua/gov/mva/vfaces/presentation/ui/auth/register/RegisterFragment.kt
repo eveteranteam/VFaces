@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ScrollView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
@@ -16,6 +17,8 @@ import ua.gov.mva.vfaces.utils.KeyboardUtils
 
 class RegisterFragment : BaseFragment<RegisterViewModel>() {
 
+    private lateinit var scrollView: ScrollView
+    private lateinit var fillProfileView: View
     private lateinit var tilEmail: TextInputLayout
     private lateinit var textInputEmail: TextInputEditText
     private lateinit var tilPassword: TextInputLayout
@@ -30,25 +33,32 @@ class RegisterFragment : BaseFragment<RegisterViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUi(view)
-        viewModel.registerLiveData().observe(viewLifecycleOwner, Observer { registered ->
-            if (registered) {
-                onRegistered()
-            } else {
-
+        viewModel.registerLiveData().observe(viewLifecycleOwner, Observer { result ->
+            when(result) {
+                RegisterViewModel.ResultType.SUCCESS -> onRegistered()
+                RegisterViewModel.ResultType.USER_COLLISION -> onEmailCollision()
+                RegisterViewModel.ResultType.ERROR -> showErrorMessage(R.string.sign_up_error)
             }
         })
-    }
-
-    private fun onRegistered() {
-        val email = textInputEmail.text.toString().trim()
-        val msg = String.format(getString(R.string.sign_up_successfully), email)
-        showSnackMessage(msg)
-        Navigation.findNavController(view!!).navigate(R.id.profileFragment)
     }
 
     override fun initViewModel(): RegisterViewModel {
         viewModel = ViewModelProviders.of(this).get(RegisterViewModel::class.java)
         return viewModel
+    }
+
+    private fun onRegistered() {
+        val email = textInputEmail.text.toString().trim()
+        val msg = String.format(getString(R.string.sign_up_success), email)
+        showMessage(msg)
+        scrollView.visibility = View.GONE
+        fillProfileView.visibility = View.VISIBLE
+    }
+
+    private fun onEmailCollision() {
+        val email = textInputEmail.text.toString().trim()
+        val msg = String.format(getString(R.string.sign_up_email_collision), email)
+        showMessage(msg)
     }
 
     private fun onRegisterClick() {
@@ -74,16 +84,21 @@ class RegisterFragment : BaseFragment<RegisterViewModel>() {
     }
 
     private fun onBackClick() {
-        //Navigation.findNavController(it).popBackStack()
+        Navigation.findNavController(view!!).popBackStack()
     }
 
     private fun initUi(view: View) {
+        scrollView = view.findViewById(R.id.scroll_view)
+        fillProfileView = view.findViewById(R.id.fill_profile_layout)
         tilEmail = view.findViewById(R.id.text_input_layout_email)
         tilPassword = view.findViewById(R.id.text_input_layout_password)
         textInputEmail = view.findViewById(R.id.text_input_edit_text_email)
         textInputPassword = view.findViewById(R.id.text_input_edit_text_password)
         view.findViewById<View>(R.id.button_register).setOnClickListener {
             onRegisterClick()
+        }
+        view.findViewById<View>(R.id.button_fill_profile).setOnClickListener {
+            Navigation.findNavController(it).navigate(R.id.profileFragment)
         }
         view.findViewById<View>(R.id.text_view_register_back).setOnClickListener {
             onBackClick()

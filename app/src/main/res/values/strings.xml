@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">VFaces</string>
 
     <!-- Veteran logo -->
@@ -11,13 +11,23 @@
     <string name="wrong_credentials">Неправильний Email або пароль</string>
 
     <!-- Auth screen -->
+    <!-- Sign In -->
     <string name="email_text">Email</string>
     <string name="password_text">Пароль</string>
     <string name="sign_in_text">Увійти</string>
     <string name="forget_password_text">Забули пароль?</string>
+    <string name="sign_in_success">%s авторизовано</string>
+    <string name="sign_in_error">Помилка під час авторизації. Будь ласка, спробуйте ще раз.</string>
+    <string name="sign_in_wrong_credentials">Неправильні дані для входу. Будь ласка, перевірте та спробуйте ще раз.</string>
+    <!-- Sign Up -->
     <string name="sign_up_prompt">Немає профілю соціального працівника?</string>
     <string name="sign_up_text">Зареєструватися</string>
-    <string name="sign_up_successfully">%s успішно зареєстровано</string>
+    <string name="sign_up_fill_profile_prompt">Для завершення реєстрації необхідно\nзаповнити
+        профіль соціального працівника</string>
+    <string name="sign_up_fill_profile">Заповнити профіль</string>
+    <string name="sign_up_success" tools:ignore="ExtraTranslation">%s успішно зареєстровано</string>
+    <string name="sign_up_email_collision">На жаль Email %s вже зайнятий. Буль ласка, спробуйте інший.</string>
+    <string name="sign_up_error" tools:ignore="ExtraTranslation">Помилка під час реєстрації. Будь ласка, спробуйте ще раз.</string>
 
     <!-- Forgot password -->
     <string name="reset_password_prompt">Щоб його відновити нам потрібна Email\nадреса Вашого профілю.\n

@@ -12,14 +12,24 @@ import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.annotation.ColorInt
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
+import ua.gov.mva.vfaces.R
 
 /**
+ * Base class for all Fragments.
+ * Extend this class in all your Fragment subclasses.
  *
+ * This class has basic observing of [LiveData] for
+ * displaying of progress and text messages.
+ *
+ * @see [BaseViewModel] for more details.
  */
+@Suppress("MemberVisibilityCanBePrivate")
 abstract class BaseFragment<VIEWMODEL : BaseViewModel> : Fragment() {
 
     private lateinit var viewmodel: VIEWMODEL
@@ -115,54 +125,83 @@ abstract class BaseFragment<VIEWMODEL : BaseViewModel> : Fragment() {
      * Snack messages
      */
     private fun showMessage(text: String, messageType: MessageType) {
-        val contentView = activity!!.findViewById<View>(android.R.id.content)
         when (messageType) {
             MessageType.TEXT -> {
-                showSnackMessage(contentView, text, Color.WHITE)
+                showMessage(text)
                 return
             }
             MessageType.WARNING -> {
-                showSnackMessage(contentView, text, Color.YELLOW)
+                showWarningMessage(text)
                 return
             }
             MessageType.ERROR -> {
-                showSnackMessage(contentView, text, Color.RED)
+                showErrorMessage(text)
                 return
             }
         }
     }
 
-    protected fun showSnackMessage(@StringRes resId: Int) {
-        showSnackMessage(getString(resId))
+    /**
+     * Simple message.
+     */
+    protected fun showMessage(@StringRes resId: Int) {
+        showMessage(getString(resId))
     }
 
-    protected fun showSnackMessage(message: String) {
+    protected fun showMessage(message: String) {
         val contentView = activity!!.findViewById<View>(android.R.id.content)
-        showSnackMessage(contentView, message, Color.WHITE)
+        showMessage(contentView, message, R.drawable.ic_done)
+    }
+    /**
+     * Simple message.
+     */
+
+    /**
+     * Warning message.
+     */
+    protected fun showWarningMessage(@StringRes resId: Int) {
+        val contentView = activity!!.findViewById<View>(android.R.id.content)
+        showMessage(contentView, getString(resId), R.drawable.ic_warning)
     }
 
-    protected fun showSnackMessage(rootView: View, @StringRes resId: Int) {
-        showSnackMessage(rootView, getString(resId), Color.WHITE)
+    protected fun showWarningMessage(message: String) {
+        val contentView = activity!!.findViewById<View>(android.R.id.content)
+        showMessage(contentView, message,  R.drawable.ic_warning)
+    }
+    /**
+     * Warning message.
+     */
+
+    /**
+     * Error message.
+     */
+    protected fun showErrorMessage(@StringRes resId: Int) {
+        val contentView = activity!!.findViewById<View>(android.R.id.content)
+        showMessage(contentView, getString(resId), R.drawable.ic_error)
     }
 
-    protected fun showSnackMessage(rootView: View, message: String) {
-        showSnackMessage(rootView, message, Color.WHITE)
+    protected fun showErrorMessage(message: String) {
+        val contentView = activity!!.findViewById<View>(android.R.id.content)
+        showMessage(contentView, message, R.drawable.ic_error)
     }
+    /**
+     * Error message.
+     */
 
-    protected fun showSnackMessage(rootView: View, @StringRes resId: Int, @ColorInt color: Int) {
-        showSnackMessage(rootView, getString(resId), color)
-    }
-
-    protected fun showSnackMessage(rootView: View, message: String, @ColorInt color: Int) {
+    /**
+     * Customisable message.
+     *
+     * @param color - White by default.
+     */
+    protected fun showMessage(rootView: View, message: String, @DrawableRes icon: Int, @ColorInt color: Int = Color.WHITE) {
         val snackbar = Snackbar.make(rootView, message, Snackbar.LENGTH_LONG)
         val sbView = snackbar.view
         val textView = sbView.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
+        textView.setCompoundDrawablesWithIntrinsicBounds(icon, 0, 0, 0)
+        textView.compoundDrawablePadding = resources.getDimensionPixelOffset(R.dimen.snackbar_icon_padding)
         textView.setTextColor(color)
         snackbar.show()
     }
-    /**
-     * Snack messages
-     */
 
     private companion object {
         const val TAG = "BaseFragment"

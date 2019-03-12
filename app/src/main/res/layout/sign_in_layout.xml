@@ -8,6 +8,7 @@
     <include layout="@layout/email_password_layout" />
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_sign_in"
         style="@style/MaterialButtonStyle"
         android:text="@string/sign_in_text" />
 
