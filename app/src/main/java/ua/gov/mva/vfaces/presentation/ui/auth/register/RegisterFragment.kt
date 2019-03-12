@@ -33,7 +33,7 @@ class RegisterFragment : BaseFragment<RegisterViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUi(view)
-        viewModel.registerLiveData().observe(viewLifecycleOwner, Observer { result ->
+        viewModel.resultLiveData().observe(viewLifecycleOwner, Observer { result ->
             when(result) {
                 RegisterViewModel.ResultType.SUCCESS -> onRegistered()
                 RegisterViewModel.ResultType.USER_COLLISION -> onEmailCollision()
@@ -63,7 +63,6 @@ class RegisterFragment : BaseFragment<RegisterViewModel>() {
 
     private fun onRegisterClick() {
         val email = textInputEmail.text.toString().trim()
-        val password = textInputPassword.text.toString().trim()
         // Validate email
         if (InputValidationUtils.isEmailValid(email)) {
             tilEmail.isErrorEnabled = false
@@ -71,6 +70,7 @@ class RegisterFragment : BaseFragment<RegisterViewModel>() {
             tilEmail.error = getString(R.string.wrong_email)
             return
         }
+        val password = textInputPassword.text.toString().trim()
         // Validate password
         if (InputValidationUtils.isPasswordValid(password)) {
             tilPassword.isErrorEnabled = false

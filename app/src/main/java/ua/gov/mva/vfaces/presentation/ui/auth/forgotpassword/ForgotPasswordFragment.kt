@@ -4,12 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import ua.gov.mva.vfaces.R
 import ua.gov.mva.vfaces.presentation.ui.base.BaseFragment
+import ua.gov.mva.vfaces.utils.InputValidationUtils
+import ua.gov.mva.vfaces.utils.KeyboardUtils
 
 class ForgotPasswordFragment : BaseFragment<ForgotPasswordViewModel>() {
+
+    private lateinit var tilEmail: TextInputLayout
+    private lateinit var textInputEmail: TextInputEditText
 
     private lateinit var viewModel: ForgotPasswordViewModel
 
@@ -19,13 +28,58 @@ class ForgotPasswordFragment : BaseFragment<ForgotPasswordViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.findViewById<View>(R.id.text_view_back).setOnClickListener {
-            Navigation.findNavController(it).popBackStack()
-        }
+        initUi(view)
+        viewModel.resultLiveData().observe(viewLifecycleOwner, Observer { result ->
+            when(result) {
+                ForgotPasswordViewModel.ResultType.SUCCESS -> onResetEmailSent()
+                ForgotPasswordViewModel.ResultType.INVALID_EMAIL -> showErrorMessage(R.string.reset_password_invalid_email)
+                ForgotPasswordViewModel.ResultType.ERROR -> showErrorMessage(R.string.reset_password_error)
+            }
+        })
     }
 
     override fun initViewModel(): ForgotPasswordViewModel {
         viewModel = ViewModelProviders.of(this).get(ForgotPasswordViewModel::class.java)
         return viewModel
+    }
+
+    private fun onResetEmailSent() {
+        val view = view!!
+        view.findViewById<View>(R.id.forget_pass_prompt).visibility = View.INVISIBLE
+        view.findViewById<View>(R.id.text_view_reset_pass_prompt).visibility = View.INVISIBLE
+        view.findViewById<View>(R.id.card_view_reset_password).visibility = View.INVISIBLE
+        val textView = view.findViewById<TextView>(R.id.text_view_reset_success_prompt)
+        val email = textInputEmail.text.toString().trim()
+        textView.text = String.format(getString(R.string.reset_password_success), email)
+        textView.visibility = View.VISIBLE
+        view.findViewById<View>(R.id.button_done).visibility = View.VISIBLE
+    }
+
+    private fun onResetPasswordClick() {
+        val email = textInputEmail.text.toString().trim()
+        // Validate email
+        if (InputValidationUtils.isEmailValid(email)) {
+            tilEmail.isErrorEnabled = false
+        } else {
+            tilEmail.error = getString(R.string.wrong_email)
+            return
+        }
+        // If email is valid
+        KeyboardUtils.hideKeyboard(context!!, view!!)
+        viewModel.resetPassword(email)
+    }
+
+    private fun initUi(view: View) {
+        tilEmail = view.findViewById(R.id.text_input_layout_email)
+        textInputEmail = view.findViewById(R.id.text_input_edit_text_email)
+        view.findViewById<View>(R.id.text_view_back).setOnClickListener {
+            Navigation.findNavController(it).popBackStack()
+        }
+        view.findViewById<View>(R.id.button_done).setOnClickListener {
+            Navigation.findNavController(it).popBackStack()
+        }
+        view.findViewById<View>(R.id.button_reset_password).setOnClickListener {
+            onResetPasswordClick()
+        }
     }
 }

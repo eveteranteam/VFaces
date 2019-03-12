@@ -11,7 +11,7 @@ class RegisterViewModel : BaseViewModel() {
     private val auth : FirebaseAuth = FirebaseAuth.getInstance()
     private val resultLiveData = MutableLiveData<ResultType>()
 
-    fun registerLiveData() : LiveData<ResultType> = resultLiveData
+    fun resultLiveData() : LiveData<ResultType> = resultLiveData
 
     fun register(email: String, password: String) {
         showProgress()

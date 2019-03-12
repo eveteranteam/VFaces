@@ -54,7 +54,6 @@ class SignInFragment : BaseFragment<SignInViewModel>() {
 
     private fun onSignInClick() {
         val email = textInputEmail.text.toString().trim()
-        val password = textInputPassword.text.toString().trim()
         // Validate email
         if (InputValidationUtils.isEmailValid(email)) {
             tilEmail.isErrorEnabled = false
@@ -62,6 +61,7 @@ class SignInFragment : BaseFragment<SignInViewModel>() {
             tilEmail.error = getString(R.string.wrong_email)
             return
         }
+        val password = textInputPassword.text.toString().trim()
         // Validate password
         if (InputValidationUtils.isPasswordValid(password)) {
             tilPassword.isErrorEnabled = false

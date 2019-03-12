@@ -34,6 +34,10 @@
         \nНа неї ми надішлемо Вам інструкцію\nз відновлення паролю.
     </string>
     <string name="reset_password_text">Відновити пароль</string>
+    <string name="reset_password_invalid_email">Некоректний Email. Будь ласка, перевірте та спробуйте ще раз.</string>
+    <string name="reset_password_success">Інструкцію з відновлення паролю було надіслано\nна %s.</string>
+    <string name="reset_password_error">Помилка під час відновлення паролю. Будь ласка, спробуйте ще раз.</string>
+    <string name="reset_password_done">Зрозуміло</string>
     <string name="back_text">Назад</string>
 
     <!-- Register -->
