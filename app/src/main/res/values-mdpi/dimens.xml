@@ -1,0 +1,25 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="layout_margin_small">1dp</dimen>
+    <dimen name="layout_margin_medium">2dp</dimen>
+    <dimen name="layout_margin_large">4dp</dimen>
+
+    <dimen name="layout_padding_small">1dp</dimen>
+    <dimen name="layout_padding_medium">2dp</dimen>
+    <dimen name="layout_padding_large">4dp</dimen>
+
+    <dimen name="snackbar_icon_padding">4dp</dimen>
+
+    <!-- Veteran logo -->
+    <dimen name="veteran_profile_logo_line_width">80dp</dimen>
+
+    <!-- Bottom Logo -->
+    <dimen name="minvet_logo_bottom_margin">12dp</dimen>
+
+    <!-- Auth screen -->
+    <dimen name="auth_logo_minvet_width">36dp</dimen>
+    <dimen name="auth_logo_minvet_height">24dp</dimen>
+    <dimen name="auth_logo_vfaces_width">24dp</dimen>
+    <dimen name="auth_logo_vfaces_height">24dp</dimen>
+
+</resources>

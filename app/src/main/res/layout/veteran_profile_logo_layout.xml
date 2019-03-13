@@ -27,6 +27,7 @@
         android:layout_marginTop="-8dp"
         android:layout_marginBottom="@dimen/layout_margin_large"
         android:gravity="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:text="@string/veteran_profile_logo_text"
         android:textColor="@android:color/white"
         android:textStyle="bold" />
