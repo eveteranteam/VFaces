@@ -7,15 +7,17 @@ import android.view.ViewGroup
 import android.widget.ScrollView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.Navigation
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.google.firebase.auth.FirebaseAuth
 import ua.gov.mva.vfaces.R
+import ua.gov.mva.vfaces.presentation.ui.auth.register.profile.ProfileFragment
 import ua.gov.mva.vfaces.presentation.ui.base.BaseFragment
+import ua.gov.mva.vfaces.presentation.ui.base.OnBackPressedCallback
 import ua.gov.mva.vfaces.utils.InputValidationUtils
 import ua.gov.mva.vfaces.utils.KeyboardUtils
 
-class RegisterFragment : BaseFragment<RegisterViewModel>() {
+class RegisterFragment : BaseFragment<RegisterViewModel>(), OnBackPressedCallback {
 
     private lateinit var scrollView: ScrollView
     private lateinit var fillProfileView: View
@@ -45,6 +47,13 @@ class RegisterFragment : BaseFragment<RegisterViewModel>() {
     override fun initViewModel(): RegisterViewModel {
         viewModel = ViewModelProviders.of(this).get(RegisterViewModel::class.java)
         return viewModel
+    }
+
+    /**
+     * Disable Back Press if user has been registered successfully.
+     */
+    override fun onBackPressed(): Boolean {
+        return FirebaseAuth.getInstance().currentUser != null
     }
 
     private fun onRegistered() {
@@ -83,10 +92,6 @@ class RegisterFragment : BaseFragment<RegisterViewModel>() {
         viewModel.register(email, password)
     }
 
-    private fun onBackClick() {
-        Navigation.findNavController(view!!).popBackStack()
-    }
-
     private fun initUi(view: View) {
         scrollView = view.findViewById(R.id.scroll_view)
         fillProfileView = view.findViewById(R.id.fill_profile_layout)
@@ -98,10 +103,16 @@ class RegisterFragment : BaseFragment<RegisterViewModel>() {
             onRegisterClick()
         }
         view.findViewById<View>(R.id.button_fill_profile).setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.profileFragment)
+            transaction.replaceFragment(ProfileFragment.newInstance())
         }
         view.findViewById<View>(R.id.text_view_register_back).setOnClickListener {
-            onBackClick()
+            transaction.popBackStack()
+        }
+    }
+
+    companion object {
+        fun newInstance() : RegisterFragment {
+            return RegisterFragment()
         }
     }
 }

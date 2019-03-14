@@ -1,5 +1,6 @@
 package ua.gov.mva.vfaces.presentation.ui.base
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -32,6 +33,7 @@ import ua.gov.mva.vfaces.R
 @Suppress("MemberVisibilityCanBePrivate")
 abstract class BaseFragment<VIEWMODEL : BaseViewModel> : Fragment() {
 
+    protected lateinit var transaction: IFragmentTransaction
     private lateinit var viewmodel: VIEWMODEL
     private var progressBar: ProgressBar? = null
 
@@ -39,6 +41,11 @@ abstract class BaseFragment<VIEWMODEL : BaseViewModel> : Fragment() {
      * This method must be implemented in every subclass.
      */
     protected abstract fun initViewModel(): VIEWMODEL
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        transaction = context as IFragmentTransaction
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,6 +69,10 @@ abstract class BaseFragment<VIEWMODEL : BaseViewModel> : Fragment() {
     override fun onDestroy() {
         hideProgressBar()
         super.onDestroy()
+    }
+
+    override fun onDetach() {
+        super.onDetach()
     }
 
     /**

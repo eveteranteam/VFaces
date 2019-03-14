@@ -7,9 +7,10 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import ua.gov.mva.vfaces.R
 import ua.gov.mva.vfaces.presentation.ui.base.BaseFragment
+import ua.gov.mva.vfaces.presentation.ui.base.OnBackPressedCallback
 import ua.gov.mva.vfaces.presentation.ui.questionnaire.list.QuestionnaireListActivity
 
-class ProfileFragment : BaseFragment<ProfileViewModel>() {
+class ProfileFragment : BaseFragment<ProfileViewModel>(), OnBackPressedCallback {
 
     private lateinit var viewModel: ProfileViewModel
 
@@ -28,5 +29,19 @@ class ProfileFragment : BaseFragment<ProfileViewModel>() {
     override fun initViewModel(): ProfileViewModel {
         viewModel = ViewModelProviders.of(this).get(ProfileViewModel::class.java)
         return viewModel
+    }
+
+    /**
+     * Always return true.
+     * Never allow user to return back from this Fragment.
+     */
+    override fun onBackPressed(): Boolean {
+        return true
+    }
+
+    companion object {
+        fun newInstance() : ProfileFragment {
+            return ProfileFragment()
+        }
     }
 }

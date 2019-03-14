@@ -6,10 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.Navigation
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import ua.gov.mva.vfaces.R
+import ua.gov.mva.vfaces.presentation.ui.auth.forgotpassword.ForgotPasswordFragment
+import ua.gov.mva.vfaces.presentation.ui.auth.register.RegisterFragment
+import ua.gov.mva.vfaces.presentation.ui.auth.register.profile.ProfileFragment
 import ua.gov.mva.vfaces.presentation.ui.base.BaseFragment
 import ua.gov.mva.vfaces.utils.InputValidationUtils
 import ua.gov.mva.vfaces.utils.KeyboardUtils
@@ -49,7 +51,7 @@ class SignInFragment : BaseFragment<SignInViewModel>() {
         val msg = String.format(getString(R.string.sign_in_success), email)
         showMessage(msg)
         // TODO check if user has filled his profile data
-        Navigation.findNavController(view!!).navigate(R.id.profileFragment)
+        transaction.replaceFragment(ProfileFragment.newInstance())
     }
 
     private fun onSignInClick() {
@@ -83,10 +85,16 @@ class SignInFragment : BaseFragment<SignInViewModel>() {
             onSignInClick()
         }
         view.findViewById<View>(R.id.text_view_forget_password).setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.forgotPasswordFragment)
+            transaction.replaceFragment(ForgotPasswordFragment.newInstance())
         }
         view.findViewById<View>(R.id.text_view_register).setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.registerFragment)
+            transaction.replaceFragment(RegisterFragment.newInstance())
+        }
+    }
+
+    companion object {
+        fun newInstance() : SignInFragment {
+            return SignInFragment()
         }
     }
 }
