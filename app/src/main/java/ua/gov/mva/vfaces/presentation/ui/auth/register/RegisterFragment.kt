@@ -69,7 +69,7 @@ class RegisterFragment : BaseFragment<RegisterViewModel>(), OnBackPressedCallbac
     private fun onEmailCollision() {
         val email = textInputEmail.text.toString().trim()
         val msg = String.format(getString(R.string.sign_up_email_collision), email)
-        showMessage(msg)
+        showErrorMessage(msg)
     }
 
     private fun onRegisterClick() {

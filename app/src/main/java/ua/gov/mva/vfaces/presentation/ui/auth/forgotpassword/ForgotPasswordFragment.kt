@@ -52,9 +52,9 @@ class ForgotPasswordFragment : BaseFragment<ForgotPasswordViewModel>(), OnBackPr
 
     private fun onResetEmailSent() {
         val view = view!!
-        view.findViewById<View>(R.id.forget_pass_prompt).visibility = View.INVISIBLE
         view.findViewById<View>(R.id.text_view_reset_pass_prompt).visibility = View.INVISIBLE
         view.findViewById<View>(R.id.card_view_reset_password).visibility = View.INVISIBLE
+        view.findViewById<View>(R.id.text_view_forgot_pass_back).visibility = View.INVISIBLE
         val textView = view.findViewById<TextView>(R.id.text_view_reset_success_prompt)
         val email = textInputEmail.text.toString().trim()
         textView.text = String.format(getString(R.string.reset_password_success), email)
@@ -80,6 +80,9 @@ class ForgotPasswordFragment : BaseFragment<ForgotPasswordViewModel>(), OnBackPr
         tilEmail = view.findViewById(R.id.text_input_layout_email)
         textInputEmail = view.findViewById(R.id.text_input_edit_text_email)
         view.findViewById<View>(R.id.button_done).setOnClickListener {
+            transaction.popBackStack()
+        }
+        view.findViewById<View>(R.id.text_view_forgot_pass_back).setOnClickListener {
             transaction.popBackStack()
         }
         view.findViewById<View>(R.id.button_reset_password).setOnClickListener {

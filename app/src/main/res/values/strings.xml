@@ -36,7 +36,7 @@
     <string name="sign_up_error">Помилка під час реєстрації. Будь ласка, спробуйте ще раз.</string>
 
     <!-- Forgot password -->
-    <string name="reset_password_prompt">Щоб його відновити нам потрібна Email\nадреса Вашого профілю.\n
+    <string name="reset_password_prompt">Для відновлення нам потрібна Email адреса\nВашого профілю.\n
         \nНа неї ми надішлемо Вам інструкцію\nз відновлення паролю.
     </string>
     <string name="reset_password_text">Відновити пароль</string>
