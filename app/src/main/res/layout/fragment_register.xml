@@ -12,7 +12,7 @@
         android:id="@+id/toolbar"
         style="@style/ToolbarStyle"
         android:layout_gravity="top"
-        app:title="@string/register_title"
+        app:title="@string/sign_up_title"
         app:titleTextColor="@android:color/white" />
 
     <ScrollView
@@ -81,6 +81,6 @@
 
     </ScrollView>
 
-    <include layout="@layout/fill_profile_prompt_layout" />
+    <include layout="@layout/verify_email_prompt_layout" />
 
 </LinearLayout>

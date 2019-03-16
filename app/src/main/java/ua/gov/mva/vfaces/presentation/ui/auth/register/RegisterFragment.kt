@@ -5,13 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ScrollView
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import ua.gov.mva.vfaces.R
-import ua.gov.mva.vfaces.presentation.ui.auth.register.profile.ProfileFragment
 import ua.gov.mva.vfaces.presentation.ui.base.BaseFragment
 import ua.gov.mva.vfaces.presentation.ui.base.OnBackPressedCallback
 import ua.gov.mva.vfaces.utils.InputValidationUtils
@@ -20,7 +20,7 @@ import ua.gov.mva.vfaces.utils.KeyboardUtils
 class RegisterFragment : BaseFragment<RegisterViewModel>(), OnBackPressedCallback {
 
     private lateinit var scrollView: ScrollView
-    private lateinit var fillProfileView: View
+    private lateinit var verifyEmailView: View
     private lateinit var tilEmail: TextInputLayout
     private lateinit var textInputEmail: TextInputEditText
     private lateinit var tilPassword: TextInputLayout
@@ -37,9 +37,11 @@ class RegisterFragment : BaseFragment<RegisterViewModel>(), OnBackPressedCallbac
         initUi(view)
         viewModel.resultLiveData().observe(viewLifecycleOwner, Observer { result ->
             when(result) {
-                RegisterViewModel.ResultType.SUCCESS -> onRegistered()
+                RegisterViewModel.ResultType.VERIFICATION_EMAIL_SENT -> onRegistered()
                 RegisterViewModel.ResultType.USER_COLLISION -> onEmailCollision()
-                RegisterViewModel.ResultType.ERROR -> showErrorMessage(R.string.sign_up_error)
+                RegisterViewModel.ResultType.VERIFICATION_EMAIL_ERROR,
+                RegisterViewModel.ResultType.ERROR ->
+                    showErrorMessage(R.string.sign_up_error)
             }
         })
     }
@@ -58,10 +60,10 @@ class RegisterFragment : BaseFragment<RegisterViewModel>(), OnBackPressedCallbac
 
     private fun onRegistered() {
         val email = textInputEmail.text.toString().trim()
-        val msg = String.format(getString(R.string.sign_up_success), email)
-        showMessage(msg)
+        val text = String.format(getString(R.string.sign_up_verify_email), email)
+        view!!.findViewById<TextView>(R.id.text_view_verify_email_prompt).text = text
         scrollView.visibility = View.GONE
-        fillProfileView.visibility = View.VISIBLE
+        verifyEmailView.visibility = View.VISIBLE
     }
 
     private fun onEmailCollision() {
@@ -94,7 +96,7 @@ class RegisterFragment : BaseFragment<RegisterViewModel>(), OnBackPressedCallbac
 
     private fun initUi(view: View) {
         scrollView = view.findViewById(R.id.scroll_view)
-        fillProfileView = view.findViewById(R.id.fill_profile_layout)
+        verifyEmailView = view.findViewById(R.id.verify_email_layout)
         tilEmail = view.findViewById(R.id.text_input_layout_email)
         tilPassword = view.findViewById(R.id.text_input_layout_password)
         textInputEmail = view.findViewById(R.id.text_input_edit_text_email)
@@ -102,10 +104,10 @@ class RegisterFragment : BaseFragment<RegisterViewModel>(), OnBackPressedCallbac
         view.findViewById<View>(R.id.button_register).setOnClickListener {
             onRegisterClick()
         }
-        view.findViewById<View>(R.id.button_fill_profile).setOnClickListener {
-            transaction.replaceFragment(ProfileFragment.newInstance())
-        }
         view.findViewById<View>(R.id.text_view_register_back).setOnClickListener {
+            transaction.popBackStack()
+        }
+        view.findViewById<View>(R.id.button_done).setOnClickListener {
             transaction.popBackStack()
         }
     }

@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import ua.gov.mva.vfaces.R
-import ua.gov.mva.vfaces.presentation.ui.auth.register.profile.ProfileFragment
+import ua.gov.mva.vfaces.presentation.ui.auth.profile.ProfileFragment
 import ua.gov.mva.vfaces.presentation.ui.auth.signin.SignInFragment
 import ua.gov.mva.vfaces.presentation.ui.base.IFragmentTransaction
 import ua.gov.mva.vfaces.presentation.ui.base.OnBackPressedCallback
@@ -19,7 +19,8 @@ class AuthHostActivity : AppCompatActivity(), IFragmentTransaction {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auth)
         // TODO
-        if (FirebaseAuth.getInstance().currentUser == null) {
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user == null || !user.isEmailVerified) {
             replaceFragment(SignInFragment.newInstance())
         } else {
             replaceFragment(ProfileFragment.newInstance())

@@ -61,6 +61,6 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_finish_registration"
         style="@style/MaterialButtonStyle"
-        android:text="@string/profile_finish_registration" />
+        android:text="@string/save_text" />
 
 </LinearLayout>

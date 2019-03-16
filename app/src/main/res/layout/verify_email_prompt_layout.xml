@@ -2,39 +2,52 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fill_profile_layout"
+    android:id="@+id/verify_email_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    android:orientation="vertical"
-    android:visibility="gone"
-    tools:showIn="@layout/fragment_register">
+    android:orientation="vertical">
 
     <include
         android:id="@+id/logo"
         layout="@layout/veteran_profile_logo_layout" />
 
     <TextView
+        android:id="@+id/sign_up_successful_prompt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="@dimen/layout_padding_large"
+        android:text="@string/sign_up_successful"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/colorYellow"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
+
+    <TextView
+        android:id="@+id/text_view_verify_email_prompt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_margin="@dimen/layout_padding_large"
         android:gravity="center"
-        android:text="@string/sign_up_fill_profile_prompt"
+        android:text="@string/sign_up_verify_email"
         android:textColor="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@+id/button_fill_profile"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logo" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/button_fill_profile"
-        style="@style/MaterialButtonStyle"
-        android:text="@string/sign_up_fill_profile"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_done"
+        style="@style/MaterialButtonStyle"
+        android:text="@string/reset_password_done"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_verify_email_prompt" />
 
     <ImageView
         android:id="@+id/image_view_minvet_logo"

@@ -25,7 +25,7 @@
 
     <fragment
         android:id="@+id/profileFragment"
-        android:name="ua.gov.mva.vfaces.presentation.ui.auth.register.profile.ProfileFragment"
+        android:name="ua.gov.mva.vfaces.presentation.ui.auth.profile.ProfileFragment"
         android:label="fragment_finish_registration"
         tools:layout="@layout/fragment_profile" />
 </navigation>

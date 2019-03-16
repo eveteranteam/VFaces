@@ -10,8 +10,8 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import ua.gov.mva.vfaces.R
 import ua.gov.mva.vfaces.presentation.ui.auth.forgotpassword.ForgotPasswordFragment
+import ua.gov.mva.vfaces.presentation.ui.auth.profile.ProfileFragment
 import ua.gov.mva.vfaces.presentation.ui.auth.register.RegisterFragment
-import ua.gov.mva.vfaces.presentation.ui.auth.register.profile.ProfileFragment
 import ua.gov.mva.vfaces.presentation.ui.base.BaseFragment
 import ua.gov.mva.vfaces.utils.InputValidationUtils
 import ua.gov.mva.vfaces.utils.KeyboardUtils
@@ -34,7 +34,8 @@ class SignInFragment : BaseFragment<SignInViewModel>() {
         initUi(view)
         viewModel.resultLiveData().observe(viewLifecycleOwner, Observer { result ->
             when(result) {
-                SignInViewModel.ResultType.SUCCESS -> onSignedIn()
+                SignInViewModel.ResultType.SIGN_IN_SUCCESS -> onSignedIn()
+                SignInViewModel.ResultType.EMAIL_NOT_VERIFIED -> onEmailNotVerified()
                 SignInViewModel.ResultType.INVALID_CREDENTIALS -> showErrorMessage(R.string.sign_in_wrong_credentials)
                 SignInViewModel.ResultType.ERROR -> showErrorMessage(R.string.sign_in_error)
             }
@@ -52,6 +53,10 @@ class SignInFragment : BaseFragment<SignInViewModel>() {
         showMessage(msg)
         // TODO check if user has filled his profile data
         transaction.replaceFragment(ProfileFragment.newInstance())
+    }
+
+    private fun onEmailNotVerified() {
+        showWarningMessage(R.string.sign_in_verify_email)
     }
 
     private fun onSignInClick() {

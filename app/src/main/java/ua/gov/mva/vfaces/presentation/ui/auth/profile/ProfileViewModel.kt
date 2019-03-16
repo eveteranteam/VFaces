@@ -1,4 +1,4 @@
-package ua.gov.mva.vfaces.presentation.ui.auth.register.profile
+package ua.gov.mva.vfaces.presentation.ui.auth.profile
 
 import ua.gov.mva.vfaces.presentation.ui.base.BaseViewModel
 
