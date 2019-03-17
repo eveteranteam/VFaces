@@ -10,7 +10,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import ua.gov.mva.vfaces.R
 import ua.gov.mva.vfaces.presentation.ui.auth.forgotpassword.ForgotPasswordFragment
-import ua.gov.mva.vfaces.presentation.ui.auth.profile.ProfileFragment
+import ua.gov.mva.vfaces.presentation.ui.auth.profile.ProfilePromptFragment
 import ua.gov.mva.vfaces.presentation.ui.auth.register.RegisterFragment
 import ua.gov.mva.vfaces.presentation.ui.base.BaseFragment
 import ua.gov.mva.vfaces.utils.InputValidationUtils
@@ -52,7 +52,7 @@ class SignInFragment : BaseFragment<SignInViewModel>() {
         val msg = String.format(getString(R.string.sign_in_success), email)
         showMessage(msg)
         // TODO check if user has filled his profile data
-        transaction.replaceFragment(ProfileFragment.newInstance())
+        transaction.replaceFragment(ProfilePromptFragment.newInstance())
     }
 
     private fun onEmailNotVerified() {

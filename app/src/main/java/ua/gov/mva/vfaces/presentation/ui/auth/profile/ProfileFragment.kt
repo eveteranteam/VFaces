@@ -20,7 +20,7 @@ class ProfileFragment : BaseFragment<ProfileViewModel>(), OnBackPressedCallback 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.findViewById<View>(R.id.button_finish_registration).setOnClickListener {
+        view.findViewById<View>(R.id.button_save_profile).setOnClickListener {
             QuestionnaireListActivity.start(context!!)
             activity!!.finish()
         }

@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import ua.gov.mva.vfaces.R
-import ua.gov.mva.vfaces.presentation.ui.auth.profile.ProfileFragment
+import ua.gov.mva.vfaces.presentation.ui.auth.profile.ProfilePromptFragment
 import ua.gov.mva.vfaces.presentation.ui.auth.signin.SignInFragment
 import ua.gov.mva.vfaces.presentation.ui.base.IFragmentTransaction
 import ua.gov.mva.vfaces.presentation.ui.base.OnBackPressedCallback
@@ -23,7 +23,7 @@ class AuthHostActivity : AppCompatActivity(), IFragmentTransaction {
         if (user == null || !user.isEmailVerified) {
             replaceFragment(SignInFragment.newInstance())
         } else {
-            replaceFragment(ProfileFragment.newInstance())
+            replaceFragment(ProfilePromptFragment.newInstance())
         }
     }
 

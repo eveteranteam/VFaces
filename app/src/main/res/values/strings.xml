@@ -28,7 +28,7 @@
     <string name="sign_up_text">Зареєструватися</string>
     <string name="sign_up_title">Реєстрація</string>
     <string name="sign_up_successful">Реєстрація успішна!</string>
-    <string name="sign_up_verify_email">Для завершення реєстрації необхідно\nпідтвердити Вашу Email адресу.\n\nІнструкцію з підтвердження було надіслало на\n%s.
+    <string name="sign_up_verify_email">Для завершення необхідно підтвердити\nВашу Email адресу.\n\nІнструкцію з підтвердження було надіслало на\n%s.
     </string>
     <string name="sign_up_fill_profile">Заповнити профіль</string>
     <string name="sign_up_success">%s успішно зареєстровано</string>
@@ -48,12 +48,16 @@
 
     <!-- Profile -->
     <string name="profile_title">Профіль працівника</string>
-    <string name="profile_fill_prompt">Щоб мати можливість працювати з анкетами\nспочатку необхідно заповнити\nпрофіль соціального працівника.
-        \n\nБудь ласка, введіть Ваші справжні дані.
-        \nЦе дасть можливість міністерству провести аналіз\nрезультатів опитування ветеранів.</string>
+    <string name="profile_fill_prompt">*Будь ласка, вводьте Ваші справжні дані.</string>
     <string name="profile_name">ПІБ</string>
     <string name="profile_settlement">Населений пункт</string>
     <string name="profile_work">Місце роботи</string>
     <string name="profile_phone_number">Моб. телефон</string>
+
+    <!-- ProfilePrompt -->
+    <string name="profile_prompt_title">Профіль працівника</string>
+    <string name="profile_prompt_fill_text">Щоб почати працювати з анкетами необхідно заповнити\nпрофіль соціального працівника.
+        \n\nЦе дасть можливість міністерству провести\nаналіз результатів опитування ветеранів.</string>
+    <string name="profile_prompt_fill_profile">Заповнити профіль</string>
 
 </resources>
