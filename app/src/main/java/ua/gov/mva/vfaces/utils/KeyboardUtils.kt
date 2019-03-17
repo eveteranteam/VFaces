@@ -1,27 +1,27 @@
 package ua.gov.mva.vfaces.utils
 
+import android.app.Activity
 import android.content.Context
-import android.view.View
 import android.view.inputmethod.InputMethodManager
 
 object KeyboardUtils {
 
-    fun showKeyboard(context: Context?) {
-        if (context == null) {
+    fun showKeyboard(activity: Activity?) {
+        if (activity == null) {
             return
         }
-        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
     }
 
-    fun hideKeyboard(context: Context?, view: View?) {
-        if (context == null || view == null) {
+    fun hideKeyboard(activity: Activity?) {
+        if (activity == null) {
             return
         }
-        val inputMethod = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        val binder = view.windowToken
-        if (binder != null) {
-            inputMethod.hideSoftInputFromWindow(binder, 0)
+        val focus = activity.currentFocus
+        if (focus != null) {
+            val inputMethod = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethod.hideSoftInputFromWindow(focus.windowToken, 0)
         }
     }
 }

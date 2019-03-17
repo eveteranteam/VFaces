@@ -72,7 +72,7 @@ class ForgotPasswordFragment : BaseFragment<ForgotPasswordViewModel>(), OnBackPr
             return
         }
         // If email is valid
-        KeyboardUtils.hideKeyboard(context!!, view!!)
+        KeyboardUtils.hideKeyboard(activity)
         viewModel.resetPassword(email)
     }
 

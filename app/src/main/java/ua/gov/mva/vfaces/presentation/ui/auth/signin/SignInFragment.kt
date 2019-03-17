@@ -77,7 +77,7 @@ class SignInFragment : BaseFragment<SignInViewModel>() {
             return
         }
         // If credentials are valid
-        KeyboardUtils.hideKeyboard(context!!, view!!)
+        KeyboardUtils.hideKeyboard(activity)
         viewModel.signIn(email, password)
     }
 

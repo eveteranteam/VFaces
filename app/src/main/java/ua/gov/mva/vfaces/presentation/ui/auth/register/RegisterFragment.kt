@@ -90,7 +90,7 @@ class RegisterFragment : BaseFragment<RegisterViewModel>(), OnBackPressedCallbac
             return
         }
         // If credentials are valid
-        KeyboardUtils.hideKeyboard(context!!, view!!)
+        KeyboardUtils.hideKeyboard(activity)
         viewModel.register(email, password)
     }
 

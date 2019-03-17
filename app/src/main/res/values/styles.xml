@@ -70,6 +70,7 @@
         <item name="android:layout_width">@dimen/auth_logo_minvet_width</item>
         <item name="android:layout_height">@dimen/auth_logo_minvet_height</item>
         <item name="android:src">@drawable/ic_logo_minvet_white</item>
+        <item name="layout_constraintVertical_bias">1</item>
     </style>
 
     <!-- TextView -->

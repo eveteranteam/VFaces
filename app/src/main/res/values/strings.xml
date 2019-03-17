@@ -11,6 +11,8 @@
     <string name="wrong_password">Неправильний пароль</string>
     <string name="email_not_confirmed">Ви не підтвердили Email</string>
     <string name="wrong_credentials">Неправильний Email або пароль</string>
+    <string name="wrong_data_field">Некоректні дані</string>
+    <string name="wrong_number">Номер повинен бути у форматі \'+XXX\' або \'0XX\'</string>
 
     <!-- Auth screen -->
     <!-- Sign In -->
@@ -50,7 +52,6 @@
     <string name="profile_title">Профіль працівника</string>
     <string name="profile_fill_prompt">*Будь ласка, вводьте Ваші справжні дані.</string>
     <string name="profile_name">ПІБ</string>
-    <string name="profile_settlement">Населений пункт</string>
     <string name="profile_work">Місце роботи</string>
     <string name="profile_phone_number">Моб. телефон</string>
 

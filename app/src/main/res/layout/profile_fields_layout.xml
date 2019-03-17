@@ -20,19 +20,6 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/text_input_layout_settlement"
-        style="@style/TextInputLayoutStyle"
-        android:hint="@string/profile_settlement">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/text_input_edit_text_settlement"
-            style="@style/TextInputEditTextStyle"
-            android:imeOptions="actionNext"
-            android:inputType="textCapWords" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_input_layout_work"
         style="@style/TextInputLayoutStyle"
         android:hint="@string/profile_work">
