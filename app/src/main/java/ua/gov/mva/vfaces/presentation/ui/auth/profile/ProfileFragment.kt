@@ -10,6 +10,7 @@ import com.google.android.material.textfield.TextInputLayout
 import ua.gov.mva.vfaces.R
 import ua.gov.mva.vfaces.presentation.ui.base.BaseFragment
 import ua.gov.mva.vfaces.presentation.ui.base.OnBackPressedCallback
+import ua.gov.mva.vfaces.presentation.ui.questionnaire.list.QuestionnaireListActivity
 import ua.gov.mva.vfaces.utils.InputValidationUtils
 import ua.gov.mva.vfaces.utils.KeyboardUtils
 
@@ -84,7 +85,9 @@ class ProfileFragment : BaseFragment<ProfileViewModel>(), OnBackPressedCallback 
         textPhone = view.findViewById(R.id.text_input_edit_text_phone_number)
 
         view.findViewById<View>(R.id.button_save_profile).setOnClickListener {
-            onSaveClick()
+           // onSaveClick()
+            QuestionnaireListActivity.start(context!!)
+            activity!!.finish()
         }
     }
 

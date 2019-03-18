@@ -22,4 +22,10 @@
     <dimen name="auth_logo_vfaces_width">72dp</dimen>
     <dimen name="auth_logo_vfaces_height">72dp</dimen>
 
+    <!-- Questionnaire list -->
+    <dimen name="questionnaire_list_arrow_height">182dp</dimen>
+
+    <!-- FAB -->
+    <dimen name="fab_margin">24dp</dimen>
+
 </resources>

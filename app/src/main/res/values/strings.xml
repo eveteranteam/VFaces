@@ -61,4 +61,8 @@
         \n\nЦе дасть можливість міністерству провести\nаналіз результатів опитування ветеранів.</string>
     <string name="profile_prompt_fill_profile">Заповнити профіль</string>
 
+    <!-- Questionnaire list -->
+    <string name="questionnaire_list_title">Анкети</string>
+    <string name="questionnaire_list_no_items_message">Наразі у Вас ще немає анкет.\n\nПочніть соціальне опитування для того,\nщоб мати можливість працювати з анкетами.</string>
+
 </resources>
