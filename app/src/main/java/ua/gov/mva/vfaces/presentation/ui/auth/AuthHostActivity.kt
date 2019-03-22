@@ -1,19 +1,21 @@
 package ua.gov.mva.vfaces.presentation.ui.auth
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import ua.gov.mva.vfaces.R
 import ua.gov.mva.vfaces.presentation.ui.auth.profile.ProfilePromptFragment
 import ua.gov.mva.vfaces.presentation.ui.auth.signin.SignInFragment
-import ua.gov.mva.vfaces.presentation.ui.base.IFragmentTransaction
+import ua.gov.mva.vfaces.presentation.ui.base.BaseActivity
 import ua.gov.mva.vfaces.presentation.ui.base.OnBackPressedCallback
 
-class AuthHostActivity : AppCompatActivity(), IFragmentTransaction {
+class AuthHostActivity : BaseActivity() {
+
+    override val TAG = "AuthHostActivity"
+    override var dialog: AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,13 +39,6 @@ class AuthHostActivity : AppCompatActivity(), IFragmentTransaction {
         }
     }
 
-    override fun replaceFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, fragment)
-            .addToBackStack(fragment::class.java.simpleName)
-            .commit()
-    }
-
     override fun popBackStack() {
         val count = supportFragmentManager.backStackEntryCount
         if (count <= 0) {
@@ -54,7 +49,6 @@ class AuthHostActivity : AppCompatActivity(), IFragmentTransaction {
     }
 
     companion object {
-        const val TAG = "AuthHostActivity"
         @JvmStatic
         fun start(context: Context) {
             context.startActivity(Intent(context, AuthHostActivity::class.java))

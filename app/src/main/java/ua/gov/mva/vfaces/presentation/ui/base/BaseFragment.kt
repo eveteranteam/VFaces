@@ -34,6 +34,7 @@ import ua.gov.mva.vfaces.R
 abstract class BaseFragment<VIEWMODEL : BaseViewModel> : Fragment() {
 
     protected lateinit var transaction: IFragmentTransaction
+    protected var actionBarListener: ActionBarListener? = null
     private lateinit var viewmodel: VIEWMODEL
     private var progressBar: ProgressBar? = null
 
@@ -45,6 +46,7 @@ abstract class BaseFragment<VIEWMODEL : BaseViewModel> : Fragment() {
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         transaction = context as IFragmentTransaction
+        actionBarListener = if (context is ActionBarListener) context else null
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -150,6 +152,13 @@ abstract class BaseFragment<VIEWMODEL : BaseViewModel> : Fragment() {
                 return
             }
         }
+    }
+
+    /**
+     * Set title to Action Bar.
+     */
+    protected fun setTitle(title: String) {
+        actionBarListener?.setTitle(title)
     }
 
     /**
