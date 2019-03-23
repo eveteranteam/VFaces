@@ -6,12 +6,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ua.gov.mva.vfaces.R
 
-class QuestionnaireListAdapter : RecyclerView.Adapter<QuestionnaireListAdapter.ViewHolder>() {
-
+class QuestionnaireListAdapter(private val clickListener: OnItemClickListener) :
+        RecyclerView.Adapter<QuestionnaireListAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.questionnaire_list_item, parent, false))
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.questionnaire_list_item, parent, false)
+        return ViewHolder(view, clickListener)
     }
 
     override fun getItemCount(): Int {
@@ -22,12 +23,23 @@ class QuestionnaireListAdapter : RecyclerView.Adapter<QuestionnaireListAdapter.V
 
     }
 
+    class ViewHolder(view: View, private val clickListener: OnItemClickListener) : RecyclerView.ViewHolder(view), View.OnClickListener {
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        // TODO
+        private val root= view.findViewById<View>(R.id.card_view_questionnaire).setOnClickListener(this)
+        private val optionsView = view.findViewById<View>(R.id.image_view_options).setOnClickListener(this)
+
+        override fun onClick(v: View?) {
+            when(v?.id) {
+                R.id.card_view_questionnaire -> clickListener.onClick()
+                R.id.image_view_options -> clickListener.onOptionsClick(v)
+            }
+        }
 
     }
 
     interface OnItemClickListener {
         fun onClick()
+        fun onOptionsClick(anchor : View)
     }
 }

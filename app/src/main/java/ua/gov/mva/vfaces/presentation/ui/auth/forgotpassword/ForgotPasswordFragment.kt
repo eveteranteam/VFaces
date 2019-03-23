@@ -17,6 +17,8 @@ import ua.gov.mva.vfaces.utils.KeyboardUtils
 
 class ForgotPasswordFragment : BaseFragment<ForgotPasswordViewModel>(), OnBackPressedCallback {
 
+    override val TAG = "ForgotPasswordFragment"
+
     private lateinit var tilEmail: TextInputLayout
     private lateinit var textInputEmail: TextInputEditText
 

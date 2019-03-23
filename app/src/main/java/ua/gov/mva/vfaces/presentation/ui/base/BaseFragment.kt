@@ -33,8 +33,10 @@ import ua.gov.mva.vfaces.R
 @Suppress("MemberVisibilityCanBePrivate")
 abstract class BaseFragment<VIEWMODEL : BaseViewModel> : Fragment() {
 
+    protected abstract val TAG: String
     protected lateinit var transaction: IFragmentTransaction
     protected var actionBarListener: ActionBarListener? = null
+
     private lateinit var viewmodel: VIEWMODEL
     private var progressBar: ProgressBar? = null
 
@@ -221,9 +223,5 @@ abstract class BaseFragment<VIEWMODEL : BaseViewModel> : Fragment() {
         textView.compoundDrawablePadding = resources.getDimensionPixelOffset(R.dimen.snackbar_icon_padding)
         textView.setTextColor(color)
         snackbar.show()
-    }
-
-    private companion object {
-        const val TAG = "BaseFragment"
     }
 }

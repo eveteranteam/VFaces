@@ -81,10 +81,20 @@
         з\nанкетами необхідно розпочати соціальне опитування.
     </string>
 
+    <string name="questionnaire_list_menu_filter">Фільтр</string>
+    <string name="questionnaire_list_menu_default">За замовч.</string>
+    <string name="questionnaire_list_menu_not_finished">Лише незаповнені</string>
+    <string name="questionnaire_list_menu_name">ПІБ</string>
+    <string name="questionnaire_list_menu_settlement">Населений пункт</string>
+    <string name="questionnaire_list_menu_progress">Наповнення</string>
+
     <string name="questionnaire_list_item_name">Іваненко Іван Іванович</string>
     <string name="questionnaire_list_item_settlement">Київ</string>
     <string name="questionnaire_list_item_status">Статус наповнення</string>
     <string name="questionnaire_list_item_status_percents">%s%</string>
+
+    <string name="questionnaire_list_item_options_edit">Редагувати</string>
+    <string name="questionnaire_list_item_options_delete">Видалити</string>
 
     <!-- Main -->
 

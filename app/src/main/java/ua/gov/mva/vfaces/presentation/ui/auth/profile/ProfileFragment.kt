@@ -16,6 +16,8 @@ import ua.gov.mva.vfaces.utils.KeyboardUtils
 
 class ProfileFragment : BaseFragment<ProfileViewModel>(), OnBackPressedCallback {
 
+    override val TAG = "ProfileFragment"
+
     private lateinit var tilName: TextInputLayout
     private lateinit var textInputName: TextInputEditText
     private lateinit var tilWork: TextInputLayout

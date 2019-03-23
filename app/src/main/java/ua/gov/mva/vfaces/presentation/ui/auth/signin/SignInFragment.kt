@@ -18,6 +18,8 @@ import ua.gov.mva.vfaces.utils.KeyboardUtils
 
 class SignInFragment : BaseFragment<SignInViewModel>() {
 
+    override val TAG = "SignInFragment"
+
     private lateinit var tilEmail: TextInputLayout
     private lateinit var textInputEmail: TextInputEditText
     private lateinit var tilPassword: TextInputLayout

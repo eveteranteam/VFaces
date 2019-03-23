@@ -19,6 +19,8 @@ import ua.gov.mva.vfaces.utils.KeyboardUtils
 
 class RegisterFragment : BaseFragment<RegisterViewModel>(), OnBackPressedCallback {
 
+    override val TAG = "RegisterFragment"
+
     private lateinit var scrollView: ScrollView
     private lateinit var verifyEmailView: View
     private lateinit var tilEmail: TextInputLayout
