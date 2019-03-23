@@ -81,6 +81,11 @@
         з\nанкетами необхідно розпочати соціальне опитування.
     </string>
 
+    <string name="questionnaire_list_item_name">Іваненко Іван Іванович</string>
+    <string name="questionnaire_list_item_settlement">Київ</string>
+    <string name="questionnaire_list_item_status">Статус наповнення</string>
+    <string name="questionnaire_list_item_status_percents">%s%</string>
+
     <!-- Main -->
 
 </resources>

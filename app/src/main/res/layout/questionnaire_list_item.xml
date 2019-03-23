@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/MaterialCardViewStyle"
+    android:layout_margin="@dimen/layout_margin_large"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/image_view_person"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_margin_large"
+            android:layout_marginTop="@dimen/layout_margin_large"
+            android:layout_marginBottom="@dimen/layout_margin_large"
+            android:src="@drawable/ic_person"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/text_view_name"
+            style="@style/ListTitleTextViewStyle"
+            android:layout_width="@dimen/questionnaire_list_text_view_width"
+            android:ellipsize="end"
+            android:singleLine="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/image_view_person"
+            android:text="@string/questionnaire_list_item_name" />
+
+        <ImageView
+            android:id="@+id/image_view_options"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/layout_margin_large"
+            android:src="@drawable/ic_more_vert"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/image_view_place"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_margin_large"
+            android:layout_marginTop="@dimen/layout_margin_large"
+            android:layout_marginBottom="@dimen/layout_margin_large"
+            android:src="@drawable/ic_place"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/image_view_person"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/text_view_settlement"
+            style="@style/ListTextViewStyle"
+            android:text="@string/questionnaire_list_item_settlement"
+            app:layout_constraintLeft_toRightOf="@+id/image_view_place"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_name" />
+
+        <ImageView
+            android:id="@+id/image_view_assignment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_margin_large"
+            android:layout_marginTop="@dimen/layout_margin_large"
+            android:layout_marginBottom="@dimen/layout_margin_large"
+            android:src="@drawable/ic_assignment"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/image_view_place"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/text_view_status"
+            style="@style/ListTextViewStyle"
+            android:text="@string/questionnaire_list_item_status"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/image_view_assignment" />
+
+        <TextView
+            android:id="@+id/text_view_percents"
+            style="@style/ListTextViewStyle"
+            android:text="@string/questionnaire_list_item_status_percents"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_settlement" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

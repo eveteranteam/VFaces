@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:showIn="ua.gov.mva.vfaces.presentation.ui.questionnaire.list.QuestionnaireListActivity">
+
+    <TextView
+        android:id="@+id/text_view_no_items_prompt"
+        style="@style/RegularTextViewStyleMedium"
+        android:text="@string/questionnaire_list_no_items_message"
+        android:textColor="@color/colorYellow"
+        app:layout_constraintBottom_toBottomOf="@+id/fab_new_questionnaire"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/image_view_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/questionnaire_list_arrow_height"
+        android:layout_margin="@dimen/layout_margin_large"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_arrow_bottom"
+        app:layout_constraintBottom_toBottomOf="@+id/fab_new_questionnaire"
+        app:layout_constraintEnd_toStartOf="@+id/fab_new_questionnaire"
+        app:layout_constraintLeft_toLeftOf="@+id/recycler_view_questionnaires"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_no_items_prompt"
+        tools:ignore="ContentDescription" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_questionnaires"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_new_questionnaire"
+        style="@style/FloatingActionButtonStyle"
+        android:src="@drawable/ic_add_white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
