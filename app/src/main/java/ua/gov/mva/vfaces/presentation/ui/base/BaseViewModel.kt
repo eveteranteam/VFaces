@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ua.gov.mva.vfaces.presentation.ui.base.model.Message
+import ua.gov.mva.vfaces.presentation.ui.base.model.MessageType
 
 /**
  * This is a base class for ViewModels.

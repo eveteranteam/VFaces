@@ -1,7 +1,5 @@
 package ua.gov.mva.vfaces.presentation.ui.base.model
 
-import ua.gov.mva.vfaces.presentation.ui.base.MessageType
-
 /**
  *
  */

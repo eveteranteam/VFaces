@@ -1,4 +1,4 @@
-package ua.gov.mva.vfaces.presentation.ui.base
+package ua.gov.mva.vfaces.presentation.ui.base.fragment
 
 import android.content.Context
 import android.graphics.Color
@@ -20,6 +20,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import ua.gov.mva.vfaces.R
+import ua.gov.mva.vfaces.presentation.ui.base.BaseViewModel
+import ua.gov.mva.vfaces.presentation.ui.base.activity.ActionBarListener
+import ua.gov.mva.vfaces.presentation.ui.base.activity.IFragmentTransaction
+import ua.gov.mva.vfaces.presentation.ui.base.model.MessageType
 
 /**
  * Base class for all Fragments.

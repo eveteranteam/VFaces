@@ -13,11 +13,10 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import ua.gov.mva.vfaces.R
 import ua.gov.mva.vfaces.presentation.ui.auth.AuthHostActivity
-import ua.gov.mva.vfaces.presentation.ui.base.ActionBarListener
-import ua.gov.mva.vfaces.presentation.ui.base.BaseActivity
+import ua.gov.mva.vfaces.presentation.ui.base.activity.ActionBarActivity
 import ua.gov.mva.vfaces.presentation.ui.questionnaire.list.QuestionnaireListFragment
 
-class QuestionnaireActivity : BaseActivity(), ActionBarListener {
+class QuestionnaireActivity : ActionBarActivity() {
 
     override val TAG = "QuestionnaireActivity"
     override var dialog: AlertDialog? = null
@@ -57,23 +56,6 @@ class QuestionnaireActivity : BaseActivity(), ActionBarListener {
             return
         }
         super.onBackPressed()
-    }
-
-    override fun setTitle(title: String) {
-        val actionBar = supportActionBar
-        actionBar?.title = title
-    }
-
-    override fun setMenuIcon() {
-        val actionBar = supportActionBar
-        actionBar?.setDisplayHomeAsUpEnabled(true)
-        actionBar?.setHomeAsUpIndicator(R.drawable.ic_menu)
-    }
-
-    override fun setBackIcon() {
-        val actionBar = supportActionBar
-        actionBar?.setDisplayHomeAsUpEnabled(true)
-        actionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
     }
 
     private fun showExitAlertDialog() {

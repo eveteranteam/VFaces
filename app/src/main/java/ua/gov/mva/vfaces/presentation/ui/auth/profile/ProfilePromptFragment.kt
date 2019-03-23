@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ua.gov.mva.vfaces.R
-import ua.gov.mva.vfaces.presentation.ui.base.OnBackPressedCallback
-import ua.gov.mva.vfaces.presentation.ui.base.SimpleBaseFragment
+import ua.gov.mva.vfaces.presentation.ui.base.activity.OnBackPressedCallback
+import ua.gov.mva.vfaces.presentation.ui.base.fragment.SimpleBaseFragment
 
 class ProfilePromptFragment : SimpleBaseFragment(), OnBackPressedCallback {
 

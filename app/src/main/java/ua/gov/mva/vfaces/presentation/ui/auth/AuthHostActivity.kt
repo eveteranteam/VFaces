@@ -9,8 +9,8 @@ import com.google.firebase.auth.FirebaseAuth
 import ua.gov.mva.vfaces.R
 import ua.gov.mva.vfaces.presentation.ui.auth.profile.ProfilePromptFragment
 import ua.gov.mva.vfaces.presentation.ui.auth.signin.SignInFragment
-import ua.gov.mva.vfaces.presentation.ui.base.BaseActivity
-import ua.gov.mva.vfaces.presentation.ui.base.OnBackPressedCallback
+import ua.gov.mva.vfaces.presentation.ui.base.activity.BaseActivity
+import ua.gov.mva.vfaces.presentation.ui.base.activity.OnBackPressedCallback
 
 class AuthHostActivity : BaseActivity() {
 

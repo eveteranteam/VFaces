@@ -1,7 +1,8 @@
-package ua.gov.mva.vfaces.presentation.ui.base
+package ua.gov.mva.vfaces.presentation.ui.base.fragment
 
 import android.content.Context
 import androidx.fragment.app.Fragment
+import ua.gov.mva.vfaces.presentation.ui.base.activity.IFragmentTransaction
 
 /**
  *

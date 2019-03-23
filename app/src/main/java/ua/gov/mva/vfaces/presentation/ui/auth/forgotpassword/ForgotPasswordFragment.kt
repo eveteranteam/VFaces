@@ -10,8 +10,8 @@ import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import ua.gov.mva.vfaces.R
-import ua.gov.mva.vfaces.presentation.ui.base.BaseFragment
-import ua.gov.mva.vfaces.presentation.ui.base.OnBackPressedCallback
+import ua.gov.mva.vfaces.presentation.ui.base.fragment.BaseFragment
+import ua.gov.mva.vfaces.presentation.ui.base.activity.OnBackPressedCallback
 import ua.gov.mva.vfaces.utils.InputValidationUtils
 import ua.gov.mva.vfaces.utils.KeyboardUtils
 

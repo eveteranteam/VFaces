@@ -9,7 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ua.gov.mva.vfaces.R
-import ua.gov.mva.vfaces.presentation.ui.base.BaseFragment
+import ua.gov.mva.vfaces.presentation.ui.base.fragment.BaseFragment
+import ua.gov.mva.vfaces.presentation.ui.questionnaire.new.NewQuestionnaireActivity
 
 class QuestionnaireListFragment : BaseFragment<QuestionnaireListViewModel>(), QuestionnaireListAdapter.OnItemClickListener {
 
@@ -103,7 +104,7 @@ class QuestionnaireListFragment : BaseFragment<QuestionnaireListViewModel>(), Qu
 
     private fun initUi(view: View) {
         fab = view.findViewById(R.id.fab_new_questionnaire)
-        fab.setOnClickListener { }
+        fab.setOnClickListener { NewQuestionnaireActivity.start(context!!) }
         recyclerView = view.findViewById(R.id.recycler_view_questionnaires)
         recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         adapter = QuestionnaireListAdapter(this)

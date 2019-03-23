@@ -12,7 +12,7 @@ import ua.gov.mva.vfaces.R
 import ua.gov.mva.vfaces.presentation.ui.auth.forgotpassword.ForgotPasswordFragment
 import ua.gov.mva.vfaces.presentation.ui.auth.profile.ProfilePromptFragment
 import ua.gov.mva.vfaces.presentation.ui.auth.register.RegisterFragment
-import ua.gov.mva.vfaces.presentation.ui.base.BaseFragment
+import ua.gov.mva.vfaces.presentation.ui.base.fragment.BaseFragment
 import ua.gov.mva.vfaces.utils.InputValidationUtils
 import ua.gov.mva.vfaces.utils.KeyboardUtils
 

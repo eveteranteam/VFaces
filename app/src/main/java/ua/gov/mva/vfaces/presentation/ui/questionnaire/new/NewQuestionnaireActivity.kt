@@ -1,12 +1,16 @@
 package ua.gov.mva.vfaces.presentation.ui.questionnaire.new
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import ua.gov.mva.vfaces.R
+import ua.gov.mva.vfaces.presentation.ui.base.activity.BaseActivity
 
-class NewQuestionnaireActivity : AppCompatActivity() {
+class NewQuestionnaireActivity : BaseActivity() {
+
+    override val TAG = "NewQuestionnaireActivity"
+    override var dialog: AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

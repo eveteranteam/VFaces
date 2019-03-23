@@ -1,4 +1,4 @@
-package ua.gov.mva.vfaces.presentation.ui.base
+package ua.gov.mva.vfaces.presentation.ui.base.activity
 
 import android.app.AlertDialog
 import android.util.Log
