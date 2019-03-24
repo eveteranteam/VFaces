@@ -41,11 +41,13 @@
 
         <activity
             android:name=".presentation.ui.questionnaire.QuestionnaireActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBar" />
 
         <activity
             android:name=".presentation.ui.questionnaire.new.NewQuestionnaireActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBar" />
     </application>

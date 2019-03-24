@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseAuth
 import ua.gov.mva.vfaces.R
 import ua.gov.mva.vfaces.presentation.ui.auth.AuthHostActivity
 import ua.gov.mva.vfaces.presentation.ui.base.activity.ActionBarActivity
+import ua.gov.mva.vfaces.presentation.ui.base.activity.OnBackPressedCallback
 import ua.gov.mva.vfaces.presentation.ui.questionnaire.list.QuestionnaireListFragment
 
 class QuestionnaireActivity : ActionBarActivity() {
@@ -55,7 +56,14 @@ class QuestionnaireActivity : ActionBarActivity() {
             drawerLayout.closeDrawer(GravityCompat.START)
             return
         }
-        super.onBackPressed()
+        val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+        if (fragment is OnBackPressedCallback && fragment.onBackPressed()) {
+            return
+        }
+        // TODO fix when single fragment
+        if (supportFragmentManager.backStackEntryCount > 1) {
+            super.onBackPressed()
+        }
     }
 
     private fun showExitAlertDialog() {

@@ -9,6 +9,7 @@ import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import ua.gov.mva.vfaces.R
 import ua.gov.mva.vfaces.presentation.ui.base.activity.ActionBarActivity
+import ua.gov.mva.vfaces.presentation.ui.base.activity.OnBackPressedCallback
 
 class NewQuestionnaireActivity : ActionBarActivity() {
 
@@ -41,6 +42,14 @@ class NewQuestionnaireActivity : ActionBarActivity() {
             dialog!!.dismiss()
             return
         }
+        val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+        if (fragment is OnBackPressedCallback && fragment.onBackPressed()) {
+            return
+        }
+        if (supportFragmentManager.backStackEntryCount > 1) {
+            //super.onBackPressed()
+        }
+        // TODO
         super.onBackPressed()
     }
 
