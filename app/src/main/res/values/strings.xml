@@ -96,6 +96,10 @@
     <string name="questionnaire_list_item_options_edit">Редагувати</string>
     <string name="questionnaire_list_item_options_delete">Видалити</string>
 
+    <!-- New Questionnaire -->
+    <string name="new_questionnaire_title">Нова анкета</string>
+
+
     <!-- Main -->
 
 </resources>

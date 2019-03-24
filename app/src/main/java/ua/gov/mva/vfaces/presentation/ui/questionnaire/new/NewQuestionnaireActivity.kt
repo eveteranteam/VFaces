@@ -4,10 +4,13 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.MenuItem
+import androidx.appcompat.widget.Toolbar
 import ua.gov.mva.vfaces.R
-import ua.gov.mva.vfaces.presentation.ui.base.activity.BaseActivity
+import ua.gov.mva.vfaces.presentation.ui.base.activity.ActionBarActivity
 
-class NewQuestionnaireActivity : BaseActivity() {
+class NewQuestionnaireActivity : ActionBarActivity() {
 
     override val TAG = "NewQuestionnaireActivity"
     override var dialog: AlertDialog? = null
@@ -15,6 +18,36 @@ class NewQuestionnaireActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_questionnaire)
+        initUi()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onBackPressed() {
+        if (isFinishing) {
+            Log.e(TAG, "isFinishing(). Skipping...")
+            return
+        }
+        if (dialog != null && dialog!!.isShowing) {
+            Log.d(TAG, "Dialog is showing. Dismissing...")
+            dialog!!.dismiss()
+            return
+        }
+        super.onBackPressed()
+    }
+
+    private fun initUi() {
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        setBackIcon()
     }
 
     companion object {
