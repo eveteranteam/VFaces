@@ -4,6 +4,11 @@ import ua.gov.mva.vfaces.R
 
 abstract class ActionBarActivity : BaseActivity(), ActionBarListener {
 
+    override fun enableHomeAsUp(enable: Boolean) {
+        val actionBar = supportActionBar
+        actionBar?.setDisplayHomeAsUpEnabled(enable)
+    }
+
     override fun setTitle(title: String) {
         val actionBar = supportActionBar
         actionBar?.title = title

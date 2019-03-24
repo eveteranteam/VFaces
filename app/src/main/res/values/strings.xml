@@ -98,7 +98,10 @@
 
     <!-- New Questionnaire -->
     <string name="new_questionnaire_title">Нова анкета</string>
-
+    <string name="new_questionnaire_current_page">%s/%s</string>
+    <string name="new_questionnaire_action_back"><![CDATA[<< Назад]]></string>
+    <string name="new_questionnaire_action_next"><![CDATA[Далі >>]]></string>
+    <string name="new_questionnaire_action_back_to_list">До списку анкет</string>
 
     <!-- Main -->
 
