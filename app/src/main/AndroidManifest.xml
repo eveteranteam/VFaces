@@ -40,7 +40,7 @@
             android:windowSoftInputMode="stateAlwaysHidden" />
 
         <activity
-            android:name=".presentation.ui.questionnaire.QuestionnaireActivity"
+            android:name=".presentation.ui.questionnaire.QuestionnaireMainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBar" />

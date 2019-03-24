@@ -17,7 +17,7 @@ import ua.gov.mva.vfaces.presentation.ui.base.activity.ActionBarActivity
 import ua.gov.mva.vfaces.presentation.ui.base.activity.OnBackPressedCallback
 import ua.gov.mva.vfaces.presentation.ui.questionnaire.list.QuestionnaireListFragment
 
-class QuestionnaireActivity : ActionBarActivity() {
+class QuestionnaireMainActivity : ActionBarActivity() {
 
     override val TAG = "QuestionnaireActivity"
     override var dialog: AlertDialog? = null
@@ -26,7 +26,7 @@ class QuestionnaireActivity : ActionBarActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_questionnaire)
+        setContentView(R.layout.activity_main_questionnaire)
         initUi()
         replaceFragment(QuestionnaireListFragment.newInstance())
     }
@@ -88,7 +88,7 @@ class QuestionnaireActivity : ActionBarActivity() {
 
     private fun signOut() {
         FirebaseAuth.getInstance().signOut()
-        AuthHostActivity.start(this@QuestionnaireActivity)
+        AuthHostActivity.start(this@QuestionnaireMainActivity)
         finish()
     }
 
@@ -125,7 +125,7 @@ class QuestionnaireActivity : ActionBarActivity() {
     companion object {
         @JvmStatic
         fun start(context: Context) {
-            context.startActivity(Intent(context, QuestionnaireActivity::class.java))
+            context.startActivity(Intent(context, QuestionnaireMainActivity::class.java))
         }
     }
 }

@@ -3,8 +3,9 @@ package ua.gov.mva.vfaces.presentation.ui.questionnaire.new
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
+import ua.gov.mva.vfaces.domain.model.Block
 
-class QuestionnairePagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
+class QuestionnairePagerAdapter(private val data: ArrayList<Block>, fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
 
 
 
@@ -14,6 +15,6 @@ class QuestionnairePagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter
     }
 
     override fun getCount(): Int {
-        return 5
+        return data.size
     }
 }

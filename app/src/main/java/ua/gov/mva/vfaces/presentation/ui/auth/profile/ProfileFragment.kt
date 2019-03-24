@@ -10,7 +10,7 @@ import com.google.android.material.textfield.TextInputLayout
 import ua.gov.mva.vfaces.R
 import ua.gov.mva.vfaces.presentation.ui.base.fragment.BaseFragment
 import ua.gov.mva.vfaces.presentation.ui.base.activity.OnBackPressedCallback
-import ua.gov.mva.vfaces.presentation.ui.questionnaire.QuestionnaireActivity
+import ua.gov.mva.vfaces.presentation.ui.questionnaire.QuestionnaireMainActivity
 import ua.gov.mva.vfaces.utils.InputValidationUtils
 import ua.gov.mva.vfaces.utils.KeyboardUtils
 
@@ -88,7 +88,7 @@ class ProfileFragment : BaseFragment<ProfileViewModel>(), OnBackPressedCallback 
 
         view.findViewById<View>(R.id.button_save_profile).setOnClickListener {
            // onSaveClick()
-            QuestionnaireActivity.start(context!!)
+            QuestionnaireMainActivity.start(context!!)
             activity!!.finish()
         }
     }
