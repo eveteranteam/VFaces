@@ -13,10 +13,11 @@ import androidx.appcompat.widget.Toolbar
 import androidx.viewpager.widget.ViewPager
 import com.google.gson.Gson
 import ua.gov.mva.vfaces.R
-import ua.gov.mva.vfaces.data.entity.Questionnaire
 import ua.gov.mva.vfaces.data.mapper.QuestionnaireMapper
+import ua.gov.mva.vfaces.domain.model.Questionnaire
 import ua.gov.mva.vfaces.presentation.ui.base.activity.ActionBarActivity
 import ua.gov.mva.vfaces.presentation.ui.base.activity.OnBackPressedCallback
+import ua.gov.mva.vfaces.presentation.ui.questionnaire.new.adapter.QuestionnairePagerAdapter
 import ua.gov.mva.vfaces.utils.RawResourceReader
 import ua.gov.mva.vfaces.view.LockableViewPager
 
@@ -32,6 +33,7 @@ class NewQuestionnaireActivity : ActionBarActivity() {
     private lateinit var backToListButton : Button
 
     private lateinit var adapter: QuestionnairePagerAdapter
+    private lateinit var data: Questionnaire
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,12 +79,13 @@ class NewQuestionnaireActivity : ActionBarActivity() {
 
     // TODO remove
     private fun loadQuestionnaire() {
+        // TODO Should be performed on worker thread
         val entity = Gson().fromJson(RawResourceReader
                 .readTextFileFromRawResource(R.raw.questionnaire, this),
-                Questionnaire::class.java)
+                ua.gov.mva.vfaces.data.entity.Questionnaire::class.java)
 
-        val model = QuestionnaireMapper().entityToModel(entity)
-        adapter = QuestionnairePagerAdapter(model.blocks, supportFragmentManager)
+        data = QuestionnaireMapper().entityToModel(entity)
+        adapter = QuestionnairePagerAdapter(data.blocks, supportFragmentManager)
         viewPager.adapter = adapter
         updateViewCounter(0) // Set initial counter value
     }

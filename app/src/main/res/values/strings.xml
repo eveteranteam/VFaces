@@ -97,7 +97,7 @@
     <string name="questionnaire_list_item_options_delete">Видалити</string>
 
     <!-- New Questionnaire -->
-    <string name="new_questionnaire_title">Нова анкета</string>
+    <string name="new_questionnaire_title">Анкета ветерана</string>
     <string name="new_questionnaire_current_page">%s/%s</string>
     <string name="new_questionnaire_action_back"><![CDATA[<< Назад]]></string>
     <string name="new_questionnaire_action_next"><![CDATA[Далі >>]]></string>
