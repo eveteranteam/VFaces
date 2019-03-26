@@ -1,11 +1,15 @@
 package ua.gov.mva.vfaces.presentation.ui.questionnaire.new.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.RadioGroup
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatRadioButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputLayout
@@ -21,7 +25,7 @@ class MainRecyclerAdapter(private val block : Block) : RecyclerView.Adapter<Recy
     companion object {
         const val VIEW_TYPE_FIELD = 0
         const val VIEW_TYPE_CHECKBOX = 1
-        const val VIEW_TYPE_RADIO_BUTTON = 2
+        const val VIEW_TYPE_RADIO_GROUP = 2
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -35,8 +39,8 @@ class MainRecyclerAdapter(private val block : Block) : RecyclerView.Adapter<Recy
                 val view = inflater.inflate(R.layout.checkbox_view_type_layout, parent, false)
                 CheckboxViewHolder(view)
             }
-            VIEW_TYPE_RADIO_BUTTON -> {
-                val view = inflater.inflate(R.layout.radio_button_view_type_layout, parent, false)
+            VIEW_TYPE_RADIO_GROUP -> {
+                val view = inflater.inflate(R.layout.radio_group_view_type_layout, parent, false)
                 RadioButtonViewHolder(view)
             }
             else -> throw UnsupportedOperationException("Unknown view type. viewType = $viewType")
@@ -58,7 +62,7 @@ class MainRecyclerAdapter(private val block : Block) : RecyclerView.Adapter<Recy
                 return
 
             }
-            VIEW_TYPE_RADIO_BUTTON -> {
+            VIEW_TYPE_RADIO_GROUP -> {
                 val holder = viewHolder as RadioButtonViewHolder
                 holder.setup(data)
                 return
@@ -71,7 +75,7 @@ class MainRecyclerAdapter(private val block : Block) : RecyclerView.Adapter<Recy
         when (item.type) {
             BlockType.FIELD -> return VIEW_TYPE_FIELD
             BlockType.CHECKBOX -> return VIEW_TYPE_CHECKBOX
-            BlockType.MULTIPLE_CHOICES -> return VIEW_TYPE_RADIO_BUTTON
+            BlockType.MULTIPLE_CHOICES -> return VIEW_TYPE_RADIO_GROUP
             else -> throw UnsupportedOperationException("Unknown view type. viewType = ${item.type}")
         }
     }
@@ -119,9 +123,24 @@ class MainRecyclerAdapter(private val block : Block) : RecyclerView.Adapter<Recy
 
         override fun setup(data: Item) {
             view.findViewById<TextView>(R.id.text_view_question).text = data.name
-            val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view_radio_buttons)
-            recyclerView.layoutManager = LinearLayoutManager(view.context, RecyclerView.VERTICAL, false)
-            recyclerView.adapter = RadioButtonRecyclerAdapter(data.choices)
+            val radioGroup = view.findViewById<RadioGroup>(R.id.radio_group)
+            val context = view.context
+
+            for (choice in data.choices) {
+                radioGroup.addView(buildRadioButton(choice, context))
+            }
+        }
+
+        private fun buildRadioButton(text: String, context: Context) : AppCompatRadioButton {
+            val button = AppCompatRadioButton(context)
+            val params = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+          //  params.marginStart = context.resources.getDimensionPixelOffset(R.dimen.layout_margin_large)
+           // params.marginEnd = context.resources.getDimensionPixelOffset(R.dimen.layout_margin_large)
+            params.topMargin = context.resources.getDimensionPixelOffset(R.dimen.layout_margin_medium)
+            params.bottomMargin = context.resources.getDimensionPixelOffset(R.dimen.layout_margin_medium)
+            button.text = text
+            button.layoutParams = params
+            return button
         }
     }
 }
