@@ -2,6 +2,7 @@ package ua.gov.mva.vfaces.domain.model
 
 import android.os.Parcel
 import android.os.Parcelable
+import android.util.Log
 import ua.gov.mva.vfaces.data.entity.BlockType
 
 class Block(
@@ -28,6 +29,27 @@ class Block(
         return false
     }
 
+    /**
+     * Check if Block contains items with specified type.
+     * @param type - type of block.
+     * @param position - start position in the loop to iterate from.
+     *
+     * @return - true if Block contains more items, false - if Block doesn't.
+     */
+    fun hasMoreItemsOfType(type : BlockType, position: Int) : Boolean {
+        if (position < 0 || position > items.size - 1) {
+            Log.d(TAG, "Wrong position. position = $position")
+            return false
+        }
+        for (i in position until items.size) {
+            val item = items[i]
+            if (item.type == type) {
+                return true
+            }
+        }
+        return false
+    }
+
     @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
     constructor(source: Parcel) : this(
         source.readString(),
@@ -44,6 +66,8 @@ class Block(
     }
 
     companion object {
+        private const val TAG = "Block"
+
         @JvmField
         val CREATOR: Parcelable.Creator<Block> = object : Parcelable.Creator<Block> {
             override fun createFromParcel(source: Parcel): Block = Block(source)

@@ -148,6 +148,21 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_margin">@dimen/layout_margin_large</item>
+        <item name="android:paddingStart">@dimen/layout_padding_medium</item>
+        <item name="android:paddingEnd">@dimen/layout_padding_medium</item>
+        <item name="android:layout_gravity">start</item>
+        <item name="android:gravity">center_vertical|start</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Large</item>
+    </style>
+
+    <style name="BlockQuestionTextViewStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/layout_margin_large</item>
+        <item name="android:paddingStart">@dimen/layout_padding_medium</item>
+        <item name="android:paddingEnd">@dimen/layout_padding_medium</item>
         <item name="android:layout_gravity">start</item>
         <item name="android:gravity">center_vertical|start</item>
         <item name="android:textColor">@android:color/black</item>
@@ -165,15 +180,21 @@
     </style>
 
     <style name="CheckBoxStyle">
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_margin">@dimen/layout_margin_large</item>
+        <item name="android:layout_marginEnd">@dimen/layout_margin_large</item>
+        <item name="android:layout_marginTop">@dimen/layout_margin_medium</item>
+        <item name="android:layout_marginBottom">@dimen/layout_margin_medium</item>
+        <item name="android:layout_marginStart">@dimen/layout_margin_large</item>
     </style>
 
     <style name="RadioButtonStyle">
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_margin">@dimen/layout_margin_large</item>
+        <item name="android:layout_marginEnd">@dimen/layout_margin_large</item>
+        <item name="android:layout_marginTop">@dimen/layout_margin_medium</item>
+        <item name="android:layout_marginBottom">@dimen/layout_margin_medium</item>
+        <item name="android:layout_marginStart">@dimen/layout_margin_large</item>
     </style>
 
     <style name="NestedRecyclerViewStyle">

@@ -15,7 +15,7 @@ class RadioButtonRecyclerAdapter(private val data: ArrayList<String>) : Recycler
     }
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
-        val holder = viewHolder as RadioButtonRecyclerAdapter.ViewHolder
+        val holder = viewHolder as ViewHolder
         holder.setup(data[position])
     }
 

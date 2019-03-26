@@ -12,7 +12,6 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/text_input_edit_text_name"
             style="@style/TextInputEditTextStyle"
-            android:imeOptions="actionNext"
             android:inputType="textCapWords" />
 
     </com.google.android.material.textfield.TextInputLayout>

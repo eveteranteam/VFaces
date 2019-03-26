@@ -14,9 +14,6 @@
                 android:id="@+id/text_view_title"
                 style="@style/BlockTitleTextViewStyle"
                 android:layout_width="match_parent"
-                android:layout_margin="@dimen/layout_margin_large"
-                android:paddingStart="@dimen/layout_padding_medium"
-                android:paddingEnd="@dimen/layout_padding_medium"
                 android:text="Title"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -27,6 +24,7 @@
                 android:id="@+id/recycler_view_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_view_title" />

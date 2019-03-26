@@ -3,14 +3,20 @@ package ua.gov.mva.vfaces.presentation.ui.questionnaire.new.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.widget.EditText
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputLayout
 import ua.gov.mva.vfaces.R
 import ua.gov.mva.vfaces.data.entity.BlockType
+import ua.gov.mva.vfaces.domain.model.Block
 import ua.gov.mva.vfaces.domain.model.Item
 
-class MainRecyclerAdapter(private val items: ArrayList<Item>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MainRecyclerAdapter(private val block : Block) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private val items = block.items
 
     companion object {
         const val VIEW_TYPE_FIELD = 0
@@ -44,15 +50,18 @@ class MainRecyclerAdapter(private val items: ArrayList<Item>) : RecyclerView.Ada
             VIEW_TYPE_FIELD -> {
                 val holder = viewHolder as FieldViewHolder
                 holder.setup(data)
+                return
             }
             VIEW_TYPE_CHECKBOX -> {
                 val holder = viewHolder as CheckboxViewHolder
                 holder.setup(data)
+                return
 
             }
             VIEW_TYPE_RADIO_BUTTON -> {
                 val holder = viewHolder as RadioButtonViewHolder
                 holder.setup(data)
+                return
             }
         }
     }
@@ -74,13 +83,32 @@ class MainRecyclerAdapter(private val items: ArrayList<Item>) : RecyclerView.Ada
     internal inner class FieldViewHolder(private val view: View) : BaseViewHolder<Item>(view) {
 
         override fun setup(data: Item) {
-            view.findViewById<TextInputLayout>(R.id.text_input_layout_name).hint = data.name
+            val tilName = view.findViewById<TextInputLayout>(R.id.text_input_layout_name)
+            tilName.hint = data.name
+            setImeOptions(tilName.editText!!)
+        }
+
+        /**
+         * Method sets imeOption for EditText.
+         * IME_ACTION_NEXT or IME_ACTION_DONE will be set.
+         */
+        private fun setImeOptions(editText: EditText) {
+            // Check if block has more items with type FIELD
+            // If true - add IME_ACTION_NEXT action to keyboard
+            // Otherwise - add IME_ACTION_DONE
+            val options: Int = if (block.hasMoreItemsOfType(BlockType.FIELD, adapterPosition + 1)) {
+                EditorInfo.IME_ACTION_NEXT
+            } else {
+                EditorInfo.IME_ACTION_DONE
+            }
+            editText.imeOptions = options
         }
     }
 
     internal inner class CheckboxViewHolder(private val view: View) : BaseViewHolder<Item>(view) {
 
         override fun setup(data: Item) {
+            view.findViewById<TextView>(R.id.text_view_question).text = data.name
             val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view_checkboxes)
             recyclerView.layoutManager = LinearLayoutManager(view.context, RecyclerView.VERTICAL, false)
             recyclerView.adapter = CheckboxRecyclerAdapter(data.choices)
@@ -90,6 +118,7 @@ class MainRecyclerAdapter(private val items: ArrayList<Item>) : RecyclerView.Ada
     internal inner class RadioButtonViewHolder(private val view: View) : BaseViewHolder<Item>(view) {
 
         override fun setup(data: Item) {
+            view.findViewById<TextView>(R.id.text_view_question).text = data.name
             val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view_radio_buttons)
             recyclerView.layoutManager = LinearLayoutManager(view.context, RecyclerView.VERTICAL, false)
             recyclerView.adapter = RadioButtonRecyclerAdapter(data.choices)

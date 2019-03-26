@@ -4,6 +4,10 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/text_view_question"
+        style="@style/BlockQuestionTextViewStyle" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_radio_buttons"
         style="@style/NestedRecyclerViewStyle" />

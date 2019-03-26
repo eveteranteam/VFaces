@@ -50,7 +50,7 @@ class QuestionnaireFragment : BaseFragment<QuestionnaireViewModel>(), OnBackPres
         view.findViewById<TextView>(R.id.text_view_title).text = data.title
         recyclerViewContent = view.findViewById(R.id.recycler_view_content)
         recyclerViewContent.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        recyclerViewContent.adapter = MainRecyclerAdapter(data.items)
+        recyclerViewContent.adapter = MainRecyclerAdapter(data)
     }
 
     companion object {
