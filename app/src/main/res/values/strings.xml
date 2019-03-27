@@ -41,7 +41,6 @@
     <string name="sign_up_successful">Реєстрація успішна!</string>
     <string name="sign_up_verify_email">Для завершення необхідно підтвердити\nВашу Email адресу.\n\nІнструкцію з підтвердження було надіслало на\n%s.
     </string>
-    <string name="sign_up_fill_profile">Заповнити профіль</string>
     <string name="sign_up_success">%s успішно зареєстровано</string>
     <string name="sign_up_email_collision">На жаль Email %s вже зайнятий. Буль ласка, спробуйте інший.</string>
     <string name="sign_up_error">Помилка під час реєстрації. Будь ласка, спробуйте ще раз.</string>
@@ -82,7 +81,7 @@
     </string>
 
     <string name="questionnaire_list_menu_filter">Фільтр</string>
-    <string name="questionnaire_list_menu_default">За замовч.</string>
+    <string name="questionnaire_list_menu_default">За датою</string>
     <string name="questionnaire_list_menu_not_finished">Лише незаповнені</string>
     <string name="questionnaire_list_menu_name">ПІБ</string>
     <string name="questionnaire_list_menu_settlement">Населений пункт</string>
@@ -101,8 +100,14 @@
     <string name="new_questionnaire_current_page">%s/%s</string>
     <string name="new_questionnaire_action_back"><![CDATA[<< Назад]]></string>
     <string name="new_questionnaire_action_next"><![CDATA[Далі >>]]></string>
+    <string name="new_questionnaire_action_finish">Завершити</string>
     <string name="new_questionnaire_action_back_to_list">До списку анкет</string>
 
+    <!-- Completed Questionnaire -->
+    <string name="completed_questionnaire_title">Анкету збережено</string>
+    <string name="completed_questionnaire_completed_prompt">Анкету для\n%s\nбуло успішно збережено.
+        \n\nДля керування анкетами\nнеобхідно повернутися до\nсписку всіх анкет.</string>
+    <string name="completed_questionnaire_back_to_questionnaire">Попернутися до списку</string>
     <!-- Main -->
 
 </resources>

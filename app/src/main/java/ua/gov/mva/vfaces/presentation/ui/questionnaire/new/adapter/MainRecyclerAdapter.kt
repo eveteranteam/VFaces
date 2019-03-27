@@ -134,12 +134,10 @@ class MainRecyclerAdapter(private val block : Block) : RecyclerView.Adapter<Recy
         private fun buildRadioButton(text: String, context: Context) : AppCompatRadioButton {
             val button = AppCompatRadioButton(context)
             val params = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-          //  params.marginStart = context.resources.getDimensionPixelOffset(R.dimen.layout_margin_large)
-           // params.marginEnd = context.resources.getDimensionPixelOffset(R.dimen.layout_margin_large)
             params.topMargin = context.resources.getDimensionPixelOffset(R.dimen.layout_margin_medium)
             params.bottomMargin = context.resources.getDimensionPixelOffset(R.dimen.layout_margin_medium)
-            button.text = text
             button.layoutParams = params
+            button.text = text
             return button
         }
     }

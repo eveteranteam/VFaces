@@ -19,6 +19,7 @@ import ua.gov.mva.vfaces.presentation.ui.base.activity.ActionBarActivity
 import ua.gov.mva.vfaces.presentation.ui.base.activity.OnBackPressedCallback
 import ua.gov.mva.vfaces.presentation.ui.questionnaire.new.adapter.QuestionnairePagerAdapter
 import ua.gov.mva.vfaces.utils.RawResourceReader
+import ua.gov.mva.vfaces.utils.Strings
 import ua.gov.mva.vfaces.view.LockableViewPager
 
 class NewQuestionnaireActivity : ActionBarActivity() {
@@ -27,10 +28,9 @@ class NewQuestionnaireActivity : ActionBarActivity() {
     override var dialog: AlertDialog? = null
 
     private lateinit var viewPager: LockableViewPager
-    private lateinit var backButton : Button
-    private lateinit var currentPage : TextView
-    private lateinit var nextButton : Button
-    private lateinit var backToListButton : Button
+    private lateinit var backButton: Button
+    private lateinit var currentPage: TextView
+    private lateinit var nextFinishButton: Button
 
     private lateinit var adapter: QuestionnairePagerAdapter
     private lateinit var data: Questionnaire
@@ -73,6 +73,14 @@ class NewQuestionnaireActivity : ActionBarActivity() {
         super.onBackPressed()
     }
 
+    /**
+     * Overridden to clear also custom title counter.
+     */
+    override fun clear() {
+        super.clear()
+        findViewById<TextView>(R.id.text_view_page).text = Strings.EMPTY
+    }
+
     private fun updateViewCounter(index: Int) {
         currentPage.text = String.format(getString(R.string.new_questionnaire_current_page), index + 1, adapter.count)
     }
@@ -92,13 +100,14 @@ class NewQuestionnaireActivity : ActionBarActivity() {
 
     private fun onBackClick() {
         var index = viewPager.currentItem
-        if (index <= 0 ) {
+        if (index <= 0) {
             Log.e(TAG, "currentItem == $index. Can't get previous Fragment")
             return
         }
         viewPager.setCurrentItem(--index, true)
         val shouldShow = index != 0
         showBackButton(shouldShow)
+        showNextButton()
         updateViewCounter(index)
     }
 
@@ -111,24 +120,28 @@ class NewQuestionnaireActivity : ActionBarActivity() {
         viewPager.setCurrentItem(++index, true)
         updateViewCounter(index)
         showBackButton(true)
-        if (index == adapter.count - 1) {
-            showBackToListButton()
+        if (isLastItem()) {
+            showFinishButton()
         }
+    }
+
+    /**
+     * @return true - if [viewPager] is currently showing his last Fragment.
+     */
+    private fun isLastItem(): Boolean {
+        return viewPager.currentItem == adapter.count - 1
     }
 
     private fun showBackButton(show: Boolean) {
         backButton.visibility = if (show) View.VISIBLE else View.INVISIBLE
     }
 
-    private fun showActionButtons() {
-        showBackButton(true)
-        nextButton.visibility = View.VISIBLE
+    private fun showNextButton() {
+        nextFinishButton.text = getString(R.string.new_questionnaire_action_next)
     }
 
-    private fun showBackToListButton() {
-        backButton.visibility = View.GONE
-        nextButton.visibility = View.GONE
-        backToListButton.visibility = View.VISIBLE
+    private fun showFinishButton() {
+        nextFinishButton.text = getString(R.string.new_questionnaire_action_finish)
     }
 
     private fun initUi() {
@@ -139,14 +152,19 @@ class NewQuestionnaireActivity : ActionBarActivity() {
         viewPager = findViewById(R.id.view_pager)
         currentPage = findViewById(R.id.text_view_page)
         backButton = findViewById(R.id.button_back)
-        nextButton = findViewById(R.id.button_next)
-        backToListButton = findViewById(R.id.button_back_to_list)
+        nextFinishButton = findViewById(R.id.button_next)
         showBackButton(false)
         viewPager.isSwipeEnabled = false // Disable swipe
         viewPager.addOnPageChangeListener(PageChangeListener())
         backButton.setOnClickListener { onBackClick() }
-        nextButton.setOnClickListener { onNextClick() }
-        backToListButton.setOnClickListener { finish() }
+        nextFinishButton.setOnClickListener {
+            if (isLastItem()) {
+                findViewById<View>(R.id.actions).visibility = View.GONE
+                replaceFragment(QuestionnaireCompletedFragment.newInstance())
+            } else {
+                onNextClick()
+            }
+        }
     }
 
     private inner class PageChangeListener : ViewPager.OnPageChangeListener {

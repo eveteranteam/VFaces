@@ -1,6 +1,7 @@
 package ua.gov.mva.vfaces.presentation.ui.base.activity
 
 import ua.gov.mva.vfaces.R
+import ua.gov.mva.vfaces.utils.Strings
 
 abstract class ActionBarActivity : BaseActivity(), ActionBarListener {
 
@@ -24,5 +25,10 @@ abstract class ActionBarActivity : BaseActivity(), ActionBarListener {
         val actionBar = supportActionBar
         actionBar?.setDisplayHomeAsUpEnabled(true)
         actionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
+    }
+
+    override fun clear() {
+        enableHomeAsUp(false)
+        setTitle(Strings.EMPTY)
     }
 }

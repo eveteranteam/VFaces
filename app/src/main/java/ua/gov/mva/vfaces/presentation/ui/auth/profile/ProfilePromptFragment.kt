@@ -10,6 +10,8 @@ import ua.gov.mva.vfaces.presentation.ui.base.fragment.SimpleBaseFragment
 
 class ProfilePromptFragment : SimpleBaseFragment(), OnBackPressedCallback {
 
+    override val TAG = "ProfilePromptFragment"
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_profile_prompt, container, false)
     }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
+
+    <include
+        android:id="@+id/logo"
+        layout="@layout/veteran_profile_logo_layout" />
+
+    <TextView
+        android:id="@+id/text_view_questionnaire_completed_prompt"
+        style="@style/RegularTextViewStyleMedium"
+        android:text="@string/completed_questionnaire_completed_prompt"
+        app:layout_constraintBottom_toTopOf="@+id/button_back_to_questionnaire_list"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_back_to_questionnaire_list"
+        style="@style/MaterialButtonStyle"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/completed_questionnaire_back_to_questionnaire"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
+
+    <ImageView
+        android:id="@+id/image_view_minvet_logo"
+        style="@style/ImageViewMinvetLogoStyle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:ignore="ContentDescription" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

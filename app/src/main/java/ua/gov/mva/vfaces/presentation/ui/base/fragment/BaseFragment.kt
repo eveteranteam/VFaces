@@ -1,6 +1,5 @@
 package ua.gov.mva.vfaces.presentation.ui.base.fragment
 
-import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -15,14 +14,11 @@ import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import ua.gov.mva.vfaces.R
 import ua.gov.mva.vfaces.presentation.ui.base.BaseViewModel
-import ua.gov.mva.vfaces.presentation.ui.base.activity.ActionBarListener
-import ua.gov.mva.vfaces.presentation.ui.base.activity.IFragmentTransaction
 import ua.gov.mva.vfaces.presentation.ui.base.model.MessageType
 
 /**
@@ -35,11 +31,7 @@ import ua.gov.mva.vfaces.presentation.ui.base.model.MessageType
  * @see [BaseViewModel] for more details.
  */
 @Suppress("MemberVisibilityCanBePrivate")
-abstract class BaseFragment<VIEWMODEL : BaseViewModel> : Fragment() {
-
-    protected abstract val TAG: String
-    protected lateinit var transaction: IFragmentTransaction
-    protected var actionBarListener: ActionBarListener? = null
+abstract class BaseFragment<VIEWMODEL : BaseViewModel> : SimpleBaseFragment() {
 
     private lateinit var viewmodel: VIEWMODEL
     private var progressBar: ProgressBar? = null
@@ -48,12 +40,6 @@ abstract class BaseFragment<VIEWMODEL : BaseViewModel> : Fragment() {
      * This method must be implemented in every subclass.
      */
     protected abstract fun initViewModel(): VIEWMODEL
-
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        transaction = context as IFragmentTransaction
-        actionBarListener = if (context is ActionBarListener) context else null
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -158,13 +144,6 @@ abstract class BaseFragment<VIEWMODEL : BaseViewModel> : Fragment() {
                 return
             }
         }
-    }
-
-    /**
-     * Set title to Action Bar.
-     */
-    protected fun setTitle(title: String) {
-        actionBarListener?.setTitle(title)
     }
 
     /**

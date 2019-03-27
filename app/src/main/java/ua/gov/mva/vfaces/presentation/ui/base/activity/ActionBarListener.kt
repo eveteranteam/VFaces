@@ -6,4 +6,5 @@ interface ActionBarListener {
     fun enableHomeAsUp(enable: Boolean)
     fun setMenuIcon()
     fun setBackIcon()
+    fun clear()
 }
