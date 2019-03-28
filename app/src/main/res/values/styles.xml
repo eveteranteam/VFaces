@@ -171,6 +171,12 @@
     </style>
     <!-- TextView -->
 
+    <style name="SpinnerStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/layout_margin_large</item>
+    </style>
+
     <style name="FloatingActionButtonStyle" parent="Theme.MaterialComponents.Light">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

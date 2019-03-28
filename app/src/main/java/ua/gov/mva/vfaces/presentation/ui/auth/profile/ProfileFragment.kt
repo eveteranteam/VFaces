@@ -4,15 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import ua.gov.mva.vfaces.R
-import ua.gov.mva.vfaces.presentation.ui.base.fragment.BaseFragment
 import ua.gov.mva.vfaces.presentation.ui.base.activity.OnBackPressedCallback
+import ua.gov.mva.vfaces.presentation.ui.base.fragment.BaseFragment
 import ua.gov.mva.vfaces.presentation.ui.questionnaire.QuestionnaireMainActivity
 import ua.gov.mva.vfaces.utils.InputValidationUtils
 import ua.gov.mva.vfaces.utils.KeyboardUtils
+import ua.gov.mva.vfaces.utils.Preferences
 
 class ProfileFragment : BaseFragment<ProfileViewModel>(), OnBackPressedCallback {
 
@@ -20,10 +24,9 @@ class ProfileFragment : BaseFragment<ProfileViewModel>(), OnBackPressedCallback 
 
     private lateinit var tilName: TextInputLayout
     private lateinit var textInputName: TextInputEditText
-    private lateinit var tilWork: TextInputLayout
-    private lateinit var textWork: TextInputEditText
     private lateinit var tilPhone: TextInputLayout
     private lateinit var textPhone: TextInputEditText
+    private lateinit var spinnerOrganizations: Spinner
 
     private lateinit var viewModel: ProfileViewModel
 
@@ -34,6 +37,12 @@ class ProfileFragment : BaseFragment<ProfileViewModel>(), OnBackPressedCallback 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUi(view)
+        viewModel.resultLiveData().observe(viewLifecycleOwner, Observer { result ->
+            when(result) {
+                ProfileViewModel.ResultType.SUCCESS -> onProfileSaved()
+                ProfileViewModel.ResultType.ERROR -> showErrorMessage(R.string.profile_save_error)
+            }
+        })
     }
 
     override fun initViewModel(): ProfileViewModel {
@@ -49,20 +58,18 @@ class ProfileFragment : BaseFragment<ProfileViewModel>(), OnBackPressedCallback 
         return true
     }
 
+    private fun onProfileSaved() {
+        Preferences.putBoolean(PROFILE_SAVED_KEY, true)
+        QuestionnaireMainActivity.start(context!!)
+        activity!!.finish()
+    }
+
     private fun onSaveClick() {
         val name = textInputName.text.toString().trim()
         if (InputValidationUtils.isNameValid(name)) {
             tilName.isErrorEnabled = false
         } else {
             tilName.error = getString(R.string.wrong_data_field)
-            return
-        }
-
-        val work = textWork.text.toString().trim()
-        if (InputValidationUtils.isWorkValid(work)) {
-            tilWork.isErrorEnabled = false
-        } else {
-            tilWork.error = getString(R.string.wrong_data_field)
             return
         }
 
@@ -73,6 +80,12 @@ class ProfileFragment : BaseFragment<ProfileViewModel>(), OnBackPressedCallback 
             tilPhone.error = getString(R.string.wrong_number)
             return
         }
+
+        if (spinnerOrganizations.selectedItemPosition == SPINNER_PROMPT_POSITION) {
+            showErrorMessage(getString(R.string.profile_select_work_error))
+            return
+        }
+        val work = spinnerOrganizations.selectedItem as String
         KeyboardUtils.hideKeyboard(activity)
         // In case profile data is valid
         viewModel.save(name, work, phone)
@@ -81,20 +94,26 @@ class ProfileFragment : BaseFragment<ProfileViewModel>(), OnBackPressedCallback 
     private fun initUi(view: View) {
         tilName = view.findViewById(R.id.text_input_layout_name)
         textInputName = view.findViewById(R.id.text_input_edit_text_name)
-        tilWork = view.findViewById(R.id.text_input_layout_work)
-        textWork = view.findViewById(R.id.text_input_edit_text_work)
         tilPhone = view.findViewById(R.id.text_input_layout_phone_number)
         textPhone = view.findViewById(R.id.text_input_edit_text_phone_number)
+        spinnerOrganizations = view.findViewById(R.id.spinner_work)
+        // Setting up Spinner view
+        val arrayAdapter = ArrayAdapter.createFromResource(context!!,
+                R.array.profile_organisations_list,
+                android.R.layout.simple_spinner_item)
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerOrganizations.adapter = arrayAdapter
 
         view.findViewById<View>(R.id.button_save_profile).setOnClickListener {
-           // onSaveClick()
-            QuestionnaireMainActivity.start(context!!)
-            activity!!.finish()
+             onSaveClick()
         }
     }
 
     companion object {
-        fun newInstance() : ProfileFragment {
+        const val PROFILE_SAVED_KEY = "profile_saved_key"
+        private const val SPINNER_PROMPT_POSITION = 0
+
+        fun newInstance(): ProfileFragment {
             return ProfileFragment()
         }
     }

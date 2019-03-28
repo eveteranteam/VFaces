@@ -1,20 +1,22 @@
 package ua.gov.mva.vfaces.presentation.ui.auth.profile
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.FirebaseFirestore
-import ua.gov.mva.vfaces.data.db.Collections
 import ua.gov.mva.vfaces.presentation.ui.base.BaseViewModel
 
 class ProfileViewModel : BaseViewModel() {
 
     private val db = FirebaseFirestore.getInstance()
     private val user = HashMap<String, Any>()
-
     private val resultLiveData = MutableLiveData<ResultType>()
+
+    fun resultLiveData() : LiveData<ResultType> = resultLiveData
 
     fun save(name: String, work: String, phone: String) {
         // TODO
-        user["name"] = name
+        resultLiveData.value = ResultType.SUCCESS
+        /*user["name"] = name
         user["work"] = work
         user["phone"] = phone
 
@@ -26,7 +28,7 @@ class ProfileViewModel : BaseViewModel() {
                     } else {
                         resultLiveData.value = ResultType.ERROR
                     }
-                }
+                }*/
     }
 
     enum class ResultType {

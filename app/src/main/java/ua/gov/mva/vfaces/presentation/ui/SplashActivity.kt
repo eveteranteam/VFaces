@@ -3,8 +3,10 @@ package ua.gov.mva.vfaces.presentation.ui
 import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
-import ua.gov.mva.vfaces.VFacesApp.Companion.PREFS_FIRST_LAUNCH_KEY
+import ua.gov.mva.vfaces.VFacesApp
 import ua.gov.mva.vfaces.presentation.ui.auth.AuthHostActivity
+import ua.gov.mva.vfaces.presentation.ui.auth.profile.ProfileFragment
+import ua.gov.mva.vfaces.presentation.ui.questionnaire.QuestionnaireMainActivity
 import ua.gov.mva.vfaces.utils.Preferences
 
 class SplashActivity : AppCompatActivity() {
@@ -12,6 +14,7 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         schedule()
+        Preferences.putBoolean(VFacesApp.PREFS_FIRST_LAUNCH_KEY, false)
     }
 
     private fun schedule() {
@@ -22,19 +25,21 @@ class SplashActivity : AppCompatActivity() {
         }, duration)
     }
 
+    /**
+     * Method will navigate to next screen.
+     * If user has filled his profile - Questionnaire list will be shown.
+     * Otherwise user will be prompted to fill in his profile.
+     */
     private fun navigateNext() {
-        /*if (FirebaseAuth.getInstance().currentUser == null) {
-            AuthHostActivity.start(this)
+        if (Preferences.getBoolean(ProfileFragment.PROFILE_SAVED_KEY, false)) {
+            QuestionnaireMainActivity.start(this)
         } else {
-            //
-            QuestionnaireListActivity.start(this)
-        }*/
-        //TODO check if user has filled his profile data
-        AuthHostActivity.start(this)
+            AuthHostActivity.start(this)
+        }
     }
 
     private fun getSplashDuration(): Long {
-        val res = Preferences.getBoolean(PREFS_FIRST_LAUNCH_KEY, true)
+        val res = Preferences.getBoolean(VFacesApp.PREFS_FIRST_LAUNCH_KEY, true)
         return when(res) {
             true -> 2500L
             false -> 1000L

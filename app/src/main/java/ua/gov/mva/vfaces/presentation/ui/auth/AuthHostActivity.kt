@@ -20,7 +20,7 @@ class AuthHostActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auth)
-        // TODO
+        // Check if user has verified his email
         val user = FirebaseAuth.getInstance().currentUser
         if (user == null || !user.isEmailVerified) {
             replaceFragment(SignInFragment.newInstance())
