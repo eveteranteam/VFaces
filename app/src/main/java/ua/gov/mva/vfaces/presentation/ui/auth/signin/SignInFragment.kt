@@ -13,6 +13,7 @@ import ua.gov.mva.vfaces.presentation.ui.auth.forgotpassword.ForgotPasswordFragm
 import ua.gov.mva.vfaces.presentation.ui.auth.profile.ProfilePromptFragment
 import ua.gov.mva.vfaces.presentation.ui.auth.register.RegisterFragment
 import ua.gov.mva.vfaces.presentation.ui.base.fragment.BaseFragment
+import ua.gov.mva.vfaces.presentation.ui.questionnaire.QuestionnaireMainActivity
 import ua.gov.mva.vfaces.utils.InputValidationUtils
 import ua.gov.mva.vfaces.utils.KeyboardUtils
 
@@ -36,7 +37,8 @@ class SignInFragment : BaseFragment<SignInViewModel>() {
         initUi(view)
         viewModel.resultLiveData().observe(viewLifecycleOwner, Observer { result ->
             when(result) {
-                SignInViewModel.ResultType.SIGN_IN_SUCCESS -> onSignedIn()
+                SignInViewModel.ResultType.SUCCESS_PROFILE_FILLED -> onProfileFilled()
+                SignInViewModel.ResultType.SUCCESS_PROFILE_NOT_FILLED -> onProfileNotFilled()
                 SignInViewModel.ResultType.EMAIL_NOT_VERIFIED -> onEmailNotVerified()
                 SignInViewModel.ResultType.INVALID_CREDENTIALS -> showErrorMessage(R.string.sign_in_wrong_credentials)
                 SignInViewModel.ResultType.ERROR -> showErrorMessage(R.string.sign_in_error)
@@ -49,11 +51,28 @@ class SignInFragment : BaseFragment<SignInViewModel>() {
         return viewModel
     }
 
-    private fun onSignedIn() {
+    /**
+     * Displays Snackbar message with logged in user.
+     */
+    private fun onUserSignedIn() {
         val email = textInputEmail.text.toString().trim()
         val msg = String.format(getString(R.string.sign_in_success), email)
-        showMessage(msg)
-        // TODO check if user has filled his profile data
+        showToastMessage(msg)
+    }
+
+    /**
+     * Displays message and navigates to List of Questionnaires.
+     */
+    private fun onProfileFilled() {
+        onUserSignedIn()
+        QuestionnaireMainActivity.start(context!!)
+    }
+
+    /**
+     * Displays message and navigates user to fill his profile.
+     */
+    private fun onProfileNotFilled() {
+        onUserSignedIn()
         transaction.replaceFragment(ProfilePromptFragment.newInstance())
     }
 

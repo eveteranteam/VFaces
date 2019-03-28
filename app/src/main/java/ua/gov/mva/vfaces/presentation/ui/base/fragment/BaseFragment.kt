@@ -7,10 +7,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.LinearLayout
-import android.widget.ProgressBar
-import android.widget.RelativeLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -206,5 +203,17 @@ abstract class BaseFragment<VIEWMODEL : BaseViewModel> : SimpleBaseFragment() {
         textView.compoundDrawablePadding = resources.getDimensionPixelOffset(R.dimen.snackbar_icon_padding)
         textView.setTextColor(color)
         snackbar.show()
+    }
+
+    /**
+     * Toast messages are not related to root view unlike [Snackbar].
+     * So they can be displayed when activity is finishing etc.
+     */
+    protected fun showToastMessage(@StringRes resId: Int) {
+        showToastMessage(getString(resId))
+    }
+
+    protected fun showToastMessage(message: String) {
+        Toast.makeText(context!!, message, Toast.LENGTH_LONG).show()
     }
 }

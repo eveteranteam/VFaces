@@ -60,6 +60,7 @@ class ProfileFragment : BaseFragment<ProfileViewModel>(), OnBackPressedCallback 
 
     private fun onProfileSaved() {
         Preferences.putBoolean(PROFILE_SAVED_KEY, true)
+        showToastMessage(R.string.profile_save_success)
         QuestionnaireMainActivity.start(context!!)
         activity!!.finish()
     }
@@ -88,7 +89,7 @@ class ProfileFragment : BaseFragment<ProfileViewModel>(), OnBackPressedCallback 
         val work = spinnerOrganizations.selectedItem as String
         KeyboardUtils.hideKeyboard(activity)
         // In case profile data is valid
-        viewModel.save(name, work, phone)
+        viewModel.save(name, phone, work)
     }
 
     private fun initUi(view: View) {
