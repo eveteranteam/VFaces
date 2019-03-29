@@ -1,50 +1,57 @@
 package ua.gov.mva.vfaces.presentation.ui.auth.profile
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import ua.gov.mva.vfaces.data.db.Collections
-import ua.gov.mva.vfaces.data.db.collection.User
+import com.google.firebase.database.FirebaseDatabase
+import ua.gov.mva.vfaces.data.db.FirebaseDbChild
+import ua.gov.mva.vfaces.data.db.child.User
 import ua.gov.mva.vfaces.presentation.ui.base.BaseViewModel
+import ua.gov.mva.vfaces.utils.ConnectionUtils
 
 class ProfileViewModel : BaseViewModel() {
 
-    private val db = FirebaseFirestore.getInstance()
+    private val db = FirebaseDatabase.getInstance().reference
     private val resultLiveData = MutableLiveData<ResultType>()
 
     fun resultLiveData(): LiveData<ResultType> = resultLiveData
 
-    fun save(name: String, phone: String, work: String) {
+    // TODO remove context!
+    fun save(name: String, phone: String, work: String, context: Context) {
         showProgress()
         val authUser = FirebaseAuth.getInstance().currentUser
         val id = authUser!!.uid
         // Create own user and store him in Cloud Firestore
         val user = User(id, name, authUser.email!!, phone, work)
 
-        db.collection(Collections.USERS)
-                .document(id) // Document id is the same as user id
-                .set(user)
-                // TODO known issue with Cloud Firestore.
-                // This listener might not be called when offline and try to add data to subcollection.
-                // https://github.com/flutter/flutter/issues/21205
+        // TODO should use better solution
+        if (ConnectionUtils.isNetworkConnected(context)) {
+            db.child(FirebaseDbChild.USERS).child(id)
+                .setValue(user)
                 .addOnCompleteListener { task ->
                     hideProgress()
                     if (task.isSuccessful) {
                         resultLiveData.value = ResultType.SUCCESS
                     } else {
+                        Log.e(TAG, "Error while saving profile. ${task.exception}")
                         resultLiveData.value = ResultType.ERROR
                     }
                 }
-                .addOnFailureListener {
-                    Log.e(TAG, "Error while saving profile. $it")
-                    resultLiveData.value = ResultType.ERROR
-                }
+        } else {
+            db.child(FirebaseDbChild.USERS).child(id)
+                .setValue(user)
+
+            // User will be saved
+            hideProgress()
+            resultLiveData.value = ResultType.SUCCESS
+        }
     }
 
     enum class ResultType {
         SUCCESS,
+        NO_INTERNET,
         ERROR
     }
 

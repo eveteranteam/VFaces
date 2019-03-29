@@ -12,8 +12,8 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import ua.gov.mva.vfaces.R
-import ua.gov.mva.vfaces.presentation.ui.base.fragment.BaseFragment
 import ua.gov.mva.vfaces.presentation.ui.base.activity.OnBackPressedCallback
+import ua.gov.mva.vfaces.presentation.ui.base.fragment.BaseFragment
 import ua.gov.mva.vfaces.utils.InputValidationUtils
 import ua.gov.mva.vfaces.utils.KeyboardUtils
 
@@ -40,6 +40,7 @@ class RegisterFragment : BaseFragment<RegisterViewModel>(), OnBackPressedCallbac
         viewModel.resultLiveData().observe(viewLifecycleOwner, Observer { result ->
             when(result) {
                 RegisterViewModel.ResultType.VERIFICATION_EMAIL_SENT -> onRegistered()
+                RegisterViewModel.ResultType.NO_INTERNET -> showErrorMessage(R.string.no_network_message)
                 RegisterViewModel.ResultType.USER_COLLISION -> onEmailCollision()
                 RegisterViewModel.ResultType.VERIFICATION_EMAIL_ERROR,
                 RegisterViewModel.ResultType.ERROR ->

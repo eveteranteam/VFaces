@@ -41,6 +41,7 @@ class SignInFragment : BaseFragment<SignInViewModel>() {
                 SignInViewModel.ResultType.SUCCESS_PROFILE_NOT_FILLED -> onProfileNotFilled()
                 SignInViewModel.ResultType.EMAIL_NOT_VERIFIED -> onEmailNotVerified()
                 SignInViewModel.ResultType.INVALID_CREDENTIALS -> showErrorMessage(R.string.sign_in_wrong_credentials)
+                SignInViewModel.ResultType.NO_INTERNET -> showErrorMessage(R.string.no_network_message)
                 SignInViewModel.ResultType.ERROR -> showErrorMessage(R.string.sign_in_error)
             }
         })

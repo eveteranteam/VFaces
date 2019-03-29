@@ -10,8 +10,8 @@ import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import ua.gov.mva.vfaces.R
-import ua.gov.mva.vfaces.presentation.ui.base.fragment.BaseFragment
 import ua.gov.mva.vfaces.presentation.ui.base.activity.OnBackPressedCallback
+import ua.gov.mva.vfaces.presentation.ui.base.fragment.BaseFragment
 import ua.gov.mva.vfaces.utils.InputValidationUtils
 import ua.gov.mva.vfaces.utils.KeyboardUtils
 
@@ -34,6 +34,7 @@ class ForgotPasswordFragment : BaseFragment<ForgotPasswordViewModel>(), OnBackPr
         viewModel.resultLiveData().observe(viewLifecycleOwner, Observer { result ->
             when(result) {
                 ForgotPasswordViewModel.ResultType.SUCCESS -> onResetEmailSent()
+                ForgotPasswordViewModel.ResultType.NO_INTERNET -> showErrorMessage(R.string.no_network_message)
                 ForgotPasswordViewModel.ResultType.INVALID_EMAIL -> showErrorMessage(R.string.reset_password_invalid_email)
                 ForgotPasswordViewModel.ResultType.ERROR -> showErrorMessage(R.string.reset_password_error)
             }

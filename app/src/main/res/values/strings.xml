@@ -7,6 +7,9 @@
     <string name="action_no">Ні</string>
     <string name="action_cancel">Скасувати</string>
 
+    <!-- Network messages -->
+    <string name="no_network_message">Немає з\'єднання з Інтернетом</string>
+
     <!-- Alert Dialog -->
     <string name="alert_dialog_exit_title">Вийти</string>
     <string name="alert_dialog_exit_msg">Ви дійсно хочете вийти зі свого профілю?</string>

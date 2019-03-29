@@ -26,11 +26,17 @@ class QuestionnaireMainActivity : ActionBarActivity() {
 
     private lateinit var drawerLayout: DrawerLayout
 
+    /**
+     * Listener to notify about changes in Firebase auth state.
+     */
+    private var authListener: FirebaseAuth.AuthStateListener? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_questionnaire)
         initUi()
         replaceFragment(QuestionnaireListFragment.newInstance())
+        subscribeToFirebaseAuthStateChanges()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -86,6 +92,20 @@ class QuestionnaireMainActivity : ActionBarActivity() {
                 .setCancelable(true)
                 .create()
         dialog!!.show()
+    }
+
+    /**
+     * Method handles auth state change.
+     * If user == null - sign out user.
+     */
+    private fun subscribeToFirebaseAuthStateChanges() {
+        authListener = FirebaseAuth.AuthStateListener {
+            val user = it.currentUser
+            Log.d(TAG, "onAuthStateChanged. user == $user")
+            if (user == null) {
+                signOut()
+            }
+        }
     }
 
     private fun signOut() {

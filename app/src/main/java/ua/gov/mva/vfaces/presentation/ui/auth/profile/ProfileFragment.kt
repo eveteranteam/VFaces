@@ -89,7 +89,7 @@ class ProfileFragment : BaseFragment<ProfileViewModel>(), OnBackPressedCallback 
         val work = spinnerOrganizations.selectedItem as String
         KeyboardUtils.hideKeyboard(activity)
         // In case profile data is valid
-        viewModel.save(name, phone, work)
+        viewModel.save(name, phone, work, context!!)
     }
 
     private fun initUi(view: View) {
@@ -111,6 +111,9 @@ class ProfileFragment : BaseFragment<ProfileViewModel>(), OnBackPressedCallback 
     }
 
     companion object {
+        /**
+         * Used in [ua.gov.mva.vfaces.presentation.ui.SplashActivity] to verify whether user has filled his profile.
+         */
         const val PROFILE_SAVED_KEY = "profile_saved_key"
         private const val SPINNER_PROMPT_POSITION = 0
 

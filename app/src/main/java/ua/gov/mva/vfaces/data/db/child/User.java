@@ -1,8 +1,9 @@
-package ua.gov.mva.vfaces.data.db.collection;
+package ua.gov.mva.vfaces.data.db.child;
 
 /**
  * Simple Java model class.
- * This class is required by {@link com.google.firebase.firestore.FirebaseFirestore}.
+ * This class is required by {@link com.google.firebase.database.DataSnapshot#getValue(Class)}.
+ *
  * @see ua.gov.mva.vfaces.presentation.ui.auth.signin.SignInViewModel#getUser(String) method.
  */
 public class User {
@@ -14,7 +15,7 @@ public class User {
     private String work;
 
     /**
-     * Required by {@link com.google.firebase.firestore.FirebaseFirestore} empty constructor.
+     * Empty constructor required for calls to {@link com.google.firebase.database.DataSnapshot#getValue(Class)}
      */
     public User() {
     }
