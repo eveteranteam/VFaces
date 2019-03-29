@@ -1,5 +1,6 @@
 package ua.gov.mva.vfaces.presentation.ui.auth.profile
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
@@ -25,6 +26,9 @@ class ProfileViewModel : BaseViewModel() {
         db.collection(Collections.USERS)
                 .document(id) // Document id is the same as user id
                 .set(user)
+                // TODO known issue with Cloud Firestore.
+                // This listener might not be called when offline and try to add data to subcollection.
+                // https://github.com/flutter/flutter/issues/21205
                 .addOnCompleteListener { task ->
                     hideProgress()
                     if (task.isSuccessful) {
@@ -33,10 +37,18 @@ class ProfileViewModel : BaseViewModel() {
                         resultLiveData.value = ResultType.ERROR
                     }
                 }
+                .addOnFailureListener {
+                    Log.e(TAG, "Error while saving profile. $it")
+                    resultLiveData.value = ResultType.ERROR
+                }
     }
 
     enum class ResultType {
         SUCCESS,
         ERROR
+    }
+
+    private companion object {
+        private const val TAG = "ProfileViewModel"
     }
 }
