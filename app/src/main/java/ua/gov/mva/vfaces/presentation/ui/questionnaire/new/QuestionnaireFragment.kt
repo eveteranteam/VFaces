@@ -1,24 +1,30 @@
 package ua.gov.mva.vfaces.presentation.ui.questionnaire.new
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ua.gov.mva.vfaces.R
 import ua.gov.mva.vfaces.domain.model.Block
+import ua.gov.mva.vfaces.presentation.ui.base.BaseViewHolder
 import ua.gov.mva.vfaces.presentation.ui.base.activity.OnBackPressedCallback
 import ua.gov.mva.vfaces.presentation.ui.base.fragment.BaseFragment
 import ua.gov.mva.vfaces.presentation.ui.questionnaire.new.adapter.MainRecyclerAdapter
 
-class QuestionnaireFragment : BaseFragment<QuestionnaireViewModel>(), OnBackPressedCallback {
+class QuestionnaireFragment : BaseFragment<QuestionnaireViewModel>(), OnBackPressedCallback, CompletionCallback {
 
     override val TAG = "QuestionnaireFragment"
 
+    private var dialog: AlertDialog? = null
     private lateinit var recyclerViewContent: RecyclerView
+
+    private lateinit var adapter: MainRecyclerAdapter
     private lateinit var viewModel: QuestionnaireViewModel
     private lateinit var data: Block
 
@@ -36,21 +42,92 @@ class QuestionnaireFragment : BaseFragment<QuestionnaireViewModel>(), OnBackPres
         initUi(view)
     }
 
+    override fun onPause() {
+        dialog?.dismiss()
+        dialog = null
+        super.onPause()
+    }
+
     override fun initViewModel(): QuestionnaireViewModel {
         viewModel = ViewModelProviders.of(this).get(QuestionnaireViewModel::class.java)
         return viewModel
     }
 
-    // TODO
+    /**
+     * Method checks whether questionnaire is completed.
+     * If completed - pop back stack
+     * Otherwise - show Alert Dialog.
+     */
     override fun onBackPressed(): Boolean {
+        if (isQuestionnaireCompleted()) {
+            transaction.popBackStack()
+            return true
+        }
+        showExitQuestionnaireDialog()
         return true
+    }
+
+    override fun isQuestionnaireCompleted(): Boolean {
+        if (!isAdded) {
+            Log.w(TAG, "isAdded == false. Skipping...")
+            return false
+        }
+        return isInputDataValid()
+    }
+
+    /**
+     * Check whether user has Entered/Selected all data in Questionnaire.
+     *
+     * !Note!
+     * Method will iterate through all RecyclerViews and his ViewHolders, including nested if any.
+     * For data to be valid every ViewHolder will be checked.
+     *
+     * @see BaseViewHolder.isDataValid
+     *
+     * @return true - if every implementation of [BaseViewHolder.isDataValid] returns true, false - otherwise.
+     */
+    private fun isInputDataValid(): Boolean {
+        var result = true
+        adapter.items.forEachIndexed { index, _ ->
+            val viewHolder = recyclerViewContent.findViewHolderForAdapterPosition(index)
+            if (viewHolder is BaseViewHolder<*>) {
+                // If data is not valid in at least one ViewHolder - all data is not valid.
+                if (!viewHolder.isDataValid()) {
+                    result = false
+                    return@forEachIndexed
+                }
+            }
+        }
+        Log.d(TAG, "isInputDataValid == $result")
+        return result
+    }
+
+    private fun showExitQuestionnaireDialog() {
+        if (!isAdded) {
+            Log.w(TAG, "isAdded == false. Skipping...")
+            return
+        }
+        dialog = AlertDialog.Builder(context!!)
+                .setTitle(R.string.alert_dialog_exit_questionnaire_title)
+                .setMessage(R.string.alert_dialog_exit_questionnaire_msg)
+                .setPositiveButton(R.string.action_yes) { dialog, _ ->
+                    dialog.dismiss()
+                    activity!!.finish()
+                }
+                .setNegativeButton(R.string.action_no) { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .setCancelable(true)
+                .create()
+        dialog!!.show()
     }
 
     private fun initUi(view: View) {
         view.findViewById<TextView>(R.id.text_view_title).text = data.title
         recyclerViewContent = view.findViewById(R.id.recycler_view_content)
         recyclerViewContent.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        recyclerViewContent.adapter = MainRecyclerAdapter(data)
+        adapter = MainRecyclerAdapter(data)
+        recyclerViewContent.adapter = adapter
     }
 
     companion object {
@@ -64,4 +141,9 @@ class QuestionnaireFragment : BaseFragment<QuestionnaireViewModel>(), OnBackPres
             return fragment
         }
     }
+}
+
+interface CompletionCallback {
+
+    fun isQuestionnaireCompleted(): Boolean
 }

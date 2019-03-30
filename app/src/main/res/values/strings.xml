@@ -6,6 +6,7 @@
     <string name="action_yes">Так</string>
     <string name="action_no">Ні</string>
     <string name="action_cancel">Скасувати</string>
+    <string name="action_ok">Зрозуміло</string>
 
     <!-- Network messages -->
     <string name="no_network_message">Немає з\'єднання з Інтернетом</string>
@@ -13,6 +14,12 @@
     <!-- Alert Dialog -->
     <string name="alert_dialog_exit_title">Вийти</string>
     <string name="alert_dialog_exit_msg">Ви дійсно хочете вийти зі свого профілю?</string>
+    <string name="alert_dialog_exit_questionnaire_title">Призупинити поточну анкету?</string>
+    <string name="alert_dialog_exit_questionnaire_msg">Наповнення анкети буде збережено.\nВи зможете
+        продовжити пізніше.</string>
+    <string name="alert_dialog_exit_questionnaire_not_completed_title">Блок запитань не заповнено</string>
+    <string name="alert_dialog_exit_questionnaire_not_completed_msg">Щоб перейти до наступного блоку запитань
+        спочатку необхідно заповнити поточний блок</string>
 
     <!-- Veteran logo -->
     <string name="veteran_profile_logo_text">ПСИХОФІЗІОЛОГІЧНИЙ ПРОФІЛЬ\nУКРАЇНСЬКОГО ВЕТЕРАНА</string>
@@ -111,8 +118,8 @@
     <string name="questionnaire_list_item_options_delete">Видалити</string>
 
     <!-- New Questionnaire -->
-    <string name="new_questionnaire_title">Нова анкета ветерана</string>
-    <string name="new_questionnaire_family_title">Нова анкета сім\'ї загиблого</string>
+    <string name="new_questionnaire_title">Анкета ветерана</string>
+    <string name="new_questionnaire_family_title">Анкета сім\'ї загиблого</string>
     <string name="new_questionnaire_current_page">%s/%s</string>
     <string name="new_questionnaire_action_back"><![CDATA[<< Назад]]></string>
     <string name="new_questionnaire_action_next"><![CDATA[Далі >>]]></string>

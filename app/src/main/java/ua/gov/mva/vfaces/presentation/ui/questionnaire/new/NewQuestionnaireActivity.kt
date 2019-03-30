@@ -1,6 +1,5 @@
 package ua.gov.mva.vfaces.presentation.ui.questionnaire.new
 
-import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -9,6 +8,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.viewpager.widget.ViewPager
 import com.google.gson.Gson
@@ -18,6 +18,7 @@ import ua.gov.mva.vfaces.domain.model.Questionnaire
 import ua.gov.mva.vfaces.presentation.ui.base.activity.ActionBarActivity
 import ua.gov.mva.vfaces.presentation.ui.base.activity.OnBackPressedCallback
 import ua.gov.mva.vfaces.presentation.ui.questionnaire.new.adapter.QuestionnairePagerAdapter
+import ua.gov.mva.vfaces.utils.KeyboardUtils
 import ua.gov.mva.vfaces.utils.RawResourceReader
 import ua.gov.mva.vfaces.utils.Strings
 import ua.gov.mva.vfaces.view.LockableViewPager
@@ -62,7 +63,7 @@ class NewQuestionnaireActivity : ActionBarActivity() {
             dialog!!.dismiss()
             return
         }
-        val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+        val fragment = adapter.currentFragment
         if (fragment is OnBackPressedCallback && fragment.onBackPressed()) {
             return
         }
@@ -104,6 +105,7 @@ class NewQuestionnaireActivity : ActionBarActivity() {
             Log.e(TAG, "currentItem == $index. Can't get previous Fragment")
             return
         }
+        KeyboardUtils.hideKeyboard(this)
         viewPager.setCurrentItem(--index, true)
         val shouldShow = index != 0
         showBackButton(shouldShow)
@@ -112,17 +114,51 @@ class NewQuestionnaireActivity : ActionBarActivity() {
     }
 
     private fun onNextClick() {
+        if (!isQuestionnaireCompleted()) {
+            Log.d(TAG, "Questionnaire is not completed. Can't go Next")
+            showNotCompletedAlertDialog()
+            return
+        }
         var index = viewPager.currentItem
         if (index > adapter.count - 1) {
             Log.e(TAG, "currentItem == $index. ${adapter.count} Fragments at all. Can't get next Fragment")
             return
         }
+        KeyboardUtils.hideKeyboard(this)
         viewPager.setCurrentItem(++index, true)
         updateViewCounter(index)
         showBackButton(true)
         if (isLastItem()) {
             showFinishButton()
         }
+    }
+
+    private fun isQuestionnaireCompleted() : Boolean {
+        val fragment = adapter.currentFragment
+        return if (fragment is CompletionCallback) {
+            val result = fragment.isQuestionnaireCompleted()
+            Log.d(TAG, "isQuestionnaireCompleted = $result")
+            return result
+        } else {
+            Log.e(TAG, "Fragment does not implement CompletionCallback")
+            false
+        }
+    }
+
+    private fun showNotCompletedAlertDialog() {
+        if (isFinishing) {
+            Log.w(TAG, "isFinishing. Skipping...")
+            return
+        }
+        dialog = AlertDialog.Builder(this)
+                .setTitle(R.string.alert_dialog_exit_questionnaire_not_completed_title)
+                .setMessage(R.string.alert_dialog_exit_questionnaire_not_completed_msg)
+                .setPositiveButton(R.string.action_ok) { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .setCancelable(true)
+                .create()
+        dialog!!.show()
     }
 
     /**

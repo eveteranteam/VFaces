@@ -54,7 +54,7 @@ class QuestionnaireMapper : IQuestionnaire {
     override fun mapChoices(choices: ArrayList<String>?): ArrayList<String> {
         val empty = ArrayList<String>()
         if (choices.isNullOrEmpty()) {
-            Log.e(TAG, "No choices. Nothing to map")
+            Log.w(TAG, "No choices. Nothing to map")
             return empty
         }
         return choices
