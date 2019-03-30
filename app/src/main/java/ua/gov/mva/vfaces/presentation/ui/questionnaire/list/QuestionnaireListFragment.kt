@@ -52,19 +52,20 @@ class QuestionnaireListFragment : BaseFragment<QuestionnaireListViewModel>(), Qu
         // TODO
     }
 
-    override fun onOptionsClick(anchor : View) {
-        showPopupMenu(anchor)
+    override fun onOptionsClick(anchor : View, position: Int) {
+        showPopupMenu(anchor, position)
     }
 
     private fun onEdit() {
         // TODO
     }
 
-    private fun onDelete() {
+    private fun onDelete(position: Int) {
         // TODO
+        adapter.removeAt(position)
     }
 
-    private fun showPopupMenu(anchor : View) {
+    private fun showPopupMenu(anchor : View, position: Int) {
         val menu = PopupMenu(activity, anchor)
         menu.inflate(R.menu.options_item_menu)
         menu.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
@@ -75,7 +76,7 @@ class QuestionnaireListFragment : BaseFragment<QuestionnaireListViewModel>(), Qu
                         true
                     }
                     R.id.delete -> {
-                        onDelete()
+                        onDelete(position)
                         true
                     }
                     else -> {

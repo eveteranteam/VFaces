@@ -27,8 +27,8 @@ class QuestionnaireCompletedFragment : SimpleBaseFragment(), OnBackPressedCallba
         initUi(view)
     }
 
-    // TODO
     override fun onBackPressed(): Boolean {
+        activity!!.finish()
         return true
     }
 

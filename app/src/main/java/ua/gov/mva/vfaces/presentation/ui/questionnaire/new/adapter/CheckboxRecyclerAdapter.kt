@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import androidx.recyclerview.widget.RecyclerView
 import ua.gov.mva.vfaces.R
+import ua.gov.mva.vfaces.presentation.ui.base.BaseViewHolder
 
 class CheckboxRecyclerAdapter(private val data: ArrayList<String>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

@@ -17,6 +17,7 @@ import ua.gov.mva.vfaces.R
 import ua.gov.mva.vfaces.data.entity.BlockType
 import ua.gov.mva.vfaces.domain.model.Block
 import ua.gov.mva.vfaces.domain.model.Item
+import ua.gov.mva.vfaces.presentation.ui.base.BaseViewHolder
 
 class MainRecyclerAdapter(private val block : Block) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

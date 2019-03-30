@@ -3,6 +3,8 @@
     android:id="@+id/layout_field"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:focusable="false"
+    android:focusableInTouchMode="true"
     android:orientation="vertical">
 
     <com.google.android.material.textfield.TextInputLayout
