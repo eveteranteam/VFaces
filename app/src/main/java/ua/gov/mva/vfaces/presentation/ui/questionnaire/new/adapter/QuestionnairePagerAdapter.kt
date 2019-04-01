@@ -15,7 +15,8 @@ class QuestionnairePagerAdapter(private val data: Questionnaire, fm: FragmentMan
     var currentFragment: QuestionnaireFragment? = null
 
     override fun getItem(position: Int): Fragment {
-        return QuestionnaireFragment.newInstance(data, position)
+        val isLast = position == count - 1
+        return QuestionnaireFragment.newInstance(data, position, isLast)
     }
 
     override fun setPrimaryItem(container: ViewGroup, position: Int, `object`: Any) {

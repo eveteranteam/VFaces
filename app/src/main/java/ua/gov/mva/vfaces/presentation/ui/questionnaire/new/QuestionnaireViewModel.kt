@@ -39,7 +39,7 @@ class QuestionnaireViewModel : BaseViewModel() {
         }
 
         block.items = answeredItems
-        questionnaire.blocks!![position] = block
+        questionnaire.setBlockAt(block, position)
 
         db.child(getChildFor(type))
                 .child(time.toString()) // Key

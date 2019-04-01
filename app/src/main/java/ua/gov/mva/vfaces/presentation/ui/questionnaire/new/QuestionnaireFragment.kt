@@ -39,6 +39,7 @@ class QuestionnaireFragment : BaseFragment<QuestionnaireViewModel>(), OnBackPres
     private lateinit var questionnaire: Questionnaire
     private lateinit var data: Block
     private var position: Int = 0
+    private var isLast : Boolean = false
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -49,6 +50,7 @@ class QuestionnaireFragment : BaseFragment<QuestionnaireViewModel>(), OnBackPres
         super.onCreate(savedInstanceState)
         questionnaire = arguments?.getParcelable(QUESTIONNAIRE_EXTRAS)!!
         position = arguments?.getInt(POSITION_EXTRAS)!!
+        isLast = arguments?.getBoolean(IS_LAST_EXTRAS)!!
         data = questionnaire.blocks!![position]
         viewModel.block = data
         viewModel.questionnaire = questionnaire
@@ -64,10 +66,12 @@ class QuestionnaireFragment : BaseFragment<QuestionnaireViewModel>(), OnBackPres
         viewModel.resultLiveData().observe(viewLifecycleOwner, Observer { result ->
             when(result) {
                 QuestionnaireViewModel.ResultType.SAVE_SUCCESS -> {
-                    navigationListener.navigateNext()
+                    navigateNext()
+                    return@Observer
                 }
                 QuestionnaireViewModel.ResultType.SAVE_ERROR -> {
                     showErrorMessage(R.string.new_questionnaire_save_error)
+                    return@Observer
                 }
             }
         })
@@ -106,7 +110,7 @@ class QuestionnaireFragment : BaseFragment<QuestionnaireViewModel>(), OnBackPres
         return isInputDataValid()
     }
 
-    override fun save(): Boolean {
+    override fun save() {
         val answeredItems = arrayListOf<Item>()
         data.items!!.forEachIndexed { index, _ ->
             val viewHolder = recyclerViewContent.findViewHolderForAdapterPosition(index)
@@ -117,7 +121,14 @@ class QuestionnaireFragment : BaseFragment<QuestionnaireViewModel>(), OnBackPres
         data.items = answeredItems
         Log.d(TAG, "answers: ${answeredItems.size}")
         viewModel.save(answeredItems, position)
-        return true // TODO
+    }
+
+    private fun navigateNext() {
+        if (isLast) {
+            transaction.replaceFragment(QuestionnaireCompletedFragment.newInstance(questionnaire.name))
+        } else {
+            navigationListener.navigateNext()
+        }
     }
 
     /**
@@ -179,11 +190,13 @@ class QuestionnaireFragment : BaseFragment<QuestionnaireViewModel>(), OnBackPres
     companion object {
         private const val QUESTIONNAIRE_EXTRAS = "block_extras_key"
         private const val POSITION_EXTRAS = "position_extras_key"
+        private const val IS_LAST_EXTRAS = "is_last_extras_key"
 
-        fun newInstance(questionnaire: Questionnaire, position: Int): QuestionnaireFragment {
+        fun newInstance(questionnaire: Questionnaire, position: Int, isLast : Boolean): QuestionnaireFragment {
             val args = Bundle()
             args.putParcelable(QUESTIONNAIRE_EXTRAS, questionnaire)
             args.putInt(POSITION_EXTRAS, position)
+            args.putBoolean(IS_LAST_EXTRAS, isLast)
             val fragment = QuestionnaireFragment()
             fragment.arguments = args
             return fragment
@@ -195,6 +208,6 @@ interface CompletionCallback {
     fun isQuestionnaireCompleted(): Boolean
 }
 
-interface SaveCallback{
-    fun save() : Boolean
+interface SaveCallback {
+    fun save()
 }

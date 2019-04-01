@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.PopupMenu
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +18,7 @@ import ua.gov.mva.vfaces.presentation.ui.questionnaire.new.NewQuestionnaireActiv
 class QuestionnaireListFragment : BaseFragment<QuestionnaireListViewModel>(), QuestionnaireListAdapter.OnItemClickListener {
 
     override val TAG = "QuestionnaireListFragment"
+    private var dialog: AlertDialog? = null
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: QuestionnaireListAdapter
@@ -51,6 +53,11 @@ class QuestionnaireListFragment : BaseFragment<QuestionnaireListViewModel>(), Qu
         viewModel.loadQuestionnaires()
     }
 
+    override fun onPause() {
+        super.onPause()
+        dialog?.dismiss()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         inflater?.inflate(R.menu.filter_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
@@ -71,12 +78,11 @@ class QuestionnaireListFragment : BaseFragment<QuestionnaireListViewModel>(), Qu
 
     private fun onEdit() {
         // TODO
+        showWarningMessage("Редагування анкети ще не реалізовано!")
     }
 
     private fun onDelete(position: Int) {
-        viewModel.delete(position)
-        adapter.removeAt(position)
-        updateUi()
+        showRemoveQuestionnaireDialog(position)
     }
 
     private fun updateUi() {
@@ -109,6 +115,28 @@ class QuestionnaireListFragment : BaseFragment<QuestionnaireListViewModel>(), Qu
             }
         })
         menu.show()
+    }
+
+    private fun showRemoveQuestionnaireDialog(position: Int) {
+        if (!isAdded) {
+            Log.w(TAG, "isFinishing(). Skipping...")
+            return
+        }
+        dialog = AlertDialog.Builder(context!!)
+            .setTitle(R.string.alert_dialog_remove_questionnaire_title)
+            .setMessage(R.string.alert_dialog_remove_questionnaire_msg)
+            .setPositiveButton(R.string.action_yes) { dialog, _ ->
+                dialog.dismiss()
+                viewModel.delete(position)
+                adapter.removeAt(position)
+                updateUi()
+            }
+            .setNegativeButton(R.string.action_no) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setCancelable(true)
+            .create()
+        dialog!!.show()
     }
 
     private fun showResults() {

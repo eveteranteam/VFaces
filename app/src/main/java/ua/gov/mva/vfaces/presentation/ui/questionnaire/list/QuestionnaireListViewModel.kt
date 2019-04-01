@@ -28,7 +28,7 @@ class QuestionnaireListViewModel : BaseViewModel() {
                // .orderByKey()
                 .limitToLast(LOAD_LIMIT)
 
-        query.addListenerForSingleValueEvent(object : ValueEventListener {
+        query.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snaphot: DataSnapshot) {
                 results.clear()
                 for (data in snaphot.children) {
@@ -41,7 +41,7 @@ class QuestionnaireListViewModel : BaseViewModel() {
                 hideProgress()
 
                 if (results.isNullOrEmpty()) {
-                    Log.e(TAG, "results == $results")
+                    Log.d(TAG, "results == $results")
                     resultLiveData.value = ResultType.NO_RESULTS
                 } else {
                     resultLiveData.value = ResultType.SUCCESS
@@ -69,7 +69,7 @@ class QuestionnaireListViewModel : BaseViewModel() {
                 .addOnCompleteListener { task ->
                     hideProgress()
                     if (task.isSuccessful) {
-                        results.removeAt(position)
+                       // results.removeAt(position)
                         resultLiveData.value = ResultType.DELETE_SUCCESS
                     } else {
                         resultLiveData.value = ResultType.DELETE_ERROR
@@ -104,6 +104,6 @@ class QuestionnaireListViewModel : BaseViewModel() {
 
     private companion object {
         private const val TAG = "QListViewModel"
-        private const val LOAD_LIMIT: Int = 25
+        private const val LOAD_LIMIT: Int = 2 // TODO
     }
 }

@@ -97,15 +97,6 @@ class NewQuestionnaireActivity : ActionBarActivity(), QuestionnaireNavigationLis
     }
 
     override fun navigateNext() {
-        if (!isQuestionnaireCompleted()) {
-            Log.d(TAG, "Questionnaire is not completed. Can't go Next")
-            showNotCompletedAlertDialog()
-            return
-        }
-        KeyboardUtils.hideKeyboard(this)
-        if (!isSavedSuccessfully()) {
-            return
-        }
         var index = viewPager.currentItem
         if (index > adapter.count - 1) {
             Log.e(TAG, "currentItem == $index. ${adapter.count} Fragments at all. Can't get next Fragment")
@@ -119,6 +110,16 @@ class NewQuestionnaireActivity : ActionBarActivity(), QuestionnaireNavigationLis
         }
     }
 
+    private fun trySave() {
+        if (!isQuestionnaireCompleted()) {
+            Log.d(TAG, "Questionnaire is not completed. Can't save")
+            showNotCompletedAlertDialog()
+            return
+        }
+        KeyboardUtils.hideKeyboard(this)
+        saveCurrentBlock()
+    }
+
     private fun updateViewCounter(index: Int) {
         currentPage.text = String.format(getString(R.string.new_questionnaire_current_page), index + 1, adapter.count)
     }
@@ -126,9 +127,11 @@ class NewQuestionnaireActivity : ActionBarActivity(), QuestionnaireNavigationLis
     // TODO remove
     private fun loadQuestionnaire() {
         // TODO Should be performed on worker thread
-        val entity = Gson().fromJson(RawResourceReader
+        val entity = Gson().fromJson(
+            RawResourceReader
                 .readTextFileFromRawResource(R.raw.questionnaire, this),
-                ua.gov.mva.vfaces.data.entity.Questionnaire::class.java)
+            ua.gov.mva.vfaces.data.entity.Questionnaire::class.java
+        )
 
         data = QuestionnaireMapper().entityToModel(entity)
         adapter = QuestionnairePagerAdapter(data, supportFragmentManager)
@@ -136,7 +139,7 @@ class NewQuestionnaireActivity : ActionBarActivity(), QuestionnaireNavigationLis
         updateViewCounter(0) // Set initial counter value
     }
 
-    private fun isQuestionnaireCompleted() : Boolean {
+    private fun isQuestionnaireCompleted(): Boolean {
         val fragment = adapter.currentFragment
         return if (fragment is CompletionCallback) {
             val result = fragment.isQuestionnaireCompleted()
@@ -148,15 +151,13 @@ class NewQuestionnaireActivity : ActionBarActivity(), QuestionnaireNavigationLis
         }
     }
 
-    private fun isSavedSuccessfully() : Boolean {
+    private fun saveCurrentBlock() {
         val fragment = adapter.currentFragment
-        return if (fragment is SaveCallback) {
+        if (fragment is SaveCallback) {
             val result = fragment.save()
             Log.d(TAG, "isSaved = $result")
-            return result
         } else {
             Log.e(TAG, "Fragment does not implement SaveCallback")
-            false
         }
     }
 
@@ -166,13 +167,13 @@ class NewQuestionnaireActivity : ActionBarActivity(), QuestionnaireNavigationLis
             return
         }
         dialog = AlertDialog.Builder(this)
-                .setTitle(R.string.alert_dialog_exit_questionnaire_not_completed_title)
-                .setMessage(R.string.alert_dialog_exit_questionnaire_not_completed_msg)
-                .setPositiveButton(R.string.action_ok) { dialog, _ ->
-                    dialog.dismiss()
-                }
-                .setCancelable(true)
-                .create()
+            .setTitle(R.string.alert_dialog_exit_questionnaire_not_completed_title)
+            .setMessage(R.string.alert_dialog_exit_questionnaire_not_completed_msg)
+            .setPositiveButton(R.string.action_ok) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setCancelable(true)
+            .create()
         dialog!!.show()
     }
 
@@ -211,10 +212,8 @@ class NewQuestionnaireActivity : ActionBarActivity(), QuestionnaireNavigationLis
         nextFinishButton.setOnClickListener {
             if (isLastItem()) {
                 findViewById<View>(R.id.actions).visibility = View.GONE
-                replaceFragment(QuestionnaireCompletedFragment.newInstance())
-            } else {
-                navigateNext()
             }
+            trySave()
         }
     }
 

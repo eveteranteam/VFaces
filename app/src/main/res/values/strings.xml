@@ -20,6 +20,8 @@
     <string name="alert_dialog_exit_questionnaire_not_completed_title">Блок запитань не заповнено</string>
     <string name="alert_dialog_exit_questionnaire_not_completed_msg">Щоб перейти до наступного блоку запитань
         спочатку необхідно заповнити поточний блок</string>
+    <string name="alert_dialog_remove_questionnaire_title">Видалити анкету?</string>
+    <string name="alert_dialog_remove_questionnaire_msg">Дані анкети буде втрачено</string>
 
     <!-- Veteran logo -->
     <string name="veteran_profile_logo_text">ПСИХОФІЗІОЛОГІЧНИЙ ПРОФІЛЬ\nУКРАЇНСЬКОГО ВЕТЕРАНА</string>

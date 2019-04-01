@@ -1,6 +1,7 @@
 package ua.gov.mva.vfaces.presentation.ui.questionnaire.new.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -202,11 +203,12 @@ internal class MainRecyclerAdapter(private val block: Block) : RecyclerView.Adap
 
         override fun getAnswer(): Item {
             val answers = data!!.answers
-            val selectedId = radioGroup.checkedRadioButtonId
+            val selectedId = radioGroup.indexOfChild(itemView.findViewById(radioGroup.checkedRadioButtonId))
             if (selectedId == -1) {
                 throw IllegalArgumentException("selectedId == -1." +
                         " Please call RadioButtonViewHolder#isDataValid first to make sure data is valid")
             }
+            Log.d("RadioButtonViewHolder", "selectedId == $selectedId")
             answers!!.add(data!!.choices!![selectedId])
             return data!!
         }
