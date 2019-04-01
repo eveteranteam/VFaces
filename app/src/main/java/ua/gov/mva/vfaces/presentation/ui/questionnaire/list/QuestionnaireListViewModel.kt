@@ -25,8 +25,8 @@ class QuestionnaireListViewModel : BaseViewModel() {
     fun loadQuestionnaires() {
         showProgress() // TODO fix progress
         val query = db.child(getChildFor(type))
-               // .orderByKey()
-                .limitToLast(LOAD_LIMIT)
+               // .orderByKey() // TODO add filters
+               // .limitToLast(LOAD_LIMIT)
 
         query.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snaphot: DataSnapshot) {
@@ -104,6 +104,6 @@ class QuestionnaireListViewModel : BaseViewModel() {
 
     private companion object {
         private const val TAG = "QListViewModel"
-        private const val LOAD_LIMIT: Int = 2 // TODO
+        private const val LOAD_LIMIT: Int = 25
     }
 }

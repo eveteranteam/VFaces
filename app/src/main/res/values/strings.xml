@@ -12,7 +12,7 @@
     <string name="no_network_message">Немає з\'єднання з Інтернетом</string>
 
     <!-- Alert Dialog -->
-    <string name="alert_dialog_exit_title">Вийти</string>
+    <string name="alert_dialog_exit_title">Вихід</string>
     <string name="alert_dialog_exit_msg">Ви дійсно хочете вийти зі свого профілю?</string>
     <string name="alert_dialog_exit_questionnaire_title">Призупинити анкету?</string>
     <string name="alert_dialog_exit_questionnaire_msg">Наповнення буде збережено.\nВи зможете
@@ -22,6 +22,10 @@
         спочатку необхідно заповнити поточний блок</string>
     <string name="alert_dialog_remove_questionnaire_title">Видалити анкету?</string>
     <string name="alert_dialog_remove_questionnaire_msg">Дані анкети буде втрачено</string>
+    <string name="alert_dialog_back_questionnaire_title">Повернутися до попереднього блоку анкети?</string>
+    <string name="alert_dialog_back_questionnaire_msg">Результат поточного блоку анкети буде втрачено</string>
+    <string name="alert_dialog_back_to_list_questionnaire_title">Повернутися до списку анкет?</string>
+    <string name="alert_dialog_back_to_list_questionnaire_msg">Результат поточного блоку анкети буде втрачено</string>
 
     <!-- Veteran logo -->
     <string name="veteran_profile_logo_text">ПСИХОФІЗІОЛОГІЧНИЙ ПРОФІЛЬ\nУКРАЇНСЬКОГО ВЕТЕРАНА</string>

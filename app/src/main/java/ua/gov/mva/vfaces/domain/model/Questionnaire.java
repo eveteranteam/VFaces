@@ -18,7 +18,7 @@ public class Questionnaire implements Parcelable {
     private String number;
     private String settlement;
     private int progress;
-    private long lastEditTime;
+    private long lastEditTime = 0;
 
     /**
      * Empty constructor required for calls to {@link com.google.firebase.database.DataSnapshot#getValue(Class)}

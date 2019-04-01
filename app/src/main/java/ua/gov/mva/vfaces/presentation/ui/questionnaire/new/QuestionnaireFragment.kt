@@ -30,9 +30,7 @@ class QuestionnaireFragment : BaseFragment<QuestionnaireViewModel>(), OnBackPres
     private var dialog: AlertDialog? = null
 
     private lateinit var navigationListener: QuestionnaireNavigationListener
-
     private lateinit var recyclerViewContent: RecyclerView
-
     private lateinit var adapter: MainRecyclerAdapter
     private lateinit var viewModel: QuestionnaireViewModel
 
@@ -94,11 +92,7 @@ class QuestionnaireFragment : BaseFragment<QuestionnaireViewModel>(), OnBackPres
      * Otherwise - show Alert Dialog.
      */
     override fun onBackPressed(): Boolean {
-        if (isQuestionnaireCompleted()) {
-            transaction.popBackStack()
-            return true
-        }
-        showExitQuestionnaireDialog()
+        showBackToListDialog()
         return true
     }
 
@@ -120,7 +114,7 @@ class QuestionnaireFragment : BaseFragment<QuestionnaireViewModel>(), OnBackPres
         }
         data.items = answeredItems
         Log.d(TAG, "answers: ${answeredItems.size}")
-        viewModel.save(answeredItems, position)
+        viewModel.save(answeredItems, position, context!!)
     }
 
     private fun navigateNext() {
@@ -158,20 +152,19 @@ class QuestionnaireFragment : BaseFragment<QuestionnaireViewModel>(), OnBackPres
         return result
     }
 
-    // TODO check index of fragment (before showing) in viewpager etc.
-    private fun showExitQuestionnaireDialog() {
+    private fun showBackToListDialog() {
         if (!isAdded) {
             Log.w(TAG, "isAdded == false. Skipping...")
             return
         }
         dialog = AlertDialog.Builder(context!!)
-                .setTitle(R.string.alert_dialog_exit_questionnaire_title)
-                .setMessage(R.string.alert_dialog_exit_questionnaire_msg)
+                .setTitle(R.string.alert_dialog_back_to_list_questionnaire_title)
+                .setMessage(R.string.alert_dialog_back_to_list_questionnaire_msg)
                 .setPositiveButton(R.string.action_yes) { dialog, _ ->
                     dialog.dismiss()
                     activity!!.finish()
                 }
-                .setNegativeButton(R.string.action_no) { dialog, _ ->
+                .setNegativeButton(R.string.action_cancel) { dialog, _ ->
                     dialog.dismiss()
                 }
                 .setCancelable(true)

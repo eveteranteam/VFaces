@@ -177,6 +177,26 @@ class NewQuestionnaireActivity : ActionBarActivity(), QuestionnaireNavigationLis
         dialog!!.show()
     }
 
+    private fun showReturnBackAlertDialog() {
+        if (isFinishing) {
+            Log.w(TAG, "isFinishing. Skipping...")
+            return
+        }
+        dialog = AlertDialog.Builder(this)
+            .setTitle(R.string.alert_dialog_back_questionnaire_title)
+            .setMessage(R.string.alert_dialog_back_questionnaire_msg)
+            .setPositiveButton(R.string.action_yes) { dialog, _ ->
+                dialog.dismiss()
+                navigateBack()
+            }
+            .setNegativeButton(R.string.action_cancel) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setCancelable(true)
+            .create()
+        dialog!!.show()
+    }
+
     /**
      * @return true - if [viewPager] is currently showing his last Fragment.
      */
@@ -207,8 +227,14 @@ class NewQuestionnaireActivity : ActionBarActivity(), QuestionnaireNavigationLis
         nextFinishButton = findViewById(R.id.button_next)
         showBackButton(false)
         viewPager.isSwipeEnabled = false // Disable swipe
+        viewPager.offscreenPageLimit = 0 // Do not cache fragments at all
         viewPager.addOnPageChangeListener(PageChangeListener())
-        backButton.setOnClickListener { navigateBack() }
+        backButton.setOnClickListener {
+            if (viewPager.currentItem != 0) { // if not first item
+                showReturnBackAlertDialog()
+                return@setOnClickListener
+            }
+        }
         nextFinishButton.setOnClickListener {
             if (isLastItem()) {
                 findViewById<View>(R.id.actions).visibility = View.GONE
