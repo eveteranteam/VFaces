@@ -1,5 +1,6 @@
 package ua.gov.mva.vfaces.presentation.ui.questionnaire.new
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,30 +8,50 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ua.gov.mva.vfaces.R
 import ua.gov.mva.vfaces.domain.model.Block
+import ua.gov.mva.vfaces.domain.model.Item
+import ua.gov.mva.vfaces.domain.model.Questionnaire
 import ua.gov.mva.vfaces.presentation.ui.base.BaseViewHolder
 import ua.gov.mva.vfaces.presentation.ui.base.activity.OnBackPressedCallback
 import ua.gov.mva.vfaces.presentation.ui.base.fragment.BaseFragment
+import ua.gov.mva.vfaces.presentation.ui.questionnaire.new.adapter.DataValidator
 import ua.gov.mva.vfaces.presentation.ui.questionnaire.new.adapter.MainRecyclerAdapter
 
-class QuestionnaireFragment : BaseFragment<QuestionnaireViewModel>(), OnBackPressedCallback, CompletionCallback {
+class QuestionnaireFragment : BaseFragment<QuestionnaireViewModel>(), OnBackPressedCallback,
+        CompletionCallback, SaveCallback {
 
     override val TAG = "QuestionnaireFragment"
 
     private var dialog: AlertDialog? = null
+
+    private lateinit var navigationListener: QuestionnaireNavigationListener
+
     private lateinit var recyclerViewContent: RecyclerView
 
     private lateinit var adapter: MainRecyclerAdapter
     private lateinit var viewModel: QuestionnaireViewModel
+
+    private lateinit var questionnaire: Questionnaire
     private lateinit var data: Block
+    private var position: Int = 0
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        navigationListener = context as QuestionnaireNavigationListener
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        data = arguments?.getParcelable(BLOCK_EXTRAS)!!
+        questionnaire = arguments?.getParcelable(QUESTIONNAIRE_EXTRAS)!!
+        position = arguments?.getInt(POSITION_EXTRAS)!!
+        data = questionnaire.blocks!![position]
+        viewModel.block = data
+        viewModel.questionnaire = questionnaire
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -40,6 +61,16 @@ class QuestionnaireFragment : BaseFragment<QuestionnaireViewModel>(), OnBackPres
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUi(view)
+        viewModel.resultLiveData().observe(viewLifecycleOwner, Observer { result ->
+            when(result) {
+                QuestionnaireViewModel.ResultType.SAVE_SUCCESS -> {
+                    navigationListener.navigateNext()
+                }
+                QuestionnaireViewModel.ResultType.SAVE_ERROR -> {
+                    showErrorMessage(R.string.new_questionnaire_save_error)
+                }
+            }
+        })
     }
 
     override fun onPause() {
@@ -75,6 +106,20 @@ class QuestionnaireFragment : BaseFragment<QuestionnaireViewModel>(), OnBackPres
         return isInputDataValid()
     }
 
+    override fun save(): Boolean {
+        val answeredItems = arrayListOf<Item>()
+        data.items!!.forEachIndexed { index, _ ->
+            val viewHolder = recyclerViewContent.findViewHolderForAdapterPosition(index)
+            if (viewHolder is DataValidator<*>) {
+                answeredItems.add(viewHolder.getAnswer() as Item)
+            }
+        }
+        data.items = answeredItems
+        Log.d(TAG, "answers: ${answeredItems.size}")
+        viewModel.save(answeredItems, position)
+        return true // TODO
+    }
+
     /**
      * Check whether user has Entered/Selected all data in Questionnaire.
      *
@@ -88,9 +133,9 @@ class QuestionnaireFragment : BaseFragment<QuestionnaireViewModel>(), OnBackPres
      */
     private fun isInputDataValid(): Boolean {
         var result = true
-        adapter.items.forEachIndexed { index, _ ->
+        adapter.items!!.forEachIndexed { index, _ ->
             val viewHolder = recyclerViewContent.findViewHolderForAdapterPosition(index)
-            if (viewHolder is BaseViewHolder<*>) {
+            if (viewHolder is DataValidator<*>) {
                 // If data is not valid in at least one ViewHolder - all data is not valid.
                 if (!viewHolder.isDataValid()) {
                     result = false
@@ -102,6 +147,7 @@ class QuestionnaireFragment : BaseFragment<QuestionnaireViewModel>(), OnBackPres
         return result
     }
 
+    // TODO check index of fragment (before showing) in viewpager etc.
     private fun showExitQuestionnaireDialog() {
         if (!isAdded) {
             Log.w(TAG, "isAdded == false. Skipping...")
@@ -131,11 +177,13 @@ class QuestionnaireFragment : BaseFragment<QuestionnaireViewModel>(), OnBackPres
     }
 
     companion object {
-        private const val BLOCK_EXTRAS = "block_extras_key"
+        private const val QUESTIONNAIRE_EXTRAS = "block_extras_key"
+        private const val POSITION_EXTRAS = "position_extras_key"
 
-        fun newInstance(block: Block): QuestionnaireFragment {
+        fun newInstance(questionnaire: Questionnaire, position: Int): QuestionnaireFragment {
             val args = Bundle()
-            args.putParcelable(BLOCK_EXTRAS, block)
+            args.putParcelable(QUESTIONNAIRE_EXTRAS, questionnaire)
+            args.putInt(POSITION_EXTRAS, position)
             val fragment = QuestionnaireFragment()
             fragment.arguments = args
             return fragment
@@ -144,6 +192,9 @@ class QuestionnaireFragment : BaseFragment<QuestionnaireViewModel>(), OnBackPres
 }
 
 interface CompletionCallback {
-
     fun isQuestionnaireCompleted(): Boolean
+}
+
+interface SaveCallback{
+    fun save() : Boolean
 }

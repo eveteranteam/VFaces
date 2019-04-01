@@ -19,9 +19,9 @@ import ua.gov.mva.vfaces.domain.model.Block
 import ua.gov.mva.vfaces.domain.model.Item
 import ua.gov.mva.vfaces.presentation.ui.base.BaseViewHolder
 
-class MainRecyclerAdapter(private val block : Block) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+internal class MainRecyclerAdapter(private val block: Block) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    val items= block.items
+    val items = block.items
 
     companion object {
         const val VIEW_TYPE_FIELD = 0
@@ -50,7 +50,7 @@ class MainRecyclerAdapter(private val block : Block) : RecyclerView.Adapter<Recy
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
         val viewType = getItemViewType(position)
-        val data = items[position]
+        val data = items!![position]
         when (viewType) {
             VIEW_TYPE_FIELD -> {
                 val holder = viewHolder as FieldViewHolder
@@ -72,7 +72,7 @@ class MainRecyclerAdapter(private val block : Block) : RecyclerView.Adapter<Recy
     }
 
     override fun getItemViewType(position: Int): Int {
-        val item = items[position]
+        val item = items!![position]
         when (item.type) {
             BlockType.FIELD -> return VIEW_TYPE_FIELD
             BlockType.CHECKBOX -> return VIEW_TYPE_RADIO_GROUP
@@ -82,16 +82,17 @@ class MainRecyclerAdapter(private val block : Block) : RecyclerView.Adapter<Recy
     }
 
     override fun getItemCount(): Int {
-        return items.size
+        return items!!.size
     }
 
-    internal inner class FieldViewHolder(private val view: View) : BaseViewHolder<Item>(view) {
+    internal inner class FieldViewHolder(private val view: View) : BaseViewHolder<Item>(view), DataValidator<Item> {
 
         private lateinit var textInputLayout: TextInputLayout
 
-        override fun setup(data: Item) {
+        override fun setup(newData: Item) {
+            super.setup(newData)
             textInputLayout = view.findViewById(R.id.text_input_layout_name)
-            textInputLayout.hint = data.name
+            textInputLayout.hint = data!!.name
             setImeOptions(textInputLayout.editText!!)
         }
 
@@ -104,7 +105,13 @@ class MainRecyclerAdapter(private val block : Block) : RecyclerView.Adapter<Recy
          * @return true - if text is not empty, false - otherwise.
          */
         override fun isDataValid(): Boolean {
-           return textInputLayout.editText!!.text.toString().trim().isNotEmpty()
+            return textInputLayout.editText!!.text.toString().trim().isNotEmpty()
+        }
+
+        override fun getAnswer(): Item {
+            val answers = data!!.answers
+            answers!!.add(textInputLayout.editText!!.text.toString().trim())
+            return data!!
         }
 
         /**
@@ -124,16 +131,17 @@ class MainRecyclerAdapter(private val block : Block) : RecyclerView.Adapter<Recy
         }
     }
 
-    internal inner class CheckboxViewHolder(private val view: View) : BaseViewHolder<Item>(view) {
+    internal inner class CheckboxViewHolder(private val view: View) : BaseViewHolder<Item>(view), DataValidator<Item>{
 
         private lateinit var recyclerView: RecyclerView
         private lateinit var adapter: CheckboxRecyclerAdapter
 
-        override fun setup(data: Item) {
-            view.findViewById<TextView>(R.id.text_view_question).text = data.name
+        override fun setup(newData: Item) {
+            super.setup(newData)
+            view.findViewById<TextView>(R.id.text_view_question).text = data!!.name
             recyclerView = view.findViewById(R.id.recycler_view_checkboxes)
             recyclerView.layoutManager = LinearLayoutManager(view.context, RecyclerView.VERTICAL, false)
-            adapter = CheckboxRecyclerAdapter(data.choices)
+            adapter = CheckboxRecyclerAdapter(newData)
             recyclerView.adapter = adapter
         }
 
@@ -143,7 +151,7 @@ class MainRecyclerAdapter(private val block : Block) : RecyclerView.Adapter<Recy
          */
         override fun isDataValid(): Boolean {
             var result = false
-            adapter.data.forEachIndexed { index, _ ->
+            adapter.data.choices!!.forEachIndexed { index, _ ->
                 val viewHolder = recyclerView.findViewHolderForAdapterPosition(index) as CheckboxRecyclerAdapter.ViewHolder
                 // If at least one checkbox is selected - true
                 if (viewHolder.isDataValid()) {
@@ -153,19 +161,33 @@ class MainRecyclerAdapter(private val block : Block) : RecyclerView.Adapter<Recy
             }
             return result
         }
+
+        override fun getAnswer(): Item {
+            val answers = data!!.answers!!
+            adapter.data.choices!!.forEachIndexed { index, choice ->
+                val viewHolder = recyclerView.findViewHolderForAdapterPosition(index) as CheckboxRecyclerAdapter.ViewHolder
+                // If at least one checkbox is selected - true
+                if (viewHolder.isDataValid()) {
+                    answers.add(choice)
+                    return@forEachIndexed
+                }
+            }
+            return data!!
+        }
     }
 
-    internal inner class RadioButtonViewHolder(private val view: View) : BaseViewHolder<Item>(view) {
+    internal inner class RadioButtonViewHolder(private val view: View) : BaseViewHolder<Item>(view), DataValidator<Item> {
 
         private lateinit var radioGroup: RadioGroup
 
-        override fun setup(data: Item) {
-            view.findViewById<TextView>(R.id.text_view_question).text = data.name
+        override fun setup(newData: Item) {
+            super.setup(newData)
+            view.findViewById<TextView>(R.id.text_view_question).text = data!!.name
             radioGroup = view.findViewById(R.id.radio_group)
             val context = view.context
 
             // Add new RadioButton into RadioGroup
-            for (choice in data.choices) {
+            for (choice in data!!.choices!!) {
                 radioGroup.addView(buildRadioButton(choice, context))
             }
         }
@@ -178,11 +200,22 @@ class MainRecyclerAdapter(private val block : Block) : RecyclerView.Adapter<Recy
             return radioGroup.checkedRadioButtonId != -1 // Means group is selected
         }
 
+        override fun getAnswer(): Item {
+            val answers = data!!.answers
+            val selectedId = radioGroup.checkedRadioButtonId
+            if (selectedId == -1) {
+                throw IllegalArgumentException("selectedId == -1." +
+                        " Please call RadioButtonViewHolder#isDataValid first to make sure data is valid")
+            }
+            answers!!.add(data!!.choices!![selectedId])
+            return data!!
+        }
+
         /**
          * Method creates new [AppCompatRadioButton] with specified text and margins.
          * @param text - text to be added
          */
-        private fun buildRadioButton(text: String, context: Context) : AppCompatRadioButton {
+        private fun buildRadioButton(text: String, context: Context): AppCompatRadioButton {
             val button = AppCompatRadioButton(context)
             val params = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             params.topMargin = context.resources.getDimensionPixelOffset(R.dimen.layout_margin_medium)
@@ -192,4 +225,14 @@ class MainRecyclerAdapter(private val block : Block) : RecyclerView.Adapter<Recy
             return button
         }
     }
+}
+
+/**
+ *
+ * This interface should be overridden in own implementation
+ * of [RecyclerView.ViewHolder] to validate data.
+ */
+interface DataValidator<T> {
+    fun isDataValid(): Boolean
+    fun getAnswer() : T
 }

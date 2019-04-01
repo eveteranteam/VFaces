@@ -23,7 +23,7 @@ import ua.gov.mva.vfaces.utils.RawResourceReader
 import ua.gov.mva.vfaces.utils.Strings
 import ua.gov.mva.vfaces.view.LockableViewPager
 
-class NewQuestionnaireActivity : ActionBarActivity() {
+class NewQuestionnaireActivity : ActionBarActivity(), QuestionnaireNavigationListener {
 
     override val TAG = "NewQuestionnaireActivity"
     override var dialog: AlertDialog? = null
@@ -82,24 +82,7 @@ class NewQuestionnaireActivity : ActionBarActivity() {
         findViewById<TextView>(R.id.text_view_page).text = Strings.EMPTY
     }
 
-    private fun updateViewCounter(index: Int) {
-        currentPage.text = String.format(getString(R.string.new_questionnaire_current_page), index + 1, adapter.count)
-    }
-
-    // TODO remove
-    private fun loadQuestionnaire() {
-        // TODO Should be performed on worker thread
-        val entity = Gson().fromJson(RawResourceReader
-                .readTextFileFromRawResource(R.raw.questionnaire, this),
-                ua.gov.mva.vfaces.data.entity.Questionnaire::class.java)
-
-        data = QuestionnaireMapper().entityToModel(entity)
-        adapter = QuestionnairePagerAdapter(data.blocks, supportFragmentManager)
-        viewPager.adapter = adapter
-        updateViewCounter(0) // Set initial counter value
-    }
-
-    private fun onBackClick() {
+    override fun navigateBack() {
         var index = viewPager.currentItem
         if (index <= 0) {
             Log.e(TAG, "currentItem == $index. Can't get previous Fragment")
@@ -113,10 +96,14 @@ class NewQuestionnaireActivity : ActionBarActivity() {
         updateViewCounter(index)
     }
 
-    private fun onNextClick() {
+    override fun navigateNext() {
         if (!isQuestionnaireCompleted()) {
             Log.d(TAG, "Questionnaire is not completed. Can't go Next")
             showNotCompletedAlertDialog()
+            return
+        }
+        KeyboardUtils.hideKeyboard(this)
+        if (!isSavedSuccessfully()) {
             return
         }
         var index = viewPager.currentItem
@@ -124,13 +111,29 @@ class NewQuestionnaireActivity : ActionBarActivity() {
             Log.e(TAG, "currentItem == $index. ${adapter.count} Fragments at all. Can't get next Fragment")
             return
         }
-        KeyboardUtils.hideKeyboard(this)
         viewPager.setCurrentItem(++index, true)
         updateViewCounter(index)
         showBackButton(true)
         if (isLastItem()) {
             showFinishButton()
         }
+    }
+
+    private fun updateViewCounter(index: Int) {
+        currentPage.text = String.format(getString(R.string.new_questionnaire_current_page), index + 1, adapter.count)
+    }
+
+    // TODO remove
+    private fun loadQuestionnaire() {
+        // TODO Should be performed on worker thread
+        val entity = Gson().fromJson(RawResourceReader
+                .readTextFileFromRawResource(R.raw.questionnaire, this),
+                ua.gov.mva.vfaces.data.entity.Questionnaire::class.java)
+
+        data = QuestionnaireMapper().entityToModel(entity)
+        adapter = QuestionnairePagerAdapter(data, supportFragmentManager)
+        viewPager.adapter = adapter
+        updateViewCounter(0) // Set initial counter value
     }
 
     private fun isQuestionnaireCompleted() : Boolean {
@@ -141,6 +144,18 @@ class NewQuestionnaireActivity : ActionBarActivity() {
             return result
         } else {
             Log.e(TAG, "Fragment does not implement CompletionCallback")
+            false
+        }
+    }
+
+    private fun isSavedSuccessfully() : Boolean {
+        val fragment = adapter.currentFragment
+        return if (fragment is SaveCallback) {
+            val result = fragment.save()
+            Log.d(TAG, "isSaved = $result")
+            return result
+        } else {
+            Log.e(TAG, "Fragment does not implement SaveCallback")
             false
         }
     }
@@ -192,13 +207,13 @@ class NewQuestionnaireActivity : ActionBarActivity() {
         showBackButton(false)
         viewPager.isSwipeEnabled = false // Disable swipe
         viewPager.addOnPageChangeListener(PageChangeListener())
-        backButton.setOnClickListener { onBackClick() }
+        backButton.setOnClickListener { navigateBack() }
         nextFinishButton.setOnClickListener {
             if (isLastItem()) {
                 findViewById<View>(R.id.actions).visibility = View.GONE
                 replaceFragment(QuestionnaireCompletedFragment.newInstance())
             } else {
-                onNextClick()
+                navigateNext()
             }
         }
     }
@@ -224,4 +239,9 @@ class NewQuestionnaireActivity : ActionBarActivity() {
             context.startActivity(Intent(context, NewQuestionnaireActivity::class.java))
         }
     }
+}
+
+interface QuestionnaireNavigationListener {
+    fun navigateNext()
+    fun navigateBack()
 }

@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import ua.gov.mva.vfaces.data.db.FirebaseDbChild
-import ua.gov.mva.vfaces.data.db.child.User
+import ua.gov.mva.vfaces.data.db.child.UserDao
 import ua.gov.mva.vfaces.presentation.ui.base.BaseViewModel
 import ua.gov.mva.vfaces.utils.ConnectionUtils
 
@@ -24,24 +24,25 @@ class ProfileViewModel : BaseViewModel() {
         val authUser = FirebaseAuth.getInstance().currentUser
         val id = authUser!!.uid
         // Create own user and store him in Cloud Firestore
-        val user = User(id, name, authUser.email!!, phone, work)
+        val user = UserDao(id, name, authUser.email!!, phone, work)
 
         // TODO should use better solution
         if (ConnectionUtils.isNetworkConnected(context)) {
-            db.child(FirebaseDbChild.USERS).child(id)
-                .setValue(user)
-                .addOnCompleteListener { task ->
-                    hideProgress()
-                    if (task.isSuccessful) {
-                        resultLiveData.value = ResultType.SUCCESS
-                    } else {
-                        Log.e(TAG, "Error while saving profile. ${task.exception}")
-                        resultLiveData.value = ResultType.ERROR
+            db.child(FirebaseDbChild.USERS)
+                    .push()
+                    .setValue(user)
+                    .addOnCompleteListener { task ->
+                        hideProgress()
+                        if (task.isSuccessful) {
+                            resultLiveData.value = ResultType.SUCCESS
+                        } else {
+                            Log.e(TAG, "Error while saving profile. ${task.exception}")
+                            resultLiveData.value = ResultType.ERROR
+                        }
                     }
-                }
         } else {
             db.child(FirebaseDbChild.USERS).child(id)
-                .setValue(user)
+                    .setValue(user)
 
             // User will be saved
             hideProgress()

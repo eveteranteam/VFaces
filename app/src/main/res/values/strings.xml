@@ -14,8 +14,8 @@
     <!-- Alert Dialog -->
     <string name="alert_dialog_exit_title">Вийти</string>
     <string name="alert_dialog_exit_msg">Ви дійсно хочете вийти зі свого профілю?</string>
-    <string name="alert_dialog_exit_questionnaire_title">Призупинити поточну анкету?</string>
-    <string name="alert_dialog_exit_questionnaire_msg">Наповнення анкети буде збережено.\nВи зможете
+    <string name="alert_dialog_exit_questionnaire_title">Призупинити анкету?</string>
+    <string name="alert_dialog_exit_questionnaire_msg">Наповнення буде збережено.\nВи зможете
         продовжити пізніше.</string>
     <string name="alert_dialog_exit_questionnaire_not_completed_title">Блок запитань не заповнено</string>
     <string name="alert_dialog_exit_questionnaire_not_completed_msg">Щоб перейти до наступного блоку запитань
@@ -100,6 +100,7 @@
     <string name="questionnaire_list_no_items_message">Наразі у Вас ще немає анкет.\n\nЩоб мати можливість працювати
         з\nанкетами необхідно розпочати соціальне опитування.
     </string>
+    <string name="questionnaire_list_load_error">Помилка під час завантежання анкет</string>
 
     <string name="questionnaire_list_menu_filter">Фільтр</string>
     <string name="questionnaire_list_menu_default">За датою</string>
@@ -125,6 +126,8 @@
     <string name="new_questionnaire_action_next"><![CDATA[Далі >>]]></string>
     <string name="new_questionnaire_action_finish">Завершити</string>
     <string name="new_questionnaire_action_back_to_list">До списку анкет</string>
+    <string name="new_questionnaire_save_success">Блок запитань збережено</string>
+    <string name="new_questionnaire_save_error">Не вдалося зберегти блок запитань</string>
 
     <!-- Completed Questionnaire -->
     <string name="completed_questionnaire_title">Анкету збережено</string>

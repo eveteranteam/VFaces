@@ -6,9 +6,10 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.recyclerview.widget.RecyclerView
 import ua.gov.mva.vfaces.R
+import ua.gov.mva.vfaces.domain.model.Item
 import ua.gov.mva.vfaces.presentation.ui.base.BaseViewHolder
 
-class CheckboxRecyclerAdapter(val data: ArrayList<String>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class CheckboxRecyclerAdapter(val data: Item) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.checkbox_list_item, parent, false)
@@ -17,20 +18,22 @@ class CheckboxRecyclerAdapter(val data: ArrayList<String>) : RecyclerView.Adapte
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
         val holder = viewHolder as ViewHolder
-        holder.setup(data[position])
+        holder.setup(data)
     }
 
     override fun getItemCount(): Int {
-        return data.size
+        return data.choices!!.size
     }
 
-    internal inner class ViewHolder(private val view: View) : BaseViewHolder<String>(view) {
+    internal inner class ViewHolder(private val view: View) : BaseViewHolder<Item>(view), DataValidator<Item> {
 
         private lateinit var checkBox: AppCompatCheckBox
+       // private lateinit var dataObj: Item
 
-        override fun setup(data: String) {
+        override fun setup(newData: Item) {
+            super.setup(newData)
             checkBox = view.findViewById(R.id.check_box)
-            checkBox.text = data
+            checkBox.text = data!!.choices!![adapterPosition]
         }
 
         /**
@@ -38,6 +41,10 @@ class CheckboxRecyclerAdapter(val data: ArrayList<String>) : RecyclerView.Adapte
          */
         override fun isDataValid(): Boolean {
             return checkBox.isChecked
+        }
+
+        override fun getAnswer(): Item {
+            return data!!
         }
     }
 }

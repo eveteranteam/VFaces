@@ -13,7 +13,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import ua.gov.mva.vfaces.data.db.FirebaseDbChild
-import ua.gov.mva.vfaces.data.db.child.User
+import ua.gov.mva.vfaces.data.db.child.UserDao
 import ua.gov.mva.vfaces.presentation.ui.base.BaseViewModel
 
 class SignInViewModel : BaseViewModel() {
@@ -76,7 +76,7 @@ class SignInViewModel : BaseViewModel() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 hideProgress()
                 // It must be java class. Otherwise exception will be thrown.
-                val user = snapshot.getValue(User::class.java)
+                val user = snapshot.getValue(UserDao::class.java)
                 if (user == null) {
                     Log.d(TAG, "User == null. Profile is not filled in")
                     resultLiveData.value = ResultType.SUCCESS_PROFILE_NOT_FILLED

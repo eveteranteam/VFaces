@@ -10,12 +10,14 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import ua.gov.mva.vfaces.R
 import ua.gov.mva.vfaces.presentation.ui.auth.forgotpassword.ForgotPasswordFragment
+import ua.gov.mva.vfaces.presentation.ui.auth.profile.ProfileFragment
 import ua.gov.mva.vfaces.presentation.ui.auth.profile.ProfilePromptFragment
 import ua.gov.mva.vfaces.presentation.ui.auth.register.RegisterFragment
 import ua.gov.mva.vfaces.presentation.ui.base.fragment.BaseFragment
 import ua.gov.mva.vfaces.presentation.ui.questionnaire.QuestionnaireMainActivity
 import ua.gov.mva.vfaces.utils.InputValidationUtils
 import ua.gov.mva.vfaces.utils.KeyboardUtils
+import ua.gov.mva.vfaces.utils.Preferences
 
 class SignInFragment : BaseFragment<SignInViewModel>() {
 
@@ -65,6 +67,7 @@ class SignInFragment : BaseFragment<SignInViewModel>() {
      * Displays message and navigates to List of Questionnaires.
      */
     private fun onProfileFilled() {
+        Preferences.putBoolean(ProfileFragment.PROFILE_SAVED_KEY, true)
         onUserSignedIn()
         QuestionnaireMainActivity.start(context!!)
     }

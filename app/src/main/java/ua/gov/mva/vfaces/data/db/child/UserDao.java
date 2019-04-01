@@ -6,7 +6,7 @@ package ua.gov.mva.vfaces.data.db.child;
  *
  * @see ua.gov.mva.vfaces.presentation.ui.auth.signin.SignInViewModel#getUser(String) method.
  */
-public class User {
+public class UserDao {
 
     private String id;
     private String name;
@@ -17,10 +17,10 @@ public class User {
     /**
      * Empty constructor required for calls to {@link com.google.firebase.database.DataSnapshot#getValue(Class)}
      */
-    public User() {
+    public UserDao() {
     }
 
-    public User(String id, String name, String email, String phone, String work) {
+    public UserDao(String id, String name, String email, String phone, String work) {
         this.id = id;
         this.name = name;
         this.email = email;

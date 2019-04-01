@@ -4,10 +4,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import ua.gov.mva.vfaces.domain.model.Block
+import ua.gov.mva.vfaces.domain.model.Questionnaire
 import ua.gov.mva.vfaces.presentation.ui.questionnaire.new.QuestionnaireFragment
 
-class QuestionnairePagerAdapter(private val data: ArrayList<Block>, fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
+class QuestionnairePagerAdapter(private val data: Questionnaire, fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
 
     /**
      * Currently visible to user Fragment.
@@ -15,8 +15,7 @@ class QuestionnairePagerAdapter(private val data: ArrayList<Block>, fm: Fragment
     var currentFragment: QuestionnaireFragment? = null
 
     override fun getItem(position: Int): Fragment {
-        val block = data[position]
-        return QuestionnaireFragment.newInstance(block)
+        return QuestionnaireFragment.newInstance(data, position)
     }
 
     override fun setPrimaryItem(container: ViewGroup, position: Int, `object`: Any) {
@@ -27,6 +26,6 @@ class QuestionnairePagerAdapter(private val data: ArrayList<Block>, fm: Fragment
     }
 
     override fun getCount(): Int {
-        return data.size
+        return data.blocks!!.size
     }
 }

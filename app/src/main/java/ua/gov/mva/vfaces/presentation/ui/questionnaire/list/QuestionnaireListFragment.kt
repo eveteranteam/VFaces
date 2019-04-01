@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.PopupMenu
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ua.gov.mva.vfaces.R
 import ua.gov.mva.vfaces.presentation.ui.base.fragment.BaseFragment
+import ua.gov.mva.vfaces.presentation.ui.questionnaire.list.QuestionnaireListViewModel.ResultType
 import ua.gov.mva.vfaces.presentation.ui.questionnaire.new.NewQuestionnaireActivity
 
 class QuestionnaireListFragment : BaseFragment<QuestionnaireListViewModel>(), QuestionnaireListAdapter.OnItemClickListener {
@@ -35,7 +37,18 @@ class QuestionnaireListFragment : BaseFragment<QuestionnaireListViewModel>(), Qu
         super.onViewCreated(view, savedInstanceState)
         setTitle(getString(R.string.questionnaire_list_title))
         initUi(view)
-        showResults()// TODO
+        viewModel.resultLiveData().observe(viewLifecycleOwner, Observer { result ->
+            when(result) {
+                ResultType.SUCCESS -> showResults()
+                ResultType.NO_RESULTS -> showNoResultsView()
+                ResultType.ERROR -> showErrorMessage(R.string.questionnaire_list_load_error)
+            }
+        })
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.loadQuestionnaires()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
@@ -61,8 +74,17 @@ class QuestionnaireListFragment : BaseFragment<QuestionnaireListViewModel>(), Qu
     }
 
     private fun onDelete(position: Int) {
-        // TODO
+        viewModel.delete(position)
         adapter.removeAt(position)
+        updateUi()
+    }
+
+    private fun updateUi() {
+        if (viewModel.results.isNullOrEmpty()) {
+            showNoResultsView()
+        } else {
+            showResults()
+        }
     }
 
     private fun showPopupMenu(anchor : View, position: Int) {
@@ -94,6 +116,7 @@ class QuestionnaireListFragment : BaseFragment<QuestionnaireListViewModel>(), Qu
         view!!.findViewById<View>(R.id.text_view_no_items_prompt).visibility = View.GONE
         view.findViewById<View>(R.id.image_view_arrow).visibility = View.GONE
         recyclerView.visibility = View.VISIBLE
+        adapter.update(viewModel.results)
     }
 
     private fun showNoResultsView() {

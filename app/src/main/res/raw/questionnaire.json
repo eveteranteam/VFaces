@@ -12,6 +12,11 @@
         },
         {
           "type": "field",
+          "name": "Населений пункт",
+          "choices": []
+        },
+        {
+          "type": "field",
           "name": "Номер",
           "choices": []
         },

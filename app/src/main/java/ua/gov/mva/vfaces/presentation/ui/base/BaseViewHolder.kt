@@ -5,13 +5,9 @@ import androidx.recyclerview.widget.RecyclerView
 
 abstract class BaseViewHolder<DATA : Any>(view: View) : RecyclerView.ViewHolder(view) {
 
-    abstract fun setup(data: DATA)
+    open var data: DATA? = null
 
-    /**
-     * Method should be overridden in subclasses to validate data
-     * in own implementation of [RecyclerView.ViewHolder] class.
-     */
-    open fun isDataValid(): Boolean {
-        return false
+    open fun setup(newData: DATA) {
+        data = newData
     }
 }
