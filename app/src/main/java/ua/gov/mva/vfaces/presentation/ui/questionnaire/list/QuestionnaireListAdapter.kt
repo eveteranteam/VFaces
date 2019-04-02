@@ -50,7 +50,8 @@ class QuestionnaireListAdapter(private val clickListener: OnItemClickListener)
             itemView.findViewById<TextView>(R.id.text_view_name).text = data.name
             itemView.findViewById<TextView>(R.id.text_view_settlement).text = data.settlement
             itemView.findViewById<TextView>(R.id.text_view_percents).text = "${data.progress}%"
-            itemView.findViewById<TextView>(R.id.text_view_date).text = DateUtils.format(data.lastEditTime)
+            val locale = DateUtils.getLocale(itemView.context!!)
+            itemView.findViewById<TextView>(R.id.text_view_date).text = DateUtils.format(data.lastEditTime, locale)
 
             itemView.findViewById<View>(R.id.card_view_questionnaire).setOnClickListener(this)
             itemView.findViewById<View>(R.id.image_view_options).setOnClickListener(this)
