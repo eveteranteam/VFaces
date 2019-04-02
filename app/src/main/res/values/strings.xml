@@ -133,7 +133,7 @@
     </string>
     <string name="questionnaire_list_load_error">Помилка під час завантаження анкет</string>
 
-    <string name="questionnaire_list_menu_filter">Фільтр</string>
+    <string name="questionnaire_list_menu_sort">Сортування</string>
     <string name="questionnaire_list_menu_default">За датою</string>
     <string name="questionnaire_list_menu_not_finished">Незаповнені</string>
     <string name="questionnaire_list_menu_name">ПІБ</string>
@@ -151,6 +151,7 @@
 
     <!-- New Questionnaire -->
     <string name="new_questionnaire_title">Анкета ветерана</string>
+    <string name="new_questionnaire_edit_title">Редагування анкети</string>
     <string name="new_questionnaire_family_title">Анкета сім\'ї загиблого</string>
     <string name="new_questionnaire_current_page">%s/%s</string>
     <string name="new_questionnaire_action_back"><![CDATA[<< Назад]]></string>

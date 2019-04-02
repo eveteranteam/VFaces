@@ -127,6 +127,7 @@ internal class MainRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolde
 
         override fun getAnswer(): Item {
             val answers = data!!.answers
+            answers.clear()
             answers!!.add(textInputLayout.editText!!.text.toString().trim())
             return data!!
         }
@@ -181,6 +182,7 @@ internal class MainRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolde
 
         override fun getAnswer(): Item {
             val answers = data!!.answers!!
+            answers.clear()
             adapter.data.choices!!.forEachIndexed { index, choice ->
                 val viewHolder = recyclerView.findViewHolderForAdapterPosition(index) as CheckboxRecyclerAdapter.ViewHolder
                 // If at least one checkbox is selected - true
@@ -223,6 +225,7 @@ internal class MainRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolde
 
         override fun getAnswer(): Item {
             val answers = data!!.answers
+            answers.clear()
             val selectedId = radioGroup.indexOfChild(itemView.findViewById(radioGroup.checkedRadioButtonId))
             if (selectedId == -1) {
                 throw IllegalArgumentException("selectedId == -1." +

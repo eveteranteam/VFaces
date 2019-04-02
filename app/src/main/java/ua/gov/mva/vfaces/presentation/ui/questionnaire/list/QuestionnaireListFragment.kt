@@ -61,7 +61,7 @@ class QuestionnaireListFragment : BaseFragment<QuestionnaireListViewModel>(),
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.filter_menu, menu)
+        inflater?.inflate(R.menu.sort_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -113,9 +113,12 @@ class QuestionnaireListFragment : BaseFragment<QuestionnaireListViewModel>(),
         showPopupMenu(anchor, position)
     }
 
-    private fun onEdit() {
-        // TODO
-        showWarningMessage("Редагування анкети ще не реалізовано!")
+    private fun onEdit(position: Int) {
+        if (position <= viewModel.results.size - 1) {
+            NewQuestionnaireActivity.start( context!!, viewModel.results[position])
+        } else {
+            Log.e(TAG, "Invalid position. position == $position")
+        }
     }
 
     private fun onDelete(position: Int) {
@@ -137,7 +140,7 @@ class QuestionnaireListFragment : BaseFragment<QuestionnaireListViewModel>(),
             override fun onMenuItemClick(item: MenuItem?): Boolean {
                 return when (item?.itemId) {
                     R.id.edit -> {
-                        onEdit()
+                        onEdit(position)
                         true
                     }
                     R.id.delete -> {

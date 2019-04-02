@@ -30,10 +30,11 @@ class QuestionnaireViewModel : BaseViewModel() {
      */
     fun save(answeredItems: List<Item>, position: Int, context: Context) {
         showProgress()
-
+        // If key does not exist - create. Otherwise - reuse
+        val key = if (questionnaire.key.isNullOrEmpty()) System.currentTimeMillis().toString() else questionnaire.key
+        questionnaire.key = key
         questionnaire.userId = FirebaseAuth.getInstance().currentUser!!.uid
-        val time = if (questionnaire.lastEditTime == 0L) System.currentTimeMillis() else questionnaire.lastEditTime
-        questionnaire.lastEditTime = time
+        questionnaire.lastEditTime = System.currentTimeMillis()
 
         //!!! TODO refactor!!!
         if (position == 0) {
@@ -44,7 +45,6 @@ class QuestionnaireViewModel : BaseViewModel() {
         block.items = answeredItems
         questionnaire.setBlockAt(block, position)
 
-        val key = time.toString()
         // TODO should use better solution
         if (ConnectionUtils.isNetworkConnected(context)) {
             db.child(getChildFor(type))

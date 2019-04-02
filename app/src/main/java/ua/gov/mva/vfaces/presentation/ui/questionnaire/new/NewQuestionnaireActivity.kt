@@ -36,11 +36,14 @@ class NewQuestionnaireActivity : ActionBarActivity(), QuestionnaireNavigationLis
     private lateinit var adapter: QuestionnairePagerAdapter
     private lateinit var data: Questionnaire
 
+    private var isEdit: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_questionnaire)
         initUi()
-        loadQuestionnaire() // TODO
+        loadQuestionnaire() // TODO Move to worker thread
+        setTitle(if (isEdit) R.string.new_questionnaire_edit_title else R.string.new_questionnaire_title)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -124,16 +127,20 @@ class NewQuestionnaireActivity : ActionBarActivity(), QuestionnaireNavigationLis
         currentPage.text = String.format(getString(R.string.new_questionnaire_current_page), index + 1, adapter.count)
     }
 
-    // TODO remove
     private fun loadQuestionnaire() {
-        // TODO Should be performed on worker thread
-        val entity = Gson().fromJson(
-            RawResourceReader
-                .readTextFileFromRawResource(R.raw.questionnaire, this),
-            ua.gov.mva.vfaces.data.entity.Questionnaire::class.java
-        )
-
-        data = QuestionnaireMapper().entityToModel(entity)
+        val editData = intent?.getParcelableExtra<Questionnaire>(QUESTIONNAIRE_EDIT_EXTRAS)
+        data = if (editData != null) {
+            isEdit = true
+            editData
+        } else {
+            isEdit = false
+            // TODO Should be performed on worker thread
+            val entity = Gson().fromJson(
+                RawResourceReader.readTextFileFromRawResource(R.raw.questionnaire, this),
+                ua.gov.mva.vfaces.data.entity.Questionnaire::class.java
+            )
+            QuestionnaireMapper().entityToModel(entity)
+        }
         adapter = QuestionnairePagerAdapter(data, supportFragmentManager)
         viewPager.adapter = adapter
         updateViewCounter(0) // Set initial counter value
@@ -230,7 +237,6 @@ class NewQuestionnaireActivity : ActionBarActivity(), QuestionnaireNavigationLis
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         setBackIcon()
-        setTitle(getString(R.string.new_questionnaire_title))
         viewPager = findViewById(R.id.view_pager)
         currentPage = findViewById(R.id.text_view_page)
         backButton = findViewById(R.id.button_back)
@@ -269,9 +275,16 @@ class NewQuestionnaireActivity : ActionBarActivity(), QuestionnaireNavigationLis
     }
 
     companion object {
+        const val QUESTIONNAIRE_EDIT_EXTRAS = "questionnaire_edit_extras"
+
+        /**
+         * @param editData - Questionnaire to be edited.
+         */
         @JvmStatic
-        fun start(context: Context) {
-            context.startActivity(Intent(context, NewQuestionnaireActivity::class.java))
+        fun start(context: Context, editData: Questionnaire? = null) {
+            val intent = Intent(context, NewQuestionnaireActivity::class.java)
+            intent.putExtra(QUESTIONNAIRE_EDIT_EXTRAS, editData)
+            context.startActivity(intent)
         }
     }
 }

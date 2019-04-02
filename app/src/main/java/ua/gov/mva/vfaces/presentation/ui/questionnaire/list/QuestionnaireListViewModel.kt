@@ -75,7 +75,7 @@ class QuestionnaireListViewModel : BaseViewModel() {
         val data = results[position]
         showProgress()
         db.child(getChildFor(type))
-                .child(data.lastEditTime.toString()) // Key
+                .child(data.key)
                 .removeValue()
                 .addOnCompleteListener { task ->
                     hideProgress()

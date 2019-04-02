@@ -12,6 +12,7 @@ public class Questionnaire implements Parcelable {
 
     private static final String TAG = "Questionnaire";
 
+    private String key;
     private String id;
     private String userId;
     private List<Block> blocks = new ArrayList<>();
@@ -26,9 +27,11 @@ public class Questionnaire implements Parcelable {
     public Questionnaire() {
     }
 
-    public Questionnaire(String id, List<Block> blocks, String name, String settlement,
+    public Questionnaire(String key, String id, String userId, List<Block> blocks, String name, String settlement,
                          int progress, long lastEditTime) {
+        this.key = key;
         this.id = id;
+        this.userId = userId;
         this.blocks = blocks;
         this.name = name;
         this.settlement = settlement;
@@ -39,6 +42,14 @@ public class Questionnaire implements Parcelable {
     public Questionnaire(String id, List<Block> blocks) {
         this.id = id;
         this.blocks = blocks;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getId() {
@@ -152,6 +163,7 @@ public class Questionnaire implements Parcelable {
         return result;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -159,7 +171,9 @@ public class Questionnaire implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.key);
         dest.writeString(this.id);
+        dest.writeString(this.userId);
         dest.writeTypedList(this.blocks);
         dest.writeString(this.name);
         dest.writeString(this.settlement);
@@ -168,7 +182,9 @@ public class Questionnaire implements Parcelable {
     }
 
     protected Questionnaire(Parcel in) {
+        this.key = in.readString();
         this.id = in.readString();
+        this.userId = in.readString();
         this.blocks = in.createTypedArrayList(Block.CREATOR);
         this.name = in.readString();
         this.settlement = in.readString();
@@ -176,7 +192,7 @@ public class Questionnaire implements Parcelable {
         this.lastEditTime = in.readLong();
     }
 
-    public static final Parcelable.Creator<Questionnaire> CREATOR = new Parcelable.Creator<Questionnaire>() {
+    public static final Creator<Questionnaire> CREATOR = new Creator<Questionnaire>() {
         @Override
         public Questionnaire createFromParcel(Parcel source) {
             return new Questionnaire(source);
