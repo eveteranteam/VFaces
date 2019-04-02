@@ -23,13 +23,13 @@ class ProfileViewModel : BaseViewModel() {
         showProgress()
         val authUser = FirebaseAuth.getInstance().currentUser
         val id = authUser!!.uid
-        // Create own user and store him in Cloud Firestore
+        // Create own user and store him in Firebase Database
         val user = UserDao(id, name, authUser.email!!, phone, work)
 
         // TODO should use better solution
         if (ConnectionUtils.isNetworkConnected(context)) {
             db.child(FirebaseDbChild.USERS)
-                    .push()
+                    .child(id)
                     .setValue(user)
                     .addOnCompleteListener { task ->
                         hideProgress()

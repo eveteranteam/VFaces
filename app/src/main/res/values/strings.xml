@@ -131,7 +131,7 @@
     <string name="questionnaire_list_no_items_message">Наразі у Вас ще немає анкет.\n\nЩоб мати можливість працювати
         з\nанкетами необхідно розпочати соціальне опитування.
     </string>
-    <string name="questionnaire_list_load_error">Помилка під час завантежання анкет</string>
+    <string name="questionnaire_list_load_error">Помилка під час завантаження анкет</string>
 
     <string name="questionnaire_list_menu_filter">Фільтр</string>
     <string name="questionnaire_list_menu_default">За датою</string>

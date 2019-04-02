@@ -16,11 +16,6 @@
           "choices": []
         },
         {
-          "type": "field",
-          "name": "Номер",
-          "choices": []
-        },
-        {
           "type": "multiple_choices",
           "name": "Сімейний стан",
           "choices": [
