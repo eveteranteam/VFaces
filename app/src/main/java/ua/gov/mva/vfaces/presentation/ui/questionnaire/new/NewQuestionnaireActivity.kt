@@ -197,6 +197,16 @@ class NewQuestionnaireActivity : ActionBarActivity(), QuestionnaireNavigationLis
         dialog!!.show()
     }
 
+    private fun onFragmentSelected() {
+        val fragment = adapter.currentFragment
+        if (fragment is SelectCallback) {
+            fragment.onSelected()
+            Log.d(TAG, "onSelected")
+        } else {
+            Log.e(TAG, "Fragment does not implement SelectCallback")
+        }
+    }
+
     /**
      * @return true - if [viewPager] is currently showing his last Fragment.
      */
@@ -227,7 +237,6 @@ class NewQuestionnaireActivity : ActionBarActivity(), QuestionnaireNavigationLis
         nextFinishButton = findViewById(R.id.button_next)
         showBackButton(false)
         viewPager.isSwipeEnabled = false // Disable swipe
-        viewPager.offscreenPageLimit = 0 // Do not cache fragments at all
         viewPager.addOnPageChangeListener(PageChangeListener())
         backButton.setOnClickListener {
             if (viewPager.currentItem != 0) { // if not first item
@@ -255,6 +264,7 @@ class NewQuestionnaireActivity : ActionBarActivity(), QuestionnaireNavigationLis
 
         override fun onPageSelected(position: Int) {
             updateViewCounter(position)
+            onFragmentSelected()
         }
     }
 

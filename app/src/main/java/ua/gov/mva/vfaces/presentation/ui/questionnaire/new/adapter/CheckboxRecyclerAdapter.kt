@@ -3,7 +3,7 @@ package ua.gov.mva.vfaces.presentation.ui.questionnaire.new.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.AppCompatCheckBox
+import android.widget.CheckBox
 import androidx.recyclerview.widget.RecyclerView
 import ua.gov.mva.vfaces.R
 import ua.gov.mva.vfaces.domain.model.Item
@@ -27,20 +27,27 @@ class CheckboxRecyclerAdapter(val data: Item) : RecyclerView.Adapter<RecyclerVie
 
     internal inner class ViewHolder(private val view: View) : BaseViewHolder<Item>(view), DataValidator<Item> {
 
-        private lateinit var checkBox: AppCompatCheckBox
-       // private lateinit var dataObj: Item
+        private lateinit var checkBox: CheckBox
 
         override fun setup(newData: Item) {
             super.setup(newData)
             checkBox = view.findViewById(R.id.check_box)
             checkBox.text = data!!.choices!![adapterPosition]
+
+            // TODO fix issue with checking
+            checkBox.isChecked = false
+
+            data!!.choices!!.forEach { choice ->
+                val check = newData.answers.contains(choice)
+                checkBox.isChecked = check
+            }
         }
 
         /**
          * @return true if [androidx.appcompat.widget.AppCompatCheckBox] is selected, false - otherwise.
          */
         override fun isDataValid(): Boolean {
-            return checkBox.isChecked
+            return checkBox!!.isChecked
         }
 
         override fun getAnswer(): Item {

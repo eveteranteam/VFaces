@@ -23,7 +23,7 @@ import ua.gov.mva.vfaces.presentation.ui.questionnaire.new.adapter.DataValidator
 import ua.gov.mva.vfaces.presentation.ui.questionnaire.new.adapter.MainRecyclerAdapter
 
 class QuestionnaireFragment : BaseFragment<QuestionnaireViewModel>(), OnBackPressedCallback,
-        CompletionCallback, SaveCallback {
+        CompletionCallback, SaveCallback, SelectCallback {
 
     override val TAG = "QuestionnaireFragment"
 
@@ -117,6 +117,10 @@ class QuestionnaireFragment : BaseFragment<QuestionnaireViewModel>(), OnBackPres
         viewModel.save(answeredItems, position, context!!)
     }
 
+    override fun onSelected() {
+        adapter.refresh(data)
+    }
+
     private fun navigateNext() {
         if (isLast) {
             transaction.replaceFragment(QuestionnaireCompletedFragment.newInstance(questionnaire.name))
@@ -176,8 +180,9 @@ class QuestionnaireFragment : BaseFragment<QuestionnaireViewModel>(), OnBackPres
         view.findViewById<TextView>(R.id.text_view_title).text = data.title
         recyclerViewContent = view.findViewById(R.id.recycler_view_content)
         recyclerViewContent.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        adapter = MainRecyclerAdapter(data)
+        adapter = MainRecyclerAdapter()
         recyclerViewContent.adapter = adapter
+        adapter.refresh(data)
     }
 
     companion object {
@@ -203,4 +208,8 @@ interface CompletionCallback {
 
 interface SaveCallback {
     fun save()
+}
+
+interface SelectCallback {
+    fun onSelected()
 }
