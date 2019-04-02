@@ -11,7 +11,7 @@ import ua.gov.mva.vfaces.domain.model.Questionnaire
 class DbModelMapper : IDbModelMapper {
 
     override fun questionnaireToDao(data: Questionnaire): QuestionnaireDao {
-        return QuestionnaireDao(data.id, data.name, data.number, data.settlement,
+        return QuestionnaireDao(data.id, data.name, data.settlement,
                 data.progress!!, data.lastEditTime, blocksListToDao(data.blocks!!))
     }
 

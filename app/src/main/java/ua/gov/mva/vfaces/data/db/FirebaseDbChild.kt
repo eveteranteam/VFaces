@@ -5,6 +5,7 @@ package ua.gov.mva.vfaces.data.db
  */
 object FirebaseDbChild {
 
+    const val USER_ID = "userId"
     const val USERS = "users"
     const val QUESTIONNAIRE = "questionnaire"
     const val QUESTIONNAIRE_MAIN = "main"

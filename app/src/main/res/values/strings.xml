@@ -135,7 +135,7 @@
 
     <string name="questionnaire_list_menu_filter">Фільтр</string>
     <string name="questionnaire_list_menu_default">За датою</string>
-    <string name="questionnaire_list_menu_not_finished">Лише незаповнені</string>
+    <string name="questionnaire_list_menu_not_finished">Незаповнені</string>
     <string name="questionnaire_list_menu_name">ПІБ</string>
     <string name="questionnaire_list_menu_settlement">Населений пункт</string>
     <string name="questionnaire_list_menu_progress">Наповнення</string>

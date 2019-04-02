@@ -17,6 +17,11 @@ class AuthHostActivity : BaseActivity() {
     override val TAG = "AuthHostActivity"
     override var dialog: AlertDialog? = null
 
+    /**
+     * Listener to notify about changes in Firebase auth state.
+     */
+    private var authListener: FirebaseAuth.AuthStateListener? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auth)
@@ -27,6 +32,7 @@ class AuthHostActivity : BaseActivity() {
         } else {
             replaceFragment(ProfilePromptFragment.newInstance())
         }
+        subscribeToFirebaseAuthStateChanges()
     }
 
     override fun onBackPressed() {
@@ -46,6 +52,16 @@ class AuthHostActivity : BaseActivity() {
             return
         }
         supportFragmentManager.popBackStack()
+    }
+
+    private fun subscribeToFirebaseAuthStateChanges() {
+        authListener = FirebaseAuth.AuthStateListener {
+            val user = it.currentUser
+            Log.d(TAG, "onAuthStateChanged. user == $user")
+            if (user == null) {
+                signOut()
+            }
+        }
     }
 
     companion object {

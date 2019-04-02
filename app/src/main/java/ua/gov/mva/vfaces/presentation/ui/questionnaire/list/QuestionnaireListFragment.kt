@@ -13,9 +13,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ua.gov.mva.vfaces.R
 import ua.gov.mva.vfaces.presentation.ui.base.fragment.BaseFragment
 import ua.gov.mva.vfaces.presentation.ui.questionnaire.list.QuestionnaireListViewModel.ResultType
+import ua.gov.mva.vfaces.presentation.ui.questionnaire.list.QuestionnaireListViewModel.SortType
 import ua.gov.mva.vfaces.presentation.ui.questionnaire.new.NewQuestionnaireActivity
 
-class QuestionnaireListFragment : BaseFragment<QuestionnaireListViewModel>(), QuestionnaireListAdapter.OnItemClickListener {
+class QuestionnaireListFragment : BaseFragment<QuestionnaireListViewModel>(),
+    QuestionnaireListAdapter.OnItemClickListener {
 
     override val TAG = "QuestionnaireListFragment"
     private var dialog: AlertDialog? = null
@@ -40,7 +42,7 @@ class QuestionnaireListFragment : BaseFragment<QuestionnaireListViewModel>(), Qu
         setTitle(getString(R.string.questionnaire_list_title))
         initUi(view)
         viewModel.resultLiveData().observe(viewLifecycleOwner, Observer { result ->
-            when(result) {
+            when (result) {
                 ResultType.SUCCESS -> showResults()
                 ResultType.NO_RESULTS -> showNoResultsView()
                 ResultType.ERROR -> showErrorMessage(R.string.questionnaire_list_load_error)
@@ -63,6 +65,41 @@ class QuestionnaireListFragment : BaseFragment<QuestionnaireListViewModel>(), Qu
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        val result: Boolean
+        when (item?.itemId) {
+            R.id.action_one -> {
+                viewModel.sortResultsBy(SortType.TIMESTAMP)
+                result = true
+            }
+            R.id.action_two -> {
+                viewModel.sortResultsBy(SortType.NOT_COMPLETED)
+                result = true
+            }
+            R.id.action_three -> {
+                viewModel.sortResultsBy(SortType.NAME)
+                result = true
+            }
+            R.id.action_four -> {
+                viewModel.sortResultsBy(SortType.SETTLEMENT)
+                result = true
+            }
+            R.id.action_five -> {
+                viewModel.sortResultsBy(SortType.COMPLETED)
+                result = true
+            }
+            else -> {
+                Log.e(TAG, "Unknown itemId. itemId == ${item?.itemId}")
+                result = false
+            }
+        }
+        if (result) {
+            viewModel.update()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     override fun initViewModel(): QuestionnaireListViewModel {
         viewModel = ViewModelProviders.of(this).get(QuestionnaireListViewModel::class.java)
         return viewModel
@@ -72,7 +109,7 @@ class QuestionnaireListFragment : BaseFragment<QuestionnaireListViewModel>(), Qu
         // TODO
     }
 
-    override fun onOptionsClick(anchor : View, position: Int) {
+    override fun onOptionsClick(anchor: View, position: Int) {
         showPopupMenu(anchor, position)
     }
 
@@ -93,7 +130,7 @@ class QuestionnaireListFragment : BaseFragment<QuestionnaireListViewModel>(), Qu
         }
     }
 
-    private fun showPopupMenu(anchor : View, position: Int) {
+    private fun showPopupMenu(anchor: View, position: Int) {
         val menu = PopupMenu(activity, anchor)
         menu.inflate(R.menu.options_item_menu)
         menu.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {

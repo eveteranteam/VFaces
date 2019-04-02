@@ -4,7 +4,11 @@ import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.google.firebase.auth.FirebaseAuth
 import ua.gov.mva.vfaces.R
+import ua.gov.mva.vfaces.presentation.ui.auth.AuthHostActivity
+import ua.gov.mva.vfaces.presentation.ui.auth.profile.ProfileFragment
+import ua.gov.mva.vfaces.utils.Preferences
 
 abstract class BaseActivity : AppCompatActivity(), IFragmentTransaction {
 
@@ -31,5 +35,12 @@ abstract class BaseActivity : AppCompatActivity(), IFragmentTransaction {
             return
         }
         supportFragmentManager.popBackStack()
+    }
+
+    protected fun signOut() {
+        FirebaseAuth.getInstance().signOut()
+        Preferences.putBoolean(ProfileFragment.PROFILE_SAVED_KEY, false)
+        AuthHostActivity.start(this)
+        finish()
     }
 }

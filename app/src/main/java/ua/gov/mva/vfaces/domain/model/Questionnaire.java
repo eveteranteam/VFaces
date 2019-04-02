@@ -13,9 +13,9 @@ public class Questionnaire implements Parcelable {
     private static final String TAG = "Questionnaire";
 
     private String id;
+    private String userId;
     private List<Block> blocks = new ArrayList<>();
     private String name;
-    private String number;
     private String settlement;
     private int progress;
     private long lastEditTime = 0;
@@ -26,12 +26,11 @@ public class Questionnaire implements Parcelable {
     public Questionnaire() {
     }
 
-    public Questionnaire(String id, List<Block> blocks, String name, String number, String settlement,
+    public Questionnaire(String id, List<Block> blocks, String name, String settlement,
                          int progress, long lastEditTime) {
         this.id = id;
         this.blocks = blocks;
         this.name = name;
-        this.number = number;
         this.settlement = settlement;
         this.progress = progress;
         this.lastEditTime = lastEditTime;
@@ -48,6 +47,14 @@ public class Questionnaire implements Parcelable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public List<Block> getBlocks() {
@@ -72,14 +79,6 @@ public class Questionnaire implements Parcelable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
     }
 
     public String getSettlement() {
@@ -163,7 +162,6 @@ public class Questionnaire implements Parcelable {
         dest.writeString(this.id);
         dest.writeTypedList(this.blocks);
         dest.writeString(this.name);
-        dest.writeString(this.number);
         dest.writeString(this.settlement);
         dest.writeInt(this.progress);
         dest.writeLong(this.lastEditTime);
@@ -173,7 +171,6 @@ public class Questionnaire implements Parcelable {
         this.id = in.readString();
         this.blocks = in.createTypedArrayList(Block.CREATOR);
         this.name = in.readString();
-        this.number = in.readString();
         this.settlement = in.readString();
         this.progress = in.readInt();
         this.lastEditTime = in.readLong();

@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import ua.gov.mva.vfaces.data.db.FirebaseDbChild
 import ua.gov.mva.vfaces.domain.model.Block
@@ -30,14 +31,14 @@ class QuestionnaireViewModel : BaseViewModel() {
     fun save(answeredItems: List<Item>, position: Int, context: Context) {
         showProgress()
 
+        questionnaire.userId = FirebaseAuth.getInstance().currentUser!!.uid
         val time = if (questionnaire.lastEditTime == 0L) System.currentTimeMillis() else questionnaire.lastEditTime
         questionnaire.lastEditTime = time
 
         //!!! TODO refactor!!!
         if (position == 0) {
             questionnaire.name = answeredItems[0].answers!![0]
-            questionnaire.number = answeredItems[1].answers!![0]
-            questionnaire.settlement = answeredItems[2].answers!![0]
+            questionnaire.settlement = answeredItems[1].answers!![0]
         }
 
         block.items = answeredItems
@@ -80,7 +81,6 @@ class QuestionnaireViewModel : BaseViewModel() {
     private companion object {
         private const val TAG = "QuestionnaireViewModel"
     }
-
 
     enum class ResultType {
         SAVE_SUCCESS,

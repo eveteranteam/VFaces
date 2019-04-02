@@ -3,6 +3,7 @@ package ua.gov.mva.vfaces.presentation.ui.questionnaire.list
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -18,15 +19,24 @@ class QuestionnaireListViewModel : BaseViewModel() {
     private val resultLiveData = MutableLiveData<ResultType>()
 
     var type = QuestionnaireType.MAIN
+    var sortType = SortType.TIMESTAMP
     var results = arrayListOf<Questionnaire>()
 
     fun resultLiveData(): LiveData<ResultType> = resultLiveData
 
     fun loadQuestionnaires() {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+        if (userId.isNullOrEmpty()) {
+            resultLiveData.value = ResultType.ERROR
+            return
+        }
+
         showProgress() // TODO fix progress
         val query = db.child(getChildFor(type))
-               // .orderByKey() // TODO add filters
-               // .limitToLast(LOAD_LIMIT)
+            .orderByChild(FirebaseDbChild.USER_ID)
+            .equalTo(userId) // get results belonging to current user only
+        // TODO pagination
+        // .limitToLast(LOAD_LIMIT)
 
         query.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snaphot: DataSnapshot) {
@@ -44,6 +54,7 @@ class QuestionnaireListViewModel : BaseViewModel() {
                     Log.d(TAG, "results == $results")
                     resultLiveData.value = ResultType.NO_RESULTS
                 } else {
+                    sortResultsBy(sortType)
                     resultLiveData.value = ResultType.SUCCESS
                 }
             }
@@ -69,13 +80,54 @@ class QuestionnaireListViewModel : BaseViewModel() {
                 .addOnCompleteListener { task ->
                     hideProgress()
                     if (task.isSuccessful) {
-                       // results.removeAt(position)
                         resultLiveData.value = ResultType.DELETE_SUCCESS
                     } else {
                         resultLiveData.value = ResultType.DELETE_ERROR
                         Log.e(TAG, "Could not delete. ${task.exception}")
                     }
                 }
+    }
+
+    fun sortResultsBy(newSort: SortType) {
+        sortType = newSort
+        when(sortType) {
+            SortType.TIMESTAMP -> {
+                results.sortByDescending {
+                    it.lastEditTime
+                }
+                return
+            }
+            SortType.NAME -> {
+                results.sortBy {
+                    it.name
+                }
+                return
+            }
+            SortType.SETTLEMENT -> {
+                results.sortBy {
+                    it.settlement
+                }
+            }
+            SortType.COMPLETED -> {
+                results.sortByDescending {
+                    it.progress
+                }
+            }
+            SortType.NOT_COMPLETED -> {
+                results.sortByDescending {
+                    it.progress < COMPLETED_PROGRESS
+                }
+                return
+            }
+        }
+    }
+
+    fun update() {
+        if (results.isNotEmpty()) {
+            resultLiveData.value = ResultType.SUCCESS
+        } else {
+            resultLiveData.value = ResultType.NO_RESULTS
+        }
     }
 
     private fun getChildFor(type: QuestionnaireType): String {
@@ -86,12 +138,12 @@ class QuestionnaireListViewModel : BaseViewModel() {
         }
     }
 
-    enum class Filter {
-        DEFAULT, //
+    enum class SortType {
+        TIMESTAMP, // Last edit time
         NAME,
         SETTLEMENT,
-        PROGRESS_MIN,
-        PROGRESS_MAX
+        COMPLETED,
+        NOT_COMPLETED
     }
 
     enum class ResultType {
@@ -105,5 +157,6 @@ class QuestionnaireListViewModel : BaseViewModel() {
     private companion object {
         private const val TAG = "QListViewModel"
         private const val LOAD_LIMIT: Int = 25
+        private const val COMPLETED_PROGRESS: Int = 100
     }
 }

@@ -12,12 +12,9 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import ua.gov.mva.vfaces.R
-import ua.gov.mva.vfaces.presentation.ui.auth.AuthHostActivity
-import ua.gov.mva.vfaces.presentation.ui.auth.profile.ProfileFragment
 import ua.gov.mva.vfaces.presentation.ui.base.activity.ActionBarActivity
 import ua.gov.mva.vfaces.presentation.ui.base.activity.OnBackPressedCallback
 import ua.gov.mva.vfaces.presentation.ui.questionnaire.list.QuestionnaireListFragment
-import ua.gov.mva.vfaces.utils.Preferences
 
 class QuestionnaireMainActivity : ActionBarActivity() {
 
@@ -106,13 +103,6 @@ class QuestionnaireMainActivity : ActionBarActivity() {
                 signOut()
             }
         }
-    }
-
-    private fun signOut() {
-        FirebaseAuth.getInstance().signOut()
-        Preferences.putBoolean(ProfileFragment.PROFILE_SAVED_KEY, false)
-        AuthHostActivity.start(this@QuestionnaireMainActivity)
-        finish()
     }
 
     private fun initUi() {

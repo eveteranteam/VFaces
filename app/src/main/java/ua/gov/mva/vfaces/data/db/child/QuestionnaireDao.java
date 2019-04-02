@@ -10,17 +10,15 @@ public class QuestionnaireDao {
 
     private String id;
     private String name;
-    private String number;
     private String settlement;
     private int progress;
     private long lastEditTime;
     private List<BlockDao> blocks;
 
-    public QuestionnaireDao(String id, String name, String number, String settlement, int progress,
+    public QuestionnaireDao(String id, String name, String settlement, int progress,
                             long lastEditTime, List<BlockDao> blocks) {
         this.id = id;
         this.name = name;
-        this.number = number;
         this.settlement = settlement;
         this.progress = progress;
         this.lastEditTime = lastEditTime;
@@ -39,10 +37,6 @@ public class QuestionnaireDao {
 
     public String getName() {
         return name;
-    }
-
-    public String getNumber() {
-        return number;
     }
 
     public String getSettlement() {
