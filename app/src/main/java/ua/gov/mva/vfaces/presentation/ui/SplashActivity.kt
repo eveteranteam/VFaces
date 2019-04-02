@@ -41,8 +41,8 @@ class SplashActivity : AppCompatActivity() {
     private fun getSplashDuration(): Long {
         val res = Preferences.getBoolean(VFacesApp.PREFS_FIRST_LAUNCH_KEY, true)
         return when(res) {
-            true -> 2500L
-            false -> 1000L
+            true -> 1000L
+            false -> 500L
         }
     }
 }
