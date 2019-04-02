@@ -75,6 +75,13 @@ class ProfileFragment : BaseFragment<ProfileViewModel>(), OnBackPressedCallback 
         }
 
         val phone = textPhone.text.toString().trim()
+        if (InputValidationUtils.isPhoneTooShort(phone)) {
+            tilPhone.error = getString(R.string.wrong_number_too_short)
+            return
+        } else {
+            tilPhone.isErrorEnabled = false
+        }
+
         if (InputValidationUtils.isPhoneValid(phone)) {
             tilPhone.isErrorEnabled = false
         } else {
