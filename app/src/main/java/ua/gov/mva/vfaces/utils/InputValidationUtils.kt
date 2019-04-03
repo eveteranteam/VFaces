@@ -7,13 +7,13 @@ object InputValidationUtils {
     private const val EMAIL_PATTERN =
         "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"
 
+    private const val UA_PHONE_PATTERN = "^(0|\\+380)\\d{9}\$"
+
     private const val NAME_MINIMUM_LENGTH = 1
     private const val NAME_MAXIMUM_LENGTH = 30
     private const val PASSWORD_MINIMUM_LENGTH = 6
     private const val PASSWORD_MAXIMUM_LENGTH = 30
     private const val PHONE_MINIMUM_LENGTH = 10
-    private const val PHONE_LENGTH = 10
-    private const val PHONE_INTERNATIONAL_LENGTH = 13
 
     fun isEmailValid(email: String): Boolean {
         val pattern = Pattern.compile(EMAIL_PATTERN)
@@ -29,8 +29,8 @@ object InputValidationUtils {
     }
 
     fun isPhoneValid(phone: String) : Boolean {
-        val length = phone.length
-        return length == PHONE_INTERNATIONAL_LENGTH || length == PHONE_LENGTH
+        val pattern = Pattern.compile(UA_PHONE_PATTERN)
+        return pattern.matcher(phone).matches()
     }
 
     fun isPhoneTooShort(phone: String) : Boolean {
