@@ -51,6 +51,7 @@
         <activity
             android:name=".presentation.ui.questionnaire.new.NewQuestionnaireActivity"
             android:launchMode="singleTask"
+            android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBar" />
     </application>
