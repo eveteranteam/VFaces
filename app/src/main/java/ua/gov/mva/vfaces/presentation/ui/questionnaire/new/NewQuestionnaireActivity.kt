@@ -113,6 +113,13 @@ class NewQuestionnaireActivity : ActionBarActivity(), QuestionnaireNavigationLis
         }
     }
 
+    override fun navigateToCompleted(name: String) {
+        if (isLastItem()) {
+            findViewById<View>(R.id.actions).visibility = View.GONE
+        }
+        replaceFragment(QuestionnaireCompletedFragment.newInstance(name))
+    }
+
     private fun trySave() {
         if (!isQuestionnaireCompleted()) {
             Log.d(TAG, "Questionnaire is not completed. Can't save")
@@ -251,9 +258,6 @@ class NewQuestionnaireActivity : ActionBarActivity(), QuestionnaireNavigationLis
             }
         }
         nextFinishButton.setOnClickListener {
-            if (isLastItem()) {
-                findViewById<View>(R.id.actions).visibility = View.GONE
-            }
             trySave()
         }
     }
@@ -292,4 +296,5 @@ class NewQuestionnaireActivity : ActionBarActivity(), QuestionnaireNavigationLis
 interface QuestionnaireNavigationListener {
     fun navigateNext()
     fun navigateBack()
+    fun navigateToCompleted(name: String)
 }

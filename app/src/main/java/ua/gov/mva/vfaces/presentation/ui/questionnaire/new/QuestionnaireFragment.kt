@@ -123,7 +123,7 @@ class QuestionnaireFragment : BaseFragment<QuestionnaireViewModel>(), OnBackPres
 
     private fun navigateNext() {
         if (isLast) {
-            transaction.replaceFragment(QuestionnaireCompletedFragment.newInstance(questionnaire.name))
+            navigationListener.navigateToCompleted(questionnaire.name)
         } else {
             navigationListener.navigateNext()
         }
