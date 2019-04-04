@@ -3,7 +3,7 @@
   "block": [
     {
       "id": 1,
-      "title": "Інформаційний блок",
+      "title": "Інформаційний блок (1/2)",
       "item": [
         {
           "type": "field",
@@ -18,28 +18,7 @@
           "choices": []
         },
         {
-          "type": "multiple_choices",
-          "name": "Сімейний стан",
-          "optional": "false",
-          "choices": [
-            "Має сім'ю",
-            "Має співмешканців",
-            "Має дітей",
-            "Проживає один"
-          ]
-        },
-        {
-          "type": "checkbox",
-          "name": "Як давно повернувся?",
-          "optional": "false",
-          "choices": [
-            "1 - 6 міс",
-            "1 - 2 роки",
-            "від 2 років"
-          ]
-        },
-        {
-          "type": "checkbox",
+          "type": "single_choice",
           "name": "Неможливо заповнити анкету (необов'язкове поле)",
           "optional": "true",
           "choices": [
@@ -51,10 +30,37 @@
     },
     {
       "id": 2,
+      "title": "Інформаційний блок (2/2)",
+      "item": [
+        {
+          "type": "multiple_choices",
+          "name": "Сімейний стан",
+          "optional": "false",
+          "choices": [
+            "Має сім'ю",
+            "Має співмешканців",
+            "Має дітей",
+            "Проживає один"
+          ]
+        },
+        {
+          "type": "single",
+          "name": "Як давно повернувся?",
+          "optional": "false",
+          "choices": [
+            "1 - 6 міс",
+            "1 - 2 роки",
+            "від 2 років"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
       "title": "Соціальний блок",
       "item": [
         {
-          "type": "checkbox",
+          "type": "single",
           "name": "Чи є потреба у працевлаштуванні?",
           "optional": "false",
           "choices": [
@@ -64,7 +70,7 @@
           ]
         },
         {
-          "type": "checkbox",
+          "type": "single",
           "name": "Чи звертався до органів місцевого самоврядування?",
           "optional": "false",
           "choices": [
@@ -74,7 +80,7 @@
           ]
         },
         {
-          "type": "checkbox",
+          "type": "single",
           "name": "Чи користується пільгами?",
           "optional": "false",
           "choices": [
@@ -90,7 +96,7 @@
       "title": "Медичний блок",
       "item": [
         {
-          "type": "checkbox",
+          "type": "single",
           "name": "Як себе почуває?",
           "optional": "false",
           "choices": [
@@ -100,7 +106,7 @@
           ]
         },
         {
-          "type": "checkbox",
+          "type": "single",
           "name": "Чи має інвалідність від бойового поранення?",
           "optional": "false",
           "choices": [
@@ -110,7 +116,7 @@
           ]
         },
         {
-          "type": "checkbox",
+          "type": "single",
           "name": "Чи є потреба у обстеженні?",
           "optional": "false",
           "choices": [
@@ -126,7 +132,7 @@
       "title": "Психологічний блок",
       "item": [
         {
-          "type": "checkbox",
+          "type": "single",
           "name": "Наскільки задовільняє рівень життя?",
           "optional": "false",
           "choices": [
@@ -136,7 +142,7 @@
           ]
         },
         {
-          "type": "checkbox",
+          "type": "single",
           "name": "Чи потребує психологічної підтримки?",
           "optional": "false",
           "choices": [
@@ -152,7 +158,7 @@
       "title": "Зворотній зв'язок соціального працівника",
       "item": [
         {
-          "type": "checkbox",
+          "type": "single",
           "name": "Яка була реакція ветерана?",
           "optional": "false",
           "choices": [
@@ -162,22 +168,13 @@
           ]
         },
         {
-          "type": "checkbox",
+          "type": "single",
           "name": "Які побутові умови у ветерана?",
           "optional": "false",
           "choices": [
             "Хороші",
             "Нормальні",
             "Погані"
-          ]
-        },
-        {
-          "type": "checkbox",
-          "name": "Додатково",
-          "optional": "false",
-          "choices": [
-            "Відмовився відповідати",
-            "Відсутній"
           ]
         }
       ]

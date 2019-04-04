@@ -5,6 +5,7 @@ import android.util.Log
 enum class BlockType(private val value : String) {
     FIELD("field"),
     MULTIPLE_CHOICES("multiple_choices"),
+    SINGLE_CHOICE("single_choice"),
     CHECKBOX("checkbox");
 
     companion object {

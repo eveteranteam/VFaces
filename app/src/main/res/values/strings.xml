@@ -126,6 +126,9 @@
     <!-- Auth screen -->
 
     <!-- Main -->
+    <string name="navigation_drawer_questionnaires">Анкети</string>
+    <string name="navigation_drawer_questionnaire_main">Ветеранів</string>
+    <string name="navigation_drawer_questionnaire_additional">Сімей загиблих</string>
     <string name="navigation_drawer_profile">Мій профіль</string>
     <string name="navigation_drawer_exit">Вийти</string>
 
