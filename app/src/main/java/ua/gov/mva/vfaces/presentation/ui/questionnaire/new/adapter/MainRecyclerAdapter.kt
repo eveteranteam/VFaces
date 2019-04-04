@@ -220,6 +220,11 @@ internal class MainRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolde
          * @return true - if RadioGroup has checked RadioButton, false - otherwise.
          */
         override fun isDataValid(): Boolean {
+            val selectedId = radioGroup.indexOfChild(itemView.findViewById(radioGroup.checkedRadioButtonId))
+            // TODO
+            if (data!!.isOptional) {
+                return true
+            }
             return radioGroup.checkedRadioButtonId != -1 // Means group is selected
         }
 
