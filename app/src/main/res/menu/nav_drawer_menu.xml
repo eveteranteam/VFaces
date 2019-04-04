@@ -1,7 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <group android:checkableBehavior="single">
+    <group android:id="@+id/divider" />
+
+    <item
+        android:id="@+id/empty"
+        android:title="Empty"
+        android:visible="false"
+        tools:ignore="HardcodedText" />
+
+    <item
+        android:id="@+id/questionnaires"
+        android:title="@string/navigation_drawer_questionnaires">
+        <menu>
+            <item
+                android:id="@+id/nav_questionnaire_main"
+                android:title="@string/navigation_drawer_questionnaire_main" />
+            <item
+                android:id="@+id/nav_questionnaire_additional"
+                android:title="@string/navigation_drawer_questionnaire_additional" />
+        </menu>
+    </item>
+
+    <group>
         <!--<item
             android:id="@+id/nav_profile"
             android:icon="@drawable/ic_account_circle"

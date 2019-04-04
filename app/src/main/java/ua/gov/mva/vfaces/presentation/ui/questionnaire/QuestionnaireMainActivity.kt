@@ -12,6 +12,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import ua.gov.mva.vfaces.R
+import ua.gov.mva.vfaces.domain.model.QuestionnaireType
 import ua.gov.mva.vfaces.presentation.ui.base.activity.ActionBarActivity
 import ua.gov.mva.vfaces.presentation.ui.base.activity.OnBackPressedCallback
 import ua.gov.mva.vfaces.presentation.ui.questionnaire.list.QuestionnaireListFragment
@@ -32,7 +33,7 @@ class QuestionnaireMainActivity : ActionBarActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_questionnaire)
         initUi()
-        replaceFragment(QuestionnaireListFragment.newInstance())
+        replaceFragment(QuestionnaireListFragment.newInstance(QuestionnaireType.MAIN))
         subscribeToFirebaseAuthStateChanges()
     }
 
@@ -118,13 +119,16 @@ class QuestionnaireMainActivity : ActionBarActivity() {
         override fun onNavigationItemSelected(item: MenuItem): Boolean {
             drawerLayout.closeDrawers()
             handleSelection(item)
-
             return true
         }
 
         private fun handleSelection(menu: MenuItem) {
-            // item.isChecked = true // TODO
             when (menu.itemId) {
+                R.id.nav_questionnaire_main ->
+                    replaceFragment(QuestionnaireListFragment.newInstance(QuestionnaireType.MAIN))
+                R.id.nav_questionnaire_additional ->
+                    replaceFragment(QuestionnaireListFragment.newInstance(QuestionnaireType.ADDITIONAL))
+
                 /*R.id.nav_profile -> {
                     // TODO
                 }*/

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ua.gov.mva.vfaces.R
+import ua.gov.mva.vfaces.domain.model.QuestionnaireType
 import ua.gov.mva.vfaces.presentation.ui.base.fragment.BaseFragment
 import ua.gov.mva.vfaces.presentation.ui.questionnaire.list.QuestionnaireListViewModel.ResultType
 import ua.gov.mva.vfaces.presentation.ui.questionnaire.list.QuestionnaireListViewModel.SortType
@@ -31,6 +32,7 @@ class QuestionnaireListFragment : BaseFragment<QuestionnaireListViewModel>(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+        viewModel.type = QuestionnaireType.values()[arguments?.getInt(TYPE_EXTRAS)!!]
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -39,7 +41,9 @@ class QuestionnaireListFragment : BaseFragment<QuestionnaireListViewModel>(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setTitle(getString(R.string.questionnaire_list_title))
+        val title = if (viewModel.type == QuestionnaireType.MAIN)
+            getString(R.string.questionnaire_list_title) else getString(R.string.questionnaire_list_family_title)
+        setTitle(title)
         initUi(view)
         viewModel.resultLiveData().observe(viewLifecycleOwner, Observer { result ->
             when (result) {
@@ -214,9 +218,15 @@ class QuestionnaireListFragment : BaseFragment<QuestionnaireListViewModel>(),
     }
 
     companion object {
+        private const val TYPE_EXTRAS = "type_extras"
+
         @JvmStatic
-        fun newInstance(): QuestionnaireListFragment {
-            return QuestionnaireListFragment()
+        fun newInstance(type: QuestionnaireType): QuestionnaireListFragment {
+            val args = Bundle()
+            args.putInt(TYPE_EXTRAS, type.ordinal)
+            val fragment = QuestionnaireListFragment()
+            fragment.arguments = args
+            return fragment
         }
     }
 }
