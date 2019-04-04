@@ -11,7 +11,7 @@
         android:id="@+id/text_view_no_items_prompt"
         style="@style/RegularTextViewStyleMedium"
         android:text="@string/questionnaire_list_no_items_message"
-        android:textColor="@color/colorYellow"
+        android:textColor="@color/colorGrey"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/fab_new_questionnaire"
         app:layout_constraintLeft_toLeftOf="parent"
