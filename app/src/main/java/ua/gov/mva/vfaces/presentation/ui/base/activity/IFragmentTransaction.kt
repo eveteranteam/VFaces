@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment
 
 interface IFragmentTransaction {
 
-    fun replaceFragment(fragment: Fragment)
+    fun replaceFragment(fragment: Fragment, addToBackStack: Boolean = true)
 
     fun popBackStack()
 }

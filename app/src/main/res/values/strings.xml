@@ -78,6 +78,7 @@
 
     <!-- Profile -->
     <string name="profile_title">Профіль працівника</string>
+    <string name="profile_my_title">Мій профіль</string>
     <string name="profile_fill_prompt">*Будь ласка, вводьте Ваші справжні дані.</string>
     <string name="profile_name">ПІБ</string>
     <string name="profile_work">Місце роботи</string>
@@ -85,6 +86,7 @@
     <string name="profile_select_work_error">Будь ласка, оберіть місце роботи</string>
     <string name="profile_save_success">Профіль працівника успішно збережено</string>
     <string name="profile_save_error">Помилка під час збереження профілю. Будь ласка, спробуйте ще раз.</string>
+    <string name="profile_get_error">Помилка під час отримання профілю. Будь ласка, спробуйте ще раз.</string>
 
     <string-array name="profile_organisations_list">
         <item>Оберіть місце роботи</item>
@@ -158,9 +160,9 @@
     <string name="questionnaire_list_item_options_delete">Видалити</string>
 
     <!-- New Questionnaire -->
-    <string name="new_questionnaire_title">Анкета ветерана</string>
+    <string name="new_questionnaire_main_title">Анкета ветерана</string>
+    <string name="new_questionnaire_additional_title">Анкета сім\'ї загиблого</string>
     <string name="new_questionnaire_edit_title">Редагування анкети</string>
-    <string name="new_questionnaire_family_title">Анкета сім\'ї загиблого</string>
     <string name="new_questionnaire_current_page">%s/%s</string>
     <string name="new_questionnaire_action_back"><![CDATA[<< Назад]]></string>
     <string name="new_questionnaire_action_next"><![CDATA[Далі >>]]></string>

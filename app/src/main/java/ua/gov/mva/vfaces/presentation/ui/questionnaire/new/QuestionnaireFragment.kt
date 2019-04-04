@@ -16,6 +16,7 @@ import ua.gov.mva.vfaces.R
 import ua.gov.mva.vfaces.domain.model.Block
 import ua.gov.mva.vfaces.domain.model.Item
 import ua.gov.mva.vfaces.domain.model.Questionnaire
+import ua.gov.mva.vfaces.domain.model.QuestionnaireType
 import ua.gov.mva.vfaces.presentation.ui.base.BaseViewHolder
 import ua.gov.mva.vfaces.presentation.ui.base.activity.OnBackPressedCallback
 import ua.gov.mva.vfaces.presentation.ui.base.fragment.BaseFragment
@@ -50,6 +51,8 @@ class QuestionnaireFragment : BaseFragment<QuestionnaireViewModel>(), OnBackPres
         position = arguments?.getInt(POSITION_EXTRAS)!!
         isLast = arguments?.getBoolean(IS_LAST_EXTRAS)!!
         data = questionnaire.blocks!![position]
+        val ordinal = arguments?.getInt(QUESTIONNAIRE_TYPE_EXTRAS, QuestionnaireType.MAIN.ordinal)
+        viewModel.type = QuestionnaireType.values()[ordinal!!]
         viewModel.block = data
         viewModel.questionnaire = questionnaire
     }
@@ -170,6 +173,7 @@ class QuestionnaireFragment : BaseFragment<QuestionnaireViewModel>(), OnBackPres
             if (viewHolder is DataValidator<*>) {
                 // If data is not valid in at least one ViewHolder - all data is not valid.
                 if (!viewHolder.isDataValid()) {
+                    Log.e(TAG, "isDataValid == false in Viewholder == $viewHolder")
                     result = false
                     return@forEachIndexed
                 }
@@ -231,13 +235,16 @@ class QuestionnaireFragment : BaseFragment<QuestionnaireViewModel>(), OnBackPres
     }
 
     companion object {
-        private const val QUESTIONNAIRE_EXTRAS = "block_extras_key"
+        private const val QUESTIONNAIRE_EXTRAS = "questionnaire_extras_key"
+        private const val QUESTIONNAIRE_TYPE_EXTRAS = "questionnaire_type_extras_key"
         private const val POSITION_EXTRAS = "position_extras_key"
         private const val IS_LAST_EXTRAS = "is_last_extras_key"
 
-        fun newInstance(questionnaire: Questionnaire, position: Int, isLast : Boolean): QuestionnaireFragment {
+        fun newInstance(questionnaire: Questionnaire, type: QuestionnaireType,
+                        position: Int, isLast : Boolean): QuestionnaireFragment {
             val args = Bundle()
             args.putParcelable(QUESTIONNAIRE_EXTRAS, questionnaire)
+            args.putInt(QUESTIONNAIRE_TYPE_EXTRAS, type.ordinal)
             args.putInt(POSITION_EXTRAS, position)
             args.putBoolean(IS_LAST_EXTRAS, isLast)
             val fragment = QuestionnaireFragment()

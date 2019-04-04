@@ -13,7 +13,7 @@ import ua.gov.mva.vfaces.utils.Preferences
 abstract class BaseActivity : AppCompatActivity(), IFragmentTransaction {
 
     protected abstract val TAG: String
-    protected abstract var dialog : AlertDialog?
+    protected abstract var dialog: AlertDialog?
 
     override fun onPause() {
         dialog?.dismiss()
@@ -21,11 +21,14 @@ abstract class BaseActivity : AppCompatActivity(), IFragmentTransaction {
         super.onPause()
     }
 
-    override fun replaceFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
+    override fun replaceFragment(fragment: Fragment, addToBackStack: Boolean) {
+        val transaction = supportFragmentManager
+            .beginTransaction()
             .replace(R.id.fragment_container, fragment)
-            .addToBackStack(fragment::class.java.simpleName)
-            .commit()
+        if (addToBackStack) {
+            transaction.addToBackStack(fragment::class.java.simpleName)
+        }
+        transaction.commit()
     }
 
     override fun popBackStack() {

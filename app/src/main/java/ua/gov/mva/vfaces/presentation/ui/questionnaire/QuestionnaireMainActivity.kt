@@ -13,6 +13,7 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import ua.gov.mva.vfaces.R
 import ua.gov.mva.vfaces.domain.model.QuestionnaireType
+import ua.gov.mva.vfaces.presentation.ui.auth.profile.ProfileFragment
 import ua.gov.mva.vfaces.presentation.ui.base.activity.ActionBarActivity
 import ua.gov.mva.vfaces.presentation.ui.base.activity.OnBackPressedCallback
 import ua.gov.mva.vfaces.presentation.ui.questionnaire.list.QuestionnaireListFragment
@@ -33,13 +34,17 @@ class QuestionnaireMainActivity : ActionBarActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_questionnaire)
         initUi()
-        replaceFragment(QuestionnaireListFragment.newInstance(QuestionnaireType.MAIN))
+        replaceFragment(QuestionnaireListFragment.newInstance(QuestionnaireType.MAIN), addToBackStack = false)
         subscribeToFirebaseAuthStateChanges()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             android.R.id.home -> {
+                val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+                if (fragment is OnBackPressedCallback && fragment.onBackPressed()) {
+                    return true
+                }
                 drawerLayout.openDrawer(GravityCompat.START)
                 return true
             }
@@ -125,13 +130,15 @@ class QuestionnaireMainActivity : ActionBarActivity() {
         private fun handleSelection(menu: MenuItem) {
             when (menu.itemId) {
                 R.id.nav_questionnaire_main ->
-                    replaceFragment(QuestionnaireListFragment.newInstance(QuestionnaireType.MAIN))
+                    replaceFragment(QuestionnaireListFragment.newInstance(QuestionnaireType.MAIN),
+                        addToBackStack = false)
                 R.id.nav_questionnaire_additional ->
-                    replaceFragment(QuestionnaireListFragment.newInstance(QuestionnaireType.ADDITIONAL))
+                    replaceFragment(QuestionnaireListFragment.newInstance(QuestionnaireType.ADDITIONAL),
+                        addToBackStack = false)
 
-                /*R.id.nav_profile -> {
-                    // TODO
-                }*/
+                R.id.nav_profile -> {
+                    replaceFragment(ProfileFragment.newInstance(isFromMainScreen = true))
+                }
                 R.id.nav_exit -> {
                     showExitAlertDialog()
                 }

@@ -24,10 +24,10 @@
     </item>
 
     <group>
-        <!--<item
+        <item
             android:id="@+id/nav_profile"
             android:icon="@drawable/ic_account_circle"
-            android:title="@string/navigation_drawer_profile" />-->
+            android:title="@string/navigation_drawer_profile" />
         <item
             android:id="@+id/nav_exit"
             android:icon="@drawable/ic_exit_to_app"

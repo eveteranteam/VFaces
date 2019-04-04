@@ -48,7 +48,7 @@ class QuestionnaireMapper {
     private fun mapSingleItem(item: ua.gov.mva.vfaces.data.entity.Item): Item? {
         val type = BlockType.fromString(item.type) ?: return null
         val choices = mapChoices(item.choices)
-        return Item(type, item.name!!, item.optional!!, choices)
+        return Item(type, item.name!!, item.optional!!, choices, item.otherChoice!!)
     }
 
     private fun mapChoices(choices: ArrayList<String>?): ArrayList<String> {

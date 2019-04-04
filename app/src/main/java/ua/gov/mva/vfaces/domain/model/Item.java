@@ -20,6 +20,7 @@ public class Item implements Parcelable {
     private BlockType type;
     private String name;
     private boolean isOptional;
+    private boolean otherChoice;
 
     @NonNull
     private List<String> choices = new ArrayList<>();
@@ -32,34 +33,56 @@ public class Item implements Parcelable {
     public Item() {
     }
 
-    public Item(BlockType type, String name, @NonNull List<String> choices, @NonNull List<String> answers) {
+    public Item(BlockType type, String name, boolean otherChoice, boolean isOptional, @NonNull List<String> choices,
+                @NonNull List<String> answers) {
         this.type = type;
         this.name = name;
+        this.otherChoice = otherChoice;
+        this.isOptional = isOptional;
         this.choices = choices;
         this.answers = answers;
     }
 
-    public Item(BlockType type, String name, boolean isOptional, @NonNull List<String> choices) {
+    public Item(BlockType type, String name, boolean isOptional, @NonNull List<String> choices, boolean otherChoice) {
         this.type = type;
         this.name = name;
         this.isOptional = isOptional;
         this.choices = choices;
+        this.otherChoice = otherChoice;
     }
 
     public BlockType getType() {
         return type;
     }
 
+    public void setType(BlockType type) {
+        this.type = type;
+    }
+
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @NonNull
     public List<String> getChoices() {
         return choices;
     }
 
+    public void setChoices(@NonNull List<String> choices) {
+        this.choices = choices;
+    }
+
+    @NonNull
     public List<String> getAnswers() {
         return answers;
+    }
+
+    public void setAnswers(@NonNull List<String> answers) {
+        this.answers = answers;
     }
 
     @Exclude
@@ -77,13 +100,28 @@ public class Item implements Parcelable {
         return answers.isEmpty();
     }
 
+    @Exclude
     public boolean isOptional() {
         return isOptional;
     }
 
+    public void setOptional(boolean optional) {
+        isOptional = optional;
+    }
+
+    public boolean isOtherChoice() {
+        return otherChoice;
+    }
+
+    public void setOtherChoice(boolean otherChoice) {
+        this.otherChoice = otherChoice;
+    }
+
+    @Exclude
     public boolean isOptionalSelected() {
         return isOptional && !answers.isEmpty();
     }
+
 
     @Override
     public int describeContents() {
@@ -95,6 +133,7 @@ public class Item implements Parcelable {
         dest.writeInt(this.type == null ? -1 : this.type.ordinal());
         dest.writeString(this.name);
         dest.writeByte(this.isOptional ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.otherChoice ? (byte) 1 : (byte) 0);
         dest.writeStringList(this.choices);
         dest.writeStringList(this.answers);
     }
@@ -104,6 +143,7 @@ public class Item implements Parcelable {
         this.type = tmpType == -1 ? null : BlockType.values()[tmpType];
         this.name = in.readString();
         this.isOptional = in.readByte() != 0;
+        this.otherChoice = in.readByte() != 0;
         this.choices = in.createStringArrayList();
         this.answers = in.createStringArrayList();
     }

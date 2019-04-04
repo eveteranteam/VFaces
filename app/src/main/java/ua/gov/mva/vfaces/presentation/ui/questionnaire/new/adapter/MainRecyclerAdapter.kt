@@ -30,7 +30,6 @@ internal class MainRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolde
         const val VIEW_TYPE_FIELD = 0
         const val VIEW_TYPE_RADIO_GROUP = 1
         const val VIEW_TYPE_MULTIPLE = 2
-        const val VIEW_TYPE_SINGLE = 3
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -40,7 +39,7 @@ internal class MainRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolde
                 val view = inflater.inflate(R.layout.field_view_type_layout, parent, false)
                 FieldViewHolder(view)
             }
-            VIEW_TYPE_RADIO_GROUP, VIEW_TYPE_SINGLE -> {
+            VIEW_TYPE_RADIO_GROUP-> {
                 val view = inflater.inflate(R.layout.radio_group_view_type_layout, parent, false)
                 RadioButtonViewHolder(view)
             }
@@ -81,7 +80,6 @@ internal class MainRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolde
             BlockType.FIELD -> return VIEW_TYPE_FIELD
             BlockType.CHECKBOX -> return VIEW_TYPE_RADIO_GROUP
             BlockType.MULTIPLE_CHOICES -> return VIEW_TYPE_MULTIPLE
-            BlockType.SINGLE_CHOICE -> return VIEW_TYPE_MULTIPLE
             else -> throw UnsupportedOperationException("Unknown view type. viewType = ${item.type}")
         }
     }

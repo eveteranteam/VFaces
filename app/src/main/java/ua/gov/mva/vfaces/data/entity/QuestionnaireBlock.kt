@@ -26,4 +26,7 @@ class Item {
 
     @SerializedName("choices")
     var choices : ArrayList<String>? = null
+
+    @SerializedName("other_choice")
+    var otherChoice : Boolean? = null
 }

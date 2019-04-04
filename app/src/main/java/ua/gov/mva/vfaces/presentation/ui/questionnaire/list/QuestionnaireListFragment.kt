@@ -44,6 +44,7 @@ class QuestionnaireListFragment : BaseFragment<QuestionnaireListViewModel>(),
         val title = if (viewModel.type == QuestionnaireType.MAIN)
             getString(R.string.questionnaire_list_title) else getString(R.string.questionnaire_list_family_title)
         setTitle(title)
+        actionBarListener?.setMenuIcon()
         initUi(view)
         viewModel.resultLiveData().observe(viewLifecycleOwner, Observer { result ->
             when (result) {
@@ -119,7 +120,7 @@ class QuestionnaireListFragment : BaseFragment<QuestionnaireListViewModel>(),
 
     private fun onEdit(position: Int) {
         if (position <= viewModel.results.size - 1) {
-            NewQuestionnaireActivity.start( context!!, viewModel.results[position])
+            NewQuestionnaireActivity.start( context!!, viewModel.type, viewModel.results[position])
         } else {
             Log.e(TAG, "Invalid position. position == $position")
         }
@@ -200,7 +201,7 @@ class QuestionnaireListFragment : BaseFragment<QuestionnaireListViewModel>(),
 
     private fun initUi(view: View) {
         fab = view.findViewById(R.id.fab_new_questionnaire)
-        fab.setOnClickListener { NewQuestionnaireActivity.start(context!!) }
+        fab.setOnClickListener { NewQuestionnaireActivity.start(context!!, viewModel.type) }
         recyclerView = view.findViewById(R.id.recycler_view_questionnaires)
         recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         adapter = QuestionnaireListAdapter(this)

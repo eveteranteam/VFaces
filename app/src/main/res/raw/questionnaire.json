@@ -9,22 +9,25 @@
           "type": "field",
           "name": "ПІБ",
           "optional": "false",
-          "choices": []
+          "choices": [],
+          "other_choice": "false"
         },
         {
           "type": "field",
           "name": "Населений пункт",
           "optional": "false",
-          "choices": []
+          "choices": [],
+          "other_choice": "false"
         },
         {
-          "type": "single_choice",
+          "type": "checkbox",
           "name": "Неможливо заповнити анкету (необов'язкове поле)",
           "optional": "true",
           "choices": [
             "Відмовився відповідати",
             "Відсутній"
-          ]
+          ],
+          "other_choice": "false"
         }
       ]
     },
@@ -41,17 +44,19 @@
             "Має співмешканців",
             "Має дітей",
             "Проживає один"
-          ]
+          ],
+          "other_choice": "false"
         },
         {
-          "type": "single",
+          "type": "checkbox",
           "name": "Як давно повернувся?",
           "optional": "false",
           "choices": [
             "1 - 6 міс",
             "1 - 2 роки",
             "від 2 років"
-          ]
+          ],
+          "other_choice": "false"
         }
       ]
     },
@@ -60,34 +65,37 @@
       "title": "Соціальний блок",
       "item": [
         {
-          "type": "single",
+          "type": "checkbox",
           "name": "Чи є потреба у працевлаштуванні?",
           "optional": "false",
           "choices": [
             "Є робота, влаштовує",
             "Є робота, але хоче перекваліфікацію",
             "Є потреба"
-          ]
+          ],
+          "other_choice": "false"
         },
         {
-          "type": "single",
+          "type": "checkbox",
           "name": "Чи звертався до органів місцевого самоврядування?",
           "optional": "false",
           "choices": [
             "Так, допомогли",
             "Так, не допомогли",
             "Ні"
-          ]
+          ],
+          "other_choice": "false"
         },
         {
-          "type": "single",
+          "type": "checkbox",
           "name": "Чи користується пільгами?",
           "optional": "false",
           "choices": [
             "Так, задовільняє",
             "Так, але не задовільняє",
             "Ні, не користується"
-          ]
+          ],
+          "other_choice": "false"
         }
       ]
     },
@@ -96,34 +104,37 @@
       "title": "Медичний блок",
       "item": [
         {
-          "type": "single",
+          "type": "checkbox",
           "name": "Як себе почуває?",
           "optional": "false",
           "choices": [
             "Добре, функціональний",
             "Функціональний, але потребує систематичного лікування",
             "Не функціональний"
-          ]
+          ],
+          "other_choice": "false"
         },
         {
-          "type": "single",
+          "type": "checkbox",
           "name": "Чи має інвалідність від бойового поранення?",
           "optional": "false",
           "choices": [
             "Ні, немає",
             "Є, але не встановлена",
             "Є"
-          ]
+          ],
+          "other_choice": "false"
         },
         {
-          "type": "single",
+          "type": "checkbox",
           "name": "Чи є потреба у обстеженні?",
           "optional": "false",
           "choices": [
             "Ні, немає",
             "Є, але немає можливості пройти",
             "Є потреба, проходить"
-          ]
+          ],
+          "other_choice": "false"
         }
       ]
     },
@@ -132,24 +143,26 @@
       "title": "Психологічний блок",
       "item": [
         {
-          "type": "single",
+          "type": "checkbox",
           "name": "Наскільки задовільняє рівень життя?",
           "optional": "false",
           "choices": [
             "Прекрасно",
             "Нормально",
             "Погано"
-          ]
+          ],
+          "other_choice": "false"
         },
         {
-          "type": "single",
+          "type": "checkbox",
           "name": "Чи потребує психологічної підтримки?",
           "optional": "false",
           "choices": [
             "Так, потребує",
             "Потребує, але не знає як її отримати",
             "Не потребує"
-          ]
+          ],
+          "other_choice": "false"
         }
       ]
     },
@@ -158,24 +171,26 @@
       "title": "Зворотній зв'язок соціального працівника",
       "item": [
         {
-          "type": "single",
+          "type": "checkbox",
           "name": "Яка була реакція ветерана?",
           "optional": "false",
           "choices": [
             "Приязна",
             "Нейтральна",
             "Агресивна"
-          ]
+          ],
+          "other_choice": "false"
         },
         {
-          "type": "single",
+          "type": "checkbox",
           "name": "Які побутові умови у ветерана?",
           "optional": "false",
           "choices": [
             "Хороші",
             "Нормальні",
             "Погані"
-          ]
+          ],
+          "other_choice": "false"
         }
       ]
     }

@@ -5,9 +5,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import ua.gov.mva.vfaces.domain.model.Questionnaire
+import ua.gov.mva.vfaces.domain.model.QuestionnaireType
 import ua.gov.mva.vfaces.presentation.ui.questionnaire.new.QuestionnaireFragment
 
-class QuestionnairePagerAdapter(private val data: Questionnaire, fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
+class QuestionnairePagerAdapter(private val data: Questionnaire,
+                                private var type: QuestionnaireType,
+                                fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
 
     /**
      * Currently visible to user Fragment.
@@ -16,7 +19,7 @@ class QuestionnairePagerAdapter(private val data: Questionnaire, fm: FragmentMan
 
     override fun getItem(position: Int): Fragment {
         val isLast = position == count - 1
-        return QuestionnaireFragment.newInstance(data, position, isLast)
+        return QuestionnaireFragment.newInstance(data, type, position, isLast)
     }
 
     override fun setPrimaryItem(container: ViewGroup, position: Int, `object`: Any) {

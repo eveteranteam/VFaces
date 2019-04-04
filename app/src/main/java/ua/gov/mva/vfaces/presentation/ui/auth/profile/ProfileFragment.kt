@@ -29,6 +29,12 @@ class ProfileFragment : BaseFragment<ProfileViewModel>(), OnBackPressedCallback 
     private lateinit var spinnerOrganizations: Spinner
 
     private lateinit var viewModel: ProfileViewModel
+    private var isFromMainScreen = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        isFromMainScreen = arguments?.getBoolean(IS_FROM_MAIN_SCREEN_EXTRAS)!!
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_profile, container, false)
@@ -39,10 +45,15 @@ class ProfileFragment : BaseFragment<ProfileViewModel>(), OnBackPressedCallback 
         initUi(view)
         viewModel.resultLiveData().observe(viewLifecycleOwner, Observer { result ->
             when(result) {
-                ProfileViewModel.ResultType.SUCCESS -> onProfileSaved()
-                ProfileViewModel.ResultType.ERROR -> showErrorMessage(R.string.profile_save_error)
+                ProfileViewModel.ResultType.SAVE_SUCCESS -> onProfileSaved()
+                ProfileViewModel.ResultType.SAVE_ERROR -> showErrorMessage(R.string.profile_save_error)
+                ProfileViewModel.ResultType.GET_SUCCESS -> onUserRetrieved()
+                ProfileViewModel.ResultType.GET_ERROR -> showErrorMessage(R.string.profile_get_error)
             }
         })
+        if (isFromMainScreen) {
+            viewModel.loadUser()
+        }
     }
 
     override fun initViewModel(): ProfileViewModel {
@@ -55,14 +66,28 @@ class ProfileFragment : BaseFragment<ProfileViewModel>(), OnBackPressedCallback 
      * Never allow user to return back from this Fragment.
      */
     override fun onBackPressed(): Boolean {
+        if (isFromMainScreen) {
+            transaction.popBackStack()
+            return true
+        }
         return true
     }
 
     private fun onProfileSaved() {
         Preferences.putBoolean(PROFILE_SAVED_KEY, true)
         showToastMessage(R.string.profile_save_success)
+        if (isFromMainScreen) {
+            return
+        }
         QuestionnaireMainActivity.start(context!!)
         activity!!.finish()
+    }
+
+    private fun onUserRetrieved() {
+        val user = viewModel.user!!
+        tilName.editText!!.setText(user.name)
+        tilPhone.editText!!.setText(user.phone)
+        spinnerOrganizations.setSelection(user.selectedPosition)
     }
 
     private fun onSaveClick() {
@@ -96,10 +121,18 @@ class ProfileFragment : BaseFragment<ProfileViewModel>(), OnBackPressedCallback 
         val work = spinnerOrganizations.selectedItem as String
         KeyboardUtils.hideKeyboard(activity)
         // In case profile data is valid
-        viewModel.save(name, phone, work, context!!)
+        viewModel.save(name, phone, work, spinnerOrganizations.selectedItemPosition, context!!)
     }
 
     private fun initUi(view: View) {
+        if (isFromMainScreen) {
+            setTitle(getString(R.string.profile_my_title))
+            actionBarListener?.setBackIcon()
+            view.findViewById<View>(R.id.toolbar).visibility = View.GONE
+        } else {
+            view.findViewById<View>(R.id.toolbar).visibility = View.VISIBLE
+            setTitle(getString(R.string.profile_title))
+        }
         tilName = view.findViewById(R.id.text_input_layout_name)
         textInputName = view.findViewById(R.id.text_input_edit_text_name)
         tilPhone = view.findViewById(R.id.text_input_layout_phone_number)
@@ -123,9 +156,14 @@ class ProfileFragment : BaseFragment<ProfileViewModel>(), OnBackPressedCallback 
          */
         const val PROFILE_SAVED_KEY = "profile_saved_key"
         private const val SPINNER_PROMPT_POSITION = 0
+        private const val IS_FROM_MAIN_SCREEN_EXTRAS = "is_from_main_screen_extras"
 
-        fun newInstance(): ProfileFragment {
-            return ProfileFragment()
+        fun newInstance(isFromMainScreen: Boolean = false): ProfileFragment {
+            val args = Bundle()
+            args.putBoolean(IS_FROM_MAIN_SCREEN_EXTRAS, isFromMainScreen)
+            val fragment = ProfileFragment()
+            fragment.arguments = args
+            return fragment
         }
     }
 }

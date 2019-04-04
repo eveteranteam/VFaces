@@ -13,6 +13,7 @@ public class UserDao {
     private String email;
     private String phone;
     private String work;
+    private int selectedPosition;
 
     /**
      * Empty constructor required for calls to {@link com.google.firebase.database.DataSnapshot#getValue(Class)}
@@ -20,12 +21,13 @@ public class UserDao {
     public UserDao() {
     }
 
-    public UserDao(String id, String name, String email, String phone, String work) {
+    public UserDao(String id, String name, String email, String phone, String work, int selectedPosition) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.work = work;
+        this.selectedPosition = selectedPosition;
     }
 
     public String getId() {
@@ -46,5 +48,9 @@ public class UserDao {
 
     public String getWork() {
         return work;
+    }
+
+    public int getSelectedPosition() {
+        return selectedPosition;
     }
 }
