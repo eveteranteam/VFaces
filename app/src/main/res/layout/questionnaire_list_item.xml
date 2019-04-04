@@ -78,14 +78,14 @@
             tools:ignore="ContentDescription" />
 
         <TextView
-            android:id="@+id/text_view_status"
+            android:id="@+id/text_view_status_title"
             style="@style/ListTextViewStyle"
             android:text="@string/questionnaire_list_item_status"
             app:layout_constraintLeft_toRightOf="@+id/image_view_assignment"
             app:layout_constraintTop_toBottomOf="@+id/text_view_settlement" />
 
         <TextView
-            android:id="@+id/text_view_percents"
+            android:id="@+id/text_view_status"
             style="@style/ListTextViewStyle"
             android:text="75%"
             app:layout_constraintEnd_toEndOf="parent"
@@ -100,7 +100,7 @@
             android:text="@string/questionnaire_list_item_last_edit"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/image_view_assignment"
-            app:layout_constraintTop_toBottomOf="@+id/text_view_percents" />
+            app:layout_constraintTop_toBottomOf="@+id/text_view_status" />
 
         <TextView
             android:id="@+id/text_view_date"
@@ -109,7 +109,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_view_percents"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_status"
             tools:ignore="HardcodedText" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

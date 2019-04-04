@@ -227,12 +227,15 @@ internal class MainRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolde
             val answers = data!!.answers
             answers.clear()
             val selectedId = radioGroup.indexOfChild(itemView.findViewById(radioGroup.checkedRadioButtonId))
-            if (selectedId == -1) {
+            if (selectedId == -1 && !data!!.isOptional) {
                 throw IllegalArgumentException("selectedId == -1." +
                         " Please call RadioButtonViewHolder#isDataValid first to make sure data is valid")
             }
             Log.d("RadioButtonViewHolder", "selectedId == $selectedId")
-            answers!!.add(data!!.choices!![selectedId])
+            //
+            if (selectedId != -1) {
+                answers!!.add(data!!.choices!![selectedId])
+            }
             return data!!
         }
 

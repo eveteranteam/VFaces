@@ -125,9 +125,9 @@ class QuestionnaireMainActivity : ActionBarActivity() {
         private fun handleSelection(menu: MenuItem) {
             // item.isChecked = true // TODO
             when (menu.itemId) {
-                R.id.nav_profile -> {
+                /*R.id.nav_profile -> {
                     // TODO
-                }
+                }*/
                 R.id.nav_exit -> {
                     showExitAlertDialog()
                 }

@@ -21,6 +21,9 @@ class Item {
     @SerializedName("name")
     var name : String? = null
 
+    @SerializedName("optional")
+    var optional : Boolean? = null
+
     @SerializedName("choices")
     var choices : ArrayList<String>? = null
 }

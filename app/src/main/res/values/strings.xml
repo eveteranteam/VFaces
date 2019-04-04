@@ -26,6 +26,9 @@
     <string name="alert_dialog_back_questionnaire_msg">Результат поточного блоку анкети буде втрачено</string>
     <string name="alert_dialog_back_to_list_questionnaire_title">Повернутися до списку анкет?</string>
     <string name="alert_dialog_back_to_list_questionnaire_msg">Результат поточного блоку анкети буде втрачено</string>
+    <string name="alert_dialog_veteran_refused_questionnaire_title">Ветеран відмовився відповідати</string>
+    <string name="alert_dialog_veteran_absent_questionnaire_title">Ветеран відсутній</string>
+    <string name="alert_dialog_skip_questionnaire_msg">Анкету збережено</string>
 
     <!-- Veteran logo -->
     <string name="veteran_profile_logo_text">ПСИХОФІЗІОЛОГІЧНИЙ ПРОФІЛЬ\nУКРАЇНСЬКОГО ВЕТЕРАНА</string>
@@ -143,8 +146,9 @@
 
     <string name="questionnaire_list_item_name">Іваненко Іван Іванович</string>
     <string name="questionnaire_list_item_settlement">Київ</string>
-    <string name="questionnaire_list_item_status">Статус наповнення</string>
-    <string name="questionnaire_list_item_status_percents">%s%</string>
+    <string name="questionnaire_list_item_status">Статус</string>
+    <string name="questionnaire_list_item_status_refused">Відмовився</string>
+    <string name="questionnaire_list_item_status_absent">Відсутній</string>
     <string name="questionnaire_list_item_last_edit">Останні зміни: </string>
 
     <string name="questionnaire_list_item_options_edit">Редагувати</string>

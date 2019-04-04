@@ -3,12 +3,14 @@ package ua.gov.mva.vfaces.domain.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
-import androidx.annotation.NonNull;
+
 import com.google.firebase.database.Exclude;
-import ua.gov.mva.vfaces.data.entity.BlockType;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import ua.gov.mva.vfaces.data.entity.BlockType;
 
 public class Item implements Parcelable {
 
@@ -17,6 +19,7 @@ public class Item implements Parcelable {
 
     private BlockType type;
     private String name;
+    private boolean isOptional;
 
     @NonNull
     private List<String> choices = new ArrayList<>();
@@ -36,9 +39,10 @@ public class Item implements Parcelable {
         this.answers = answers;
     }
 
-    public Item(BlockType type, String name, List<String> choices) {
+    public Item(BlockType type, String name, boolean isOptional, @NonNull List<String> choices) {
         this.type = type;
         this.name = name;
+        this.isOptional = isOptional;
         this.choices = choices;
     }
 
@@ -66,8 +70,19 @@ public class Item implements Parcelable {
     }
 
     @Exclude
-    public boolean isNotAnswered(){
+    public boolean isNotAnswered() {
+        if (isOptional) {
+            return false;
+        }
         return answers.isEmpty();
+    }
+
+    public boolean isOptional() {
+        return isOptional;
+    }
+
+    public boolean isOptionalSelected() {
+        return isOptional && !answers.isEmpty();
     }
 
     @Override
@@ -79,6 +94,7 @@ public class Item implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.type == null ? -1 : this.type.ordinal());
         dest.writeString(this.name);
+        dest.writeByte(this.isOptional ? (byte) 1 : (byte) 0);
         dest.writeStringList(this.choices);
         dest.writeStringList(this.answers);
     }
@@ -87,11 +103,12 @@ public class Item implements Parcelable {
         int tmpType = in.readInt();
         this.type = tmpType == -1 ? null : BlockType.values()[tmpType];
         this.name = in.readString();
+        this.isOptional = in.readByte() != 0;
         this.choices = in.createStringArrayList();
         this.answers = in.createStringArrayList();
     }
 
-    public static final Parcelable.Creator<Item> CREATOR = new Parcelable.Creator<Item>() {
+    public static final Creator<Item> CREATOR = new Creator<Item>() {
         @Override
         public Item createFromParcel(Parcel source) {
             return new Item(source);

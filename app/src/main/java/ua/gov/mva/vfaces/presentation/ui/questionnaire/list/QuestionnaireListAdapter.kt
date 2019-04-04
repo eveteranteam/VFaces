@@ -49,7 +49,15 @@ class QuestionnaireListAdapter(private val clickListener: OnItemClickListener)
         override fun setup(data: Questionnaire) {
             itemView.findViewById<TextView>(R.id.text_view_name).text = data.name
             itemView.findViewById<TextView>(R.id.text_view_settlement).text = data.settlement
-            itemView.findViewById<TextView>(R.id.text_view_percents).text = "${data.progress}%"
+            val context = itemView.context
+            val status = if (data.isRefusedToAnswer) {
+                context.getString(R.string.questionnaire_list_item_status_refused)
+            } else if (data.isVeteranAbsent) {
+                context.getString(R.string.questionnaire_list_item_status_absent)
+            } else {
+                "${data.progress}%"
+            }
+            itemView.findViewById<TextView>(R.id.text_view_status).text = status
             val locale = DateUtils.getLocale(itemView.context!!)
             itemView.findViewById<TextView>(R.id.text_view_date).text = DateUtils.format(data.lastEditTime, locale)
 

@@ -20,6 +20,8 @@ public class Questionnaire implements Parcelable {
     private String settlement;
     private int progress;
     private long lastEditTime = 0;
+    private boolean isRefusedToAnswer;
+    private boolean isVeteranAbsent;
 
     /**
      * Empty constructor required for calls to {@link com.google.firebase.database.DataSnapshot#getValue(Class)}
@@ -28,7 +30,7 @@ public class Questionnaire implements Parcelable {
     }
 
     public Questionnaire(String key, String id, String userId, List<Block> blocks, String name, String settlement,
-                         int progress, long lastEditTime) {
+                         int progress, long lastEditTime, boolean isRefusedToAnswer, boolean isVeteranAbsent) {
         this.key = key;
         this.id = id;
         this.userId = userId;
@@ -37,6 +39,8 @@ public class Questionnaire implements Parcelable {
         this.settlement = settlement;
         this.progress = progress;
         this.lastEditTime = lastEditTime;
+        this.isRefusedToAnswer = isRefusedToAnswer;
+        this.isVeteranAbsent = isVeteranAbsent;
     }
 
     public Questionnaire(String id, List<Block> blocks) {
@@ -116,6 +120,22 @@ public class Questionnaire implements Parcelable {
         this.lastEditTime = lastEditTime;
     }
 
+    public boolean isRefusedToAnswer() {
+        return isRefusedToAnswer;
+    }
+
+    public void setRefusedToAnswer(boolean refusedToAnswer) {
+        this.isRefusedToAnswer = refusedToAnswer;
+    }
+
+    public boolean isVeteranAbsent() {
+        return isVeteranAbsent;
+    }
+
+    public void setVeteranAbsent(boolean veteranAbsent) {
+        isVeteranAbsent = veteranAbsent;
+    }
+
     @Exclude
     public boolean isFinished() {
         if (blocks == null) {
@@ -179,6 +199,8 @@ public class Questionnaire implements Parcelable {
         dest.writeString(this.settlement);
         dest.writeInt(this.progress);
         dest.writeLong(this.lastEditTime);
+        dest.writeByte(this.isRefusedToAnswer ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.isVeteranAbsent ? (byte) 1 : (byte) 0);
     }
 
     protected Questionnaire(Parcel in) {
@@ -190,6 +212,8 @@ public class Questionnaire implements Parcelable {
         this.settlement = in.readString();
         this.progress = in.readInt();
         this.lastEditTime = in.readLong();
+        this.isRefusedToAnswer = in.readByte() != 0;
+        this.isVeteranAbsent = in.readByte() != 0;
     }
 
     public static final Creator<Questionnaire> CREATOR = new Creator<Questionnaire>() {

@@ -106,10 +106,27 @@ class QuestionnaireFragment : BaseFragment<QuestionnaireViewModel>(), OnBackPres
 
     override fun save() {
         val answeredItems = arrayListOf<Item>()
+        // TODO refactor
         data.items!!.forEachIndexed { index, _ ->
             val viewHolder = recyclerViewContent.findViewHolderForAdapterPosition(index)
             if (viewHolder is DataValidator<*>) {
-                answeredItems.add(viewHolder.getAnswer() as Item)
+                val item = viewHolder.getAnswer() as Item
+                answeredItems.add(item)
+                // Check whether field is optional and selected
+                val answers = item.answers
+                if (item.isOptionalSelected) {
+                    // TODO temporary solution. Must be refactored
+                    if (answers[0] == item.choices[0]) {
+                        questionnaire.isRefusedToAnswer = true
+                    } else if (answers[0] == item.choices[1]) {
+                        questionnaire.isVeteranAbsent = true
+                    } else {
+                        Log.e(TAG, "Refused or absent but can't define exact reason")
+                    }
+                } else {
+                    questionnaire.isRefusedToAnswer = false
+                    questionnaire.isVeteranAbsent = false
+                }
             }
         }
         data.items = answeredItems
@@ -125,7 +142,13 @@ class QuestionnaireFragment : BaseFragment<QuestionnaireViewModel>(), OnBackPres
         if (isLast) {
             navigationListener.navigateToCompleted(questionnaire.name)
         } else {
-            navigationListener.navigateNext()
+            if (questionnaire.isRefusedToAnswer || questionnaire.isVeteranAbsent) {
+                // Saved but should skip because of Veteran
+                showSkipDialog()
+            } else {
+                // Just navigate next
+                navigationListener.navigateNext()
+            }
         }
     }
 
@@ -142,7 +165,7 @@ class QuestionnaireFragment : BaseFragment<QuestionnaireViewModel>(), OnBackPres
      */
     private fun isInputDataValid(): Boolean {
         var result = true
-        adapter.items!!.forEachIndexed { index, _ ->
+        adapter.items.forEachIndexed { index, _ ->
             val viewHolder = recyclerViewContent.findViewHolderForAdapterPosition(index)
             if (viewHolder is DataValidator<*>) {
                 // If data is not valid in at least one ViewHolder - all data is not valid.
@@ -172,6 +195,28 @@ class QuestionnaireFragment : BaseFragment<QuestionnaireViewModel>(), OnBackPres
                     dialog.dismiss()
                 }
                 .setCancelable(true)
+                .create()
+        dialog!!.show()
+    }
+
+    private fun showSkipDialog() {
+        if (!isAdded) {
+            Log.w(TAG, "isAdded == false. Skipping...")
+            return
+        }
+        val msg : Int = if (questionnaire.isRefusedToAnswer) {
+            R.string.alert_dialog_veteran_refused_questionnaire_title
+        } else {
+            R.string.alert_dialog_veteran_absent_questionnaire_title
+        }
+        dialog = AlertDialog.Builder(context!!)
+                .setTitle(msg)
+                .setMessage(R.string.alert_dialog_skip_questionnaire_msg)
+                .setPositiveButton(R.string.action_ok) { dialog, _ ->
+                    dialog.dismiss()
+                    activity!!.finish()
+                }
+                .setCancelable(false)
                 .create()
         dialog!!.show()
     }

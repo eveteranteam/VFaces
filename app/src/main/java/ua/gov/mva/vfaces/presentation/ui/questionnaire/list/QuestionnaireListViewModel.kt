@@ -109,8 +109,8 @@ class QuestionnaireListViewModel : BaseViewModel() {
                 }
             }
             SortType.COMPLETED -> {
-                results.sortByDescending {
-                    it.progress
+                results.sortBy {
+                    it.progress > COMPLETED_PROGRESS
                 }
             }
             SortType.NOT_COMPLETED -> {
