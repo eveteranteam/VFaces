@@ -1,5 +1,6 @@
 package ua.gov.mva.vfaces.presentation.ui.auth.profile
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import com.google.android.material.textfield.TextInputLayout
 import ua.gov.mva.vfaces.R
 import ua.gov.mva.vfaces.presentation.ui.base.activity.OnBackPressedCallback
 import ua.gov.mva.vfaces.presentation.ui.base.fragment.BaseFragment
+import ua.gov.mva.vfaces.presentation.ui.questionnaire.NavigationItemSelectListener
 import ua.gov.mva.vfaces.presentation.ui.questionnaire.QuestionnaireMainActivity
 import ua.gov.mva.vfaces.utils.InputValidationUtils
 import ua.gov.mva.vfaces.utils.KeyboardUtils
@@ -30,6 +32,14 @@ class ProfileFragment : BaseFragment<ProfileViewModel>(), OnBackPressedCallback 
 
     private lateinit var viewModel: ProfileViewModel
     private var isFromMainScreen = false
+    private var navigationItemListener : NavigationItemSelectListener? = null
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        if (context is NavigationItemSelectListener) {
+            navigationItemListener = context
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +62,7 @@ class ProfileFragment : BaseFragment<ProfileViewModel>(), OnBackPressedCallback 
             }
         })
         if (isFromMainScreen) {
+            navigationItemListener?.selectItemWith(R.id.nav_profile)
             viewModel.loadUser()
         }
     }

@@ -16,9 +16,11 @@
         <menu>
             <item
                 android:id="@+id/nav_questionnaire_main"
+                android:checkable="true"
                 android:title="@string/navigation_drawer_questionnaire_main" />
             <item
                 android:id="@+id/nav_questionnaire_additional"
+                android:checkable="true"
                 android:title="@string/navigation_drawer_questionnaire_additional" />
         </menu>
     </item>
@@ -26,10 +28,12 @@
     <group>
         <item
             android:id="@+id/nav_profile"
+            android:checkable="true"
             android:icon="@drawable/ic_account_circle"
             android:title="@string/navigation_drawer_profile" />
         <item
             android:id="@+id/nav_exit"
+            android:checkable="false"
             android:icon="@drawable/ic_exit_to_app"
             android:title="@string/navigation_drawer_exit" />
     </group>

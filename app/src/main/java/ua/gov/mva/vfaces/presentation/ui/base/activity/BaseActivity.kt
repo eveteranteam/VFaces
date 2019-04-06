@@ -22,9 +22,10 @@ abstract class BaseActivity : AppCompatActivity(), IFragmentTransaction {
     }
 
     override fun replaceFragment(fragment: Fragment, addToBackStack: Boolean) {
+        val tag = fragment::class.java.simpleName
         val transaction = supportFragmentManager
             .beginTransaction()
-            .replace(R.id.fragment_container, fragment)
+            .replace(R.id.fragment_container, fragment, tag)
         if (addToBackStack) {
             transaction.addToBackStack(fragment::class.java.simpleName)
         }

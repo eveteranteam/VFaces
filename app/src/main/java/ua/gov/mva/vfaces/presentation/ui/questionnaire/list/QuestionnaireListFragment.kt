@@ -1,5 +1,6 @@
 package ua.gov.mva.vfaces.presentation.ui.questionnaire.list
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -13,6 +14,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ua.gov.mva.vfaces.R
 import ua.gov.mva.vfaces.domain.model.QuestionnaireType
 import ua.gov.mva.vfaces.presentation.ui.base.fragment.BaseFragment
+import ua.gov.mva.vfaces.presentation.ui.questionnaire.NavigationItemSelectListener
 import ua.gov.mva.vfaces.presentation.ui.questionnaire.list.QuestionnaireListViewModel.ResultType
 import ua.gov.mva.vfaces.presentation.ui.questionnaire.list.QuestionnaireListViewModel.SortType
 import ua.gov.mva.vfaces.presentation.ui.questionnaire.new.NewQuestionnaireActivity
@@ -23,11 +25,18 @@ class QuestionnaireListFragment : BaseFragment<QuestionnaireListViewModel>(),
     override val TAG = "QuestionnaireListFragment"
     private var dialog: AlertDialog? = null
 
+    private var navigationItemListener : NavigationItemSelectListener? = null
+
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: QuestionnaireListAdapter
     private lateinit var fab: FloatingActionButton
 
     private lateinit var viewModel: QuestionnaireListViewModel
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        navigationItemListener = context as NavigationItemSelectListener
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +54,9 @@ class QuestionnaireListFragment : BaseFragment<QuestionnaireListViewModel>(),
             getString(R.string.questionnaire_list_title) else getString(R.string.questionnaire_list_family_title)
         setTitle(title)
         actionBarListener?.setMenuIcon()
+        val itemId = if (viewModel.type == QuestionnaireType.MAIN) R.id.nav_questionnaire_main else
+            R.id.nav_questionnaire_additional
+        navigationItemListener?.selectItemWith(itemId)
         initUi(view)
         viewModel.resultLiveData().observe(viewLifecycleOwner, Observer { result ->
             when (result) {

@@ -18,12 +18,13 @@ import ua.gov.mva.vfaces.presentation.ui.base.activity.ActionBarActivity
 import ua.gov.mva.vfaces.presentation.ui.base.activity.OnBackPressedCallback
 import ua.gov.mva.vfaces.presentation.ui.questionnaire.list.QuestionnaireListFragment
 
-class QuestionnaireMainActivity : ActionBarActivity() {
+class QuestionnaireMainActivity : ActionBarActivity(), NavigationItemSelectListener {
 
     override val TAG = "QuestionnaireActivity"
     override var dialog: AlertDialog? = null
 
     private lateinit var drawerLayout: DrawerLayout
+    private lateinit var navView: NavigationView
 
     /**
      * Listener to notify about changes in Firebase auth state.
@@ -77,6 +78,10 @@ class QuestionnaireMainActivity : ActionBarActivity() {
         }
     }
 
+    override fun selectItemWith(id: Int) {
+        navView.setCheckedItem(id)
+    }
+
     private fun showExitAlertDialog() {
         if (isFinishing) {
             Log.w(TAG, "isFinishing(). Skipping...")
@@ -116,7 +121,8 @@ class QuestionnaireMainActivity : ActionBarActivity() {
         setSupportActionBar(toolbar)
         setMenuIcon()
         drawerLayout = findViewById(R.id.drawer_layout)
-        findViewById<NavigationView>(R.id.nav_view).setNavigationItemSelectedListener(NavigationItemSelectListener())
+        navView = findViewById(R.id.nav_view)
+        navView.setNavigationItemSelectedListener(NavigationItemSelectListener())
     }
 
     inner class NavigationItemSelectListener : NavigationView.OnNavigationItemSelectedListener {
@@ -137,7 +143,12 @@ class QuestionnaireMainActivity : ActionBarActivity() {
                         addToBackStack = false)
 
                 R.id.nav_profile -> {
-                    replaceFragment(ProfileFragment.newInstance(isFromMainScreen = true))
+                    val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+                    if (fragment is ProfileFragment) {
+                        Log.e(TAG, "ProfileFragment is in stack. Will not replace. Skipping...")
+                    } else {
+                        replaceFragment(ProfileFragment.newInstance(isFromMainScreen = true))
+                    }
                 }
                 R.id.nav_exit -> {
                     showExitAlertDialog()
@@ -152,4 +163,7 @@ class QuestionnaireMainActivity : ActionBarActivity() {
             context.startActivity(Intent(context, QuestionnaireMainActivity::class.java))
         }
     }
+}
+internal interface NavigationItemSelectListener {
+    fun selectItemWith(id : Int)
 }
