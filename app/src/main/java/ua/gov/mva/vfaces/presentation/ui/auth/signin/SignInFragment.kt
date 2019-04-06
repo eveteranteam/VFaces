@@ -94,11 +94,11 @@ class SignInFragment : BaseFragment<SignInViewModel>() {
             return
         }
         val password = textInputPassword.text.toString().trim()
-        // Validate password
-        if (InputValidationUtils.isPasswordValid(password)) {
+        // Check password length
+        if (InputValidationUtils.isPasswordLengthValid(password)) {
             tilPassword.isErrorEnabled = false
         } else {
-            tilPassword.error = getString(R.string.wrong_password)
+            tilPassword.error = getString(R.string.wrong_password_too_short_or_long)
             return
         }
         // If credentials are valid

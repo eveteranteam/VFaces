@@ -37,6 +37,8 @@
     <!-- Validation -->
     <string name="wrong_email">Некоректний Email</string>
     <string name="wrong_password">Неправильний пароль</string>
+    <string name="wrong_password_too_short_or_long">Довжина паролю повинна бути від 6 до 30 символів</string>
+    <string name="wrong_password_characters">Пароль може містити лише латинські літери та/або цифри</string>
     <string name="email_not_confirmed">Ви не підтвердили Email</string>
     <string name="wrong_credentials">Неправильний Email або пароль</string>
     <string name="wrong_data_field">Некоректні дані</string>

@@ -85,11 +85,18 @@ class RegisterFragment : BaseFragment<RegisterViewModel>(), OnBackPressedCallbac
             return
         }
         val password = textInputPassword.text.toString().trim()
+        // Check password length
+        if (InputValidationUtils.isPasswordLengthValid(password)) {
+            tilPassword.isErrorEnabled = false
+        } else {
+            tilPassword.error = getString(R.string.wrong_password_too_short_or_long)
+            return
+        }
         // Validate password
         if (InputValidationUtils.isPasswordValid(password)) {
             tilPassword.isErrorEnabled = false
         } else {
-            tilPassword.error = getString(R.string.wrong_password)
+            tilPassword.error = getString(R.string.wrong_password_characters)
             return
         }
         // If credentials are valid
