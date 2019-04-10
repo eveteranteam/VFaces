@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import ua.gov.mva.vfaces.VFacesApp
 import ua.gov.mva.vfaces.presentation.ui.auth.AuthHostActivity
 import ua.gov.mva.vfaces.presentation.ui.auth.profile.ProfileFragment
+import ua.gov.mva.vfaces.presentation.ui.policy.PrivacyPolicyActivity
 import ua.gov.mva.vfaces.presentation.ui.questionnaire.QuestionnaireMainActivity
 import ua.gov.mva.vfaces.utils.Preferences
 
@@ -31,6 +32,12 @@ class SplashActivity : AppCompatActivity() {
      * Otherwise user will be prompted to fill in his profile.
      */
     private fun navigateNext() {
+        val isPolicyAccepted = Preferences.getBoolean(PrivacyPolicyActivity.PRIVACY_POLICY_ACCEPTED_KEY, false)
+        if (!isPolicyAccepted) {
+            PrivacyPolicyActivity.start(this)
+            return
+        }
+
         if (Preferences.getBoolean(ProfileFragment.PROFILE_SAVED_KEY, false)) {
             QuestionnaireMainActivity.start(this)
         } else {

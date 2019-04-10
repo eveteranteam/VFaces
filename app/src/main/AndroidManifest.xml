@@ -22,7 +22,9 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <!-- Enable/Disable Crashlytics depending on build type -->
-        <meta-data android:name="firebase_crashlytics_collection_enabled" android:value="${enableCrashReporting}" />
+        <meta-data
+            android:name="firebase_crashlytics_collection_enabled"
+            android:value="${enableCrashReporting}" />
 
         <!-- Launcher Activity -->
         <activity
@@ -36,6 +38,11 @@
         </activity>
 
         <!-- Other Activities -->
+        <activity
+            android:name=".presentation.ui.policy.PrivacyPolicyActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBar" />
+
         <activity
             android:name=".presentation.ui.auth.AuthHostActivity"
             android:screenOrientation="portrait"
@@ -51,9 +58,9 @@
         <activity
             android:name=".presentation.ui.questionnaire.new.NewQuestionnaireActivity"
             android:launchMode="singleTask"
-            android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThemeNoActionBar" />
+            android:theme="@style/AppThemeNoActionBar"
+            android:windowSoftInputMode="stateHidden" />
     </application>
 
 </manifest>
