@@ -11,6 +11,10 @@ import ua.gov.mva.vfaces.presentation.ui.auth.AuthHostActivity
 import ua.gov.mva.vfaces.presentation.ui.auth.profile.ProfileFragment
 import ua.gov.mva.vfaces.presentation.ui.questionnaire.QuestionnaireMainActivity
 import ua.gov.mva.vfaces.utils.Preferences
+import ua.gov.mva.vfaces.utils.Strings.CHARSET_UTF_8
+import ua.gov.mva.vfaces.utils.Strings.SEMICOLON
+import ua.gov.mva.vfaces.utils.Strings.TEXT_HTML_MIME_TYPE
+import ua.gov.mva.vfaces.utils.Strings.UTF_8
 
 class PrivacyPolicyActivity : AppCompatActivity() {
 
@@ -22,8 +26,9 @@ class PrivacyPolicyActivity : AppCompatActivity() {
 
     private fun initUi() {
         val webView = findViewById<WebView>(R.id.web_view)
-        webView.loadData(getString(R.string.privacy_policy_msg), "text/html",
-                "utf-8")
+
+        webView.loadData(getString(R.string.privacy_policy_msg), TEXT_HTML_MIME_TYPE + SEMICOLON + CHARSET_UTF_8,
+            UTF_8)
         findViewById<View>(R.id.button_decline).setOnClickListener { finish() }
         findViewById<View>(R.id.button_accept).setOnClickListener {
             Preferences.putBoolean(PRIVACY_POLICY_ACCEPTED_KEY, true)
