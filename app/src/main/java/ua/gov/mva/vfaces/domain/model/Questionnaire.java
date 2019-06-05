@@ -7,6 +7,7 @@ import com.google.firebase.database.Exclude;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Questionnaire implements Parcelable {
 
@@ -183,6 +184,43 @@ public class Questionnaire implements Parcelable {
         return result;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Questionnaire)) return false;
+        Questionnaire that = (Questionnaire) o;
+        return getProgress() == that.getProgress() &&
+                getLastEditTime() == that.getLastEditTime() &&
+                isRefusedToAnswer() == that.isRefusedToAnswer() &&
+                isVeteranAbsent() == that.isVeteranAbsent() &&
+                Objects.equals(getKey(), that.getKey()) &&
+                Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getUserId(), that.getUserId()) &&
+                Objects.equals(getBlocks(), that.getBlocks()) &&
+                Objects.equals(getName(), that.getName()) &&
+                Objects.equals(getSettlement(), that.getSettlement());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getKey(), getId(), getUserId(), getBlocks(), getName(), getSettlement(), getProgress(), getLastEditTime(), isRefusedToAnswer(), isVeteranAbsent());
+    }
+
+    @Override
+    public String toString() {
+        return "Questionnaire{" +
+                "key='" + key + '\'' +
+                ", id='" + id + '\'' +
+                ", userId='" + userId + '\'' +
+                ", blocks=" + blocks +
+                ", name='" + name + '\'' +
+                ", settlement='" + settlement + '\'' +
+                ", progress=" + progress +
+                ", lastEditTime=" + lastEditTime +
+                ", isRefusedToAnswer=" + isRefusedToAnswer +
+                ", isVeteranAbsent=" + isVeteranAbsent +
+                '}';
+    }
 
     @Override
     public int describeContents() {

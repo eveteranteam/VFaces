@@ -11,22 +11,48 @@ import ua.gov.mva.vfaces.domain.model.Questionnaire
 import ua.gov.mva.vfaces.presentation.ui.base.BaseViewHolder
 import ua.gov.mva.vfaces.utils.DateUtils
 
-class QuestionnaireListAdapter(private val clickListener: OnItemClickListener)
-    : RecyclerView.Adapter<QuestionnaireListAdapter.ViewHolder>() {
+private const val VIEW_TYPE_QUESTIONNAIRE = 0
+private const val VIEW_TYPE_LOADING = 1
 
-    private val data = mutableListOf<Questionnaire>()
+class QuestionnaireListAdapter(private val clickListener: OnItemClickListener) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.questionnaire_list_item, parent, false)
-        return ViewHolder(view, clickListener)
+    private var data = mutableListOf<Questionnaire>()
+    private var isLoadingItemAdded = false
+
+    init {
+        setHasStableIds(true)
     }
 
     override fun getItemCount(): Int {
         return data.size
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.setup(data[position])
+    override fun getItemId(position: Int): Long {
+        val id = data[position].key
+        return if (id != null && id.isNotEmpty()) {
+            id.toLong()
+        } else {
+            return super.getItemId(position)
+        }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (position == data.size - 1 && isLoadingItemAdded) VIEW_TYPE_LOADING else VIEW_TYPE_QUESTIONNAIRE
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = if (viewType == VIEW_TYPE_LOADING) {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.questionnaire_list_item_loading, parent, false)
+        LoadingViewHolder(view)
+    } else {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.questionnaire_list_item, parent, false)
+        QuestionnaireViewHolder(view, clickListener)
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (holder is QuestionnaireViewHolder) {
+            holder.setup(data[position])
+        }
     }
 
     fun update(newData: List<Questionnaire>) {
@@ -42,8 +68,45 @@ class QuestionnaireListAdapter(private val clickListener: OnItemClickListener)
         }
     }
 
-    class ViewHolder(view: View, private val clickListener: OnItemClickListener)
-        : BaseViewHolder<Questionnaire>(view), View.OnClickListener {
+    fun addLoading() {
+        if (!isLoadingItemAdded) {
+            isLoadingItemAdded = true
+            addDataItem(Questionnaire())
+        }
+    }
+
+    fun removeLoading() {
+        if (isLoadingItemAdded) {
+            isLoadingItemAdded = false
+
+            val itemCount = data.size
+            if (itemCount > 0) {
+                val position = itemCount - 1
+                val item = getDataItem(position)
+
+                if (item != null) {
+                    data.removeAt(position)
+                    notifyItemRemoved(position)
+                }
+            }
+        }
+    }
+
+    private fun addDataItem(item: Questionnaire) {
+        data.add(item)
+        notifyItemInserted(data.size - 1)
+    }
+
+    private fun getDataItem(position: Int): Questionnaire? {
+        return if (position >= 0) {
+            data[position]
+        } else {
+            null
+        }
+    }
+
+    class QuestionnaireViewHolder(view: View, private val clickListener: OnItemClickListener) :
+        BaseViewHolder<Questionnaire>(view), View.OnClickListener {
 
         @SuppressLint("SetTextI18n")
         override fun setup(data: Questionnaire) {
@@ -72,6 +135,8 @@ class QuestionnaireListAdapter(private val clickListener: OnItemClickListener)
             }
         }
     }
+
+    class LoadingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     interface OnItemClickListener {
         fun onClick()

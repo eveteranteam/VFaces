@@ -25,7 +25,7 @@ class QuestionnaireListFragment : BaseFragment<QuestionnaireListViewModel>(),
     override val TAG = "QuestionnaireListFragment"
     private var dialog: AlertDialog? = null
 
-    private var navigationItemListener : NavigationItemSelectListener? = null
+    private var navigationItemListener: NavigationItemSelectListener? = null
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: QuestionnaireListAdapter
@@ -65,11 +65,14 @@ class QuestionnaireListFragment : BaseFragment<QuestionnaireListViewModel>(),
                 ResultType.ERROR -> showErrorMessage(R.string.questionnaire_list_load_error)
             }
         })
-    }
-
-    override fun onStart() {
-        super.onStart()
-        viewModel.loadQuestionnaires()
+        viewModel.loadingLiveData().observe(viewLifecycleOwner, Observer {
+            if (it) {
+                adapter.addLoading()
+            } else {
+                adapter.removeLoading()
+            }
+        })
+        viewModel.loadData()
     }
 
     override fun onPause() {
@@ -132,7 +135,7 @@ class QuestionnaireListFragment : BaseFragment<QuestionnaireListViewModel>(),
 
     private fun onEdit(position: Int) {
         if (position <= viewModel.results.size - 1) {
-            NewQuestionnaireActivity.start( context!!, viewModel.type, viewModel.results[position])
+            NewQuestionnaireActivity.start(context!!, viewModel.type, viewModel.results[position])
         } else {
             Log.e(TAG, "Invalid position. position == $position")
         }
@@ -153,24 +156,22 @@ class QuestionnaireListFragment : BaseFragment<QuestionnaireListViewModel>(),
     private fun showPopupMenu(anchor: View, position: Int) {
         val menu = PopupMenu(activity, anchor)
         menu.inflate(R.menu.options_item_menu)
-        menu.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
-            override fun onMenuItemClick(item: MenuItem?): Boolean {
-                return when (item?.itemId) {
-                    R.id.edit -> {
-                        onEdit(position)
-                        true
-                    }
-                    R.id.delete -> {
-                        onDelete(position)
-                        true
-                    }
-                    else -> {
-                        Log.e(TAG, "Unknown id = ${item?.itemId}. Can't handle click")
-                        false
-                    }
+        menu.setOnMenuItemClickListener { item ->
+            when (item?.itemId) {
+                R.id.edit -> {
+                    onEdit(position)
+                    true
+                }
+                R.id.delete -> {
+                    onDelete(position)
+                    true
+                }
+                else -> {
+                    Log.e(TAG, "Unknown id = ${item?.itemId}. Can't handle click")
+                    false
                 }
             }
-        })
+        }
         menu.show()
     }
 
@@ -215,16 +216,27 @@ class QuestionnaireListFragment : BaseFragment<QuestionnaireListViewModel>(),
         fab = view.findViewById(R.id.fab_new_questionnaire)
         fab.setOnClickListener { NewQuestionnaireActivity.start(context!!, viewModel.type) }
         recyclerView = view.findViewById(R.id.recycler_view_questionnaires)
-        recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        val layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        recyclerView.layoutManager = layoutManager
         adapter = QuestionnaireListAdapter(this)
         recyclerView.adapter = adapter
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
+
                 if (dy > 0) {
                     fab.hide()
                 } else {
                     fab.show()
+                }
+
+                if (dy > 0) {
+                    recyclerView.post {
+                        viewModel.loadMore(
+                            layoutManager.childCount, layoutManager.itemCount,
+                            layoutManager.findFirstVisibleItemPosition()
+                        )
+                    }
                 }
             }
         })

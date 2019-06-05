@@ -8,6 +8,7 @@ import ua.gov.mva.vfaces.data.entity.BlockType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Block implements Parcelable {
 
@@ -107,6 +108,21 @@ public class Block implements Parcelable {
             }
         }
         return false;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Block)) return false;
+        Block block = (Block) o;
+        return Objects.equals(getId(), block.getId()) &&
+                Objects.equals(getTitle(), block.getTitle()) &&
+                Objects.equals(getItems(), block.getItems());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getTitle(), getItems());
     }
 
     @Override

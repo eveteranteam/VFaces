@@ -17,54 +17,130 @@ class QuestionnaireListViewModel : BaseViewModel() {
 
     private val db = FirebaseDatabase.getInstance().reference.child(FirebaseDbChild.QUESTIONNAIRE)
     private val resultLiveData = MutableLiveData<ResultType>()
+    private val loadingLiveData = MutableLiveData<Boolean>()
 
     var type = QuestionnaireType.MAIN
     var sortType = SortType.TIMESTAMP
     var results = arrayListOf<Questionnaire>()
 
+    private var userId: String? = FirebaseAuth.getInstance().currentUser?.uid
+    private var lastVisibleChildId: String? = null
+    private var totalQuestionnairesCount = 0
+
+    private var itemsInAdapterCount = 0
+    private var visibleItemCount = 0
+    private var firstVisibleItemPosition = 0
+
     fun resultLiveData(): LiveData<ResultType> = resultLiveData
 
-    fun loadQuestionnaires() {
-        val userId = FirebaseAuth.getInstance().currentUser?.uid
+    fun loadingLiveData(): LiveData<Boolean> = loadingLiveData
+
+    fun loadData() {
         if (userId.isNullOrEmpty()) {
             resultLiveData.value = ResultType.ERROR
             return
         }
 
-        showProgress() // TODO fix progress
-        val query = db.child(getChildFor(type))
+        // Getting total count of Questionnaires for user
+        db.child(getChildFor(type))
             .orderByChild(FirebaseDbChild.USER_ID)
-            .equalTo(userId) // get results belonging to current user only
-        // TODO pagination
-        // .limitToLast(LOAD_LIMIT)
+            .equalTo(userId)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    totalQuestionnairesCount = snapshot.childrenCount.toInt()
+                    Log.d(TAG, "totalQuestionnaires: $totalQuestionnairesCount")
+
+                    if (totalQuestionnairesCount == itemsInAdapterCount) {
+                        Log.d(TAG, "$totalQuestionnairesCount items loaded. No more items to loadQuestionnaires")
+                        return
+                    }
+                    loadQuestionnaires()
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e(TAG, "Can't get total items count. $error")
+                    resultLiveData.value = ResultType.ERROR
+                }
+            })
+    }
+
+    private fun loadQuestionnaires() {
+        if (userId.isNullOrEmpty()) {
+            resultLiveData.value = ResultType.ERROR
+            return
+        }
+        loadingLiveData.value = true
+
+        val db = FirebaseDatabase.getInstance().reference.child(FirebaseDbChild.QUESTIONNAIRE)
+
+        val query = if (lastVisibleChildId == null) {
+            db.child(getChildFor(type))
+                .orderByChild(FirebaseDbChild.USER_ID)
+                .equalTo(userId) // get results belonging to current user only
+                .limitToFirst(LOAD_LIMIT)
+        } else {
+            db.child(getChildFor(type))
+                .orderByKey()
+                // .equalTo(userId) // TODO. Multiple queries are not supported. Throws an exception!!!
+                .startAt(lastVisibleChildId)
+                .limitToFirst(LOAD_LIMIT)
+        }
 
         query.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snaphot: DataSnapshot) {
-                results.clear()
-                for (data in snaphot.children) {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (!snapshot.hasChildren()) {
+                    loadingLiveData.value = false
+                    resultLiveData.value = ResultType.NO_RESULTS
+                    return
+                }
+
+                Log.d(TAG, "lastVisibleChildId: $lastVisibleChildId")
+                for (data in snapshot.children) {
                     val dao = data.getValue(Questionnaire::class.java)
-                    if (dao != null) {
+                    // TODO Since FB database does not support multiple queries we need to display only user's Questionnaires!
+                    if (dao != null && userId == dao.userId && !results.contains(dao)) {
                         results.add(dao)
                     }
                 }
 
-                hideProgress()
+                loadingLiveData.value = false
 
                 if (results.isNullOrEmpty()) {
                     Log.d(TAG, "results == $results")
                     resultLiveData.value = ResultType.NO_RESULTS
                 } else {
-                    sortResultsBy(sortType)
+                    lastVisibleChildId = results.lastOrNull()?.key
                     resultLiveData.value = ResultType.SUCCESS
                 }
             }
 
             override fun onCancelled(error: DatabaseError) {
-                hideProgress()
+                loadingLiveData.value = false
                 Log.e(TAG, "Can't get user. $error")
                 resultLiveData.value = ResultType.ERROR
             }
         })
+    }
+
+    fun loadMore(childCount: Int, itemCount: Int, itemPosition: Int) {
+        if (loadingLiveData.value == true) {
+            Log.d(TAG, "Loading is currently in progress")
+            return
+        }
+        visibleItemCount = childCount
+        itemsInAdapterCount = itemCount
+        firstVisibleItemPosition = itemPosition
+
+        if (totalQuestionnairesCount == itemsInAdapterCount) {
+            Log.d(TAG, "$totalQuestionnairesCount items loaded. No more items to load")
+            return
+        }
+
+        if ((visibleItemCount + firstVisibleItemPosition) >= itemsInAdapterCount
+            && firstVisibleItemPosition >= 0 && itemsInAdapterCount >= LOAD_LIMIT
+        ) {
+            loadQuestionnaires()
+        }
     }
 
     fun delete(position: Int) {
@@ -75,17 +151,18 @@ class QuestionnaireListViewModel : BaseViewModel() {
         val data = results[position]
         showProgress()
         db.child(getChildFor(type))
-                .child(data.key)
-                .removeValue()
-                .addOnCompleteListener { task ->
-                    hideProgress()
-                    if (task.isSuccessful) {
-                        resultLiveData.value = ResultType.DELETE_SUCCESS
-                    } else {
-                        resultLiveData.value = ResultType.DELETE_ERROR
-                        Log.e(TAG, "Could not delete. ${task.exception}")
-                    }
+            .child(data.key)
+            .removeValue()
+            .addOnCompleteListener { task ->
+                hideProgress()
+                if (task.isSuccessful) {
+                    results.removeAt(position)
+                    resultLiveData.value = ResultType.DELETE_SUCCESS
+                } else {
+                    resultLiveData.value = ResultType.DELETE_ERROR
+                    Log.e(TAG, "Could not delete. ${task.exception}")
                 }
+            }
     }
 
     fun sortResultsBy(newSort: SortType) {
@@ -158,7 +235,6 @@ class QuestionnaireListViewModel : BaseViewModel() {
 
     private companion object {
         private const val TAG = "QListViewModel"
-        private const val LOAD_LIMIT: Int = 25
-        private const val COMPLETED_PROGRESS: Int = 100
+        private const val LOAD_LIMIT: Int = 4
     }
 }

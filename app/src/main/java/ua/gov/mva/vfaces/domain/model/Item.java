@@ -3,14 +3,13 @@ package ua.gov.mva.vfaces.domain.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
-
+import androidx.annotation.NonNull;
 import com.google.firebase.database.Exclude;
+import ua.gov.mva.vfaces.data.entity.BlockType;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import ua.gov.mva.vfaces.data.entity.BlockType;
+import java.util.Objects;
 
 public class Item implements Parcelable {
 
@@ -122,6 +121,23 @@ public class Item implements Parcelable {
         return isOptional && !answers.isEmpty();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Item)) return false;
+        Item item = (Item) o;
+        return isOptional() == item.isOptional() &&
+                isOtherChoice() == item.isOtherChoice() &&
+                getType() == item.getType() &&
+                Objects.equals(getName(), item.getName()) &&
+                Objects.equals(getChoices(), item.getChoices()) &&
+                Objects.equals(getAnswers(), item.getAnswers());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getType(), getName(), isOptional(), isOtherChoice(), getChoices(), getAnswers());
+    }
 
     @Override
     public int describeContents() {
