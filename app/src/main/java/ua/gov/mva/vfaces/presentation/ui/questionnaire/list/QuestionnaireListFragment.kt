@@ -62,6 +62,8 @@ class QuestionnaireListFragment : BaseFragment<QuestionnaireListViewModel>(),
             when (result) {
                 ResultType.SUCCESS -> showResults()
                 ResultType.NO_RESULTS -> showNoResultsView()
+                ResultType.DELETE_SUCCESS -> viewModel.loadData()
+                ResultType.DELETE_ERROR -> showErrorMessage(R.string.questionnaire_list_delete_error)
                 ResultType.ERROR -> showErrorMessage(R.string.questionnaire_list_load_error)
             }
         })

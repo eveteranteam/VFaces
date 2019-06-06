@@ -50,6 +50,12 @@ class QuestionnaireListViewModel : BaseViewModel() {
                     totalQuestionnairesCount = snapshot.childrenCount.toInt()
                     Log.d(TAG, "totalQuestionnaires: $totalQuestionnairesCount")
 
+                    if (totalQuestionnairesCount == 0) {
+                        loadingLiveData.value = false
+                        resultLiveData.value = ResultType.NO_RESULTS
+                        return
+                    }
+
                     if (totalQuestionnairesCount == itemsInAdapterCount) {
                         Log.d(TAG, "$totalQuestionnairesCount items loaded. No more items to loadQuestionnaires")
                         return
@@ -88,13 +94,8 @@ class QuestionnaireListViewModel : BaseViewModel() {
 
         query.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                if (!snapshot.hasChildren()) {
-                    loadingLiveData.value = false
-                    resultLiveData.value = ResultType.NO_RESULTS
-                    return
-                }
-
                 Log.d(TAG, "lastVisibleChildId: $lastVisibleChildId")
+
                 for (data in snapshot.children) {
                     val dao = data.getValue(Questionnaire::class.java)
                     // TODO Since FB database does not support multiple queries we need to display only user's Questionnaires!
@@ -235,6 +236,6 @@ class QuestionnaireListViewModel : BaseViewModel() {
 
     private companion object {
         private const val TAG = "QListViewModel"
-        private const val LOAD_LIMIT: Int = 4
+        private const val LOAD_LIMIT: Int = 10
     }
 }

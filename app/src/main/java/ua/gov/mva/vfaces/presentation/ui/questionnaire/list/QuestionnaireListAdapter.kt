@@ -20,21 +20,8 @@ class QuestionnaireListAdapter(private val clickListener: OnItemClickListener) :
     private var data = mutableListOf<Questionnaire>()
     private var isLoadingItemAdded = false
 
-    init {
-        setHasStableIds(true)
-    }
-
     override fun getItemCount(): Int {
         return data.size
-    }
-
-    override fun getItemId(position: Int): Long {
-        val id = data[position].key
-        return if (id != null && id.isNotEmpty()) {
-            id.toLong()
-        } else {
-            return super.getItemId(position)
-        }
     }
 
     override fun getItemViewType(position: Int): Int {

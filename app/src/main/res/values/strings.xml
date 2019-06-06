@@ -143,6 +143,7 @@
         з\nанкетами необхідно розпочати соціальне опитування.
     </string>
     <string name="questionnaire_list_load_error">Помилка під час завантаження анкет</string>
+    <string name="questionnaire_list_delete_error">Помилка під час видалення анкети</string>
 
     <string name="questionnaire_list_menu_sort">Сортування</string>
     <string name="questionnaire_list_menu_default">За датою</string>
