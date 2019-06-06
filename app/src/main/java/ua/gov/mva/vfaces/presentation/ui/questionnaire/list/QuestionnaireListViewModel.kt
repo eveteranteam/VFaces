@@ -41,6 +41,7 @@ class QuestionnaireListViewModel : BaseViewModel() {
             return
         }
 
+        loadingLiveData.value = true
         // Getting total count of Questionnaires for user
         db.child(getChildFor(type))
             .orderByChild(FirebaseDbChild.USER_ID)
@@ -65,6 +66,7 @@ class QuestionnaireListViewModel : BaseViewModel() {
 
                 override fun onCancelled(error: DatabaseError) {
                     Log.e(TAG, "Can't get total items count. $error")
+                    loadingLiveData.value = false
                     resultLiveData.value = ResultType.ERROR
                 }
             })
