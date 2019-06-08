@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "822208020941",
-    "firebase_url": "https://vfaces-restart.firebaseio.com",
-    "project_id": "vfaces-restart",
-    "storage_bucket": "vfaces-restart.appspot.com"
+    "project_number": "1040608832800",
+    "firebase_url": "https://vfaces-v2.firebaseio.com",
+    "project_id": "vfaces-v2",
+    "storage_bucket": "vfaces-v2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:822208020941:android:c44f7ed16375c169",
+        "mobilesdk_app_id": "1:1040608832800:android:c44f7ed16375c169",
         "android_client_info": {
           "package_name": "ua.gov.mva.vfaces"
         }
       },
       "oauth_client": [
         {
-          "client_id": "822208020941-dbc11shc5i21je3ogv2s4liokmhhh2r3.apps.googleusercontent.com",
+          "client_id": "1040608832800-r3lecn9huivao359l7q7v819pvne5s87.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDEL2wMNu-F0Sn7fm011zZ6dDihzoQc5u4"
+          "current_key": "AIzaSyD9YdJBSeAIqAyegYX1-kMs4caX4nq2gw8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "822208020941-dbc11shc5i21je3ogv2s4liokmhhh2r3.apps.googleusercontent.com",
+              "client_id": "1040608832800-r3lecn9huivao359l7q7v819pvne5s87.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
